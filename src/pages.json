@@ -1,16 +1,60 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+
+	"pages": [ 
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+			}
+		},
+		{
+			"path": "pages/index/notebook",
+			"style": {
+			}
+		},
+		{
+			"path": "pages/index/calendar",
+			"style": {
+			}
+		},
+		{
+			"path": "pages/login/index",
+			"style": {
+				"navigationBarTitleText": "我的"
 			}
 		}
+
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"selectedColor": "#3cc51f",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"fontSize": "16px",
+		"iconWidth": "30px",
+		"height": "10vh",
+		"list": [{
+			"pagePath": "pages/index/notebook",
+			"iconPath": "./static/LucideNotebookText.png",
+			"selectedIconPath": "./static/LucideNotebookTextColor.png",
+			"text": "每日记录"
+		}, 
+		{
+			"pagePath": "pages/index/index",
+			"iconPath": "./static/MaterialSymbolsAddCircle.png",
+			"selectedIconPath": "./static/MaterialSymbolsAddCircleColor.png",
+			"text": "卡路里相机"
+		},
+		{
+			"pagePath": "pages/index/calendar",
+			"iconPath": "./static/MaterialSymbolsFolderOpen.png",
+			"selectedIconPath": "./static/MaterialSymbolsFolderOpenColor.png",
+			"text": "日历管理"
+		}
+	]
 	}
 }
