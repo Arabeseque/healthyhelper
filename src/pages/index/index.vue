@@ -42,6 +42,6 @@ import uIcons from '@dcloudio/uni-ui/lib/uni-icons/uni-icons.vue'
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-image: url('https://img.yzcdn.cn/vant/cat.jpeg');
+  background-image: url('https://images.unsplash.com/photo-1708708553991-6a97854e151f?q=80&w=1335&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
 }
 </style>
