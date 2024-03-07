@@ -4,6 +4,9 @@ const { iconsPlugin, getIconCollections } = require('@egoist/tailwindcss-icons')
 module.exports = {
   content: ['./index.html', './src/**/*.{html,js,ts,jsx,tsx,vue}'],
   theme: {
+    fontFamily: {
+      
+    },
     extend: {}
   },
   // https://weapp-tw.icebreaker.top/docs/quick-start/uni-app-css-macro
