@@ -5,8 +5,6 @@ import RoundArea from '@/components/notebook/RoundArea.vue'
 import Pie from '@/components/notebook/Pie.vue'
 
 // 今日营养元素各类总和
-// TODO: 制作为饼图
-const summaryData = ref({})
 </script>
 
 <template>
