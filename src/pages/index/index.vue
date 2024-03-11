@@ -30,7 +30,7 @@ function takePhoto() {
 </script>
 
 <template>
-  <view class="container flex h-[100vh] flex-col">
+  <view class="container flex h-[100vh] flex-col" blurEffect="light">
     <view class="flex-auto"></view>
 
     <view class="flex items-center justify-center pb-6 font-bold">
@@ -49,7 +49,7 @@ function takePhoto() {
         <!-- TODO: 图库 -->
         <button
           @click="chooseMedia"
-          class="flex aspect-square w-[50px] h-[50px] items-center justify-center overflow-hidden rounded-full">
+          class="flex aspect-square h-[50px] w-[50px] items-center justify-center overflow-hidden rounded-full">
           <u-icons color="#6fb23a" type="image" size="30"></u-icons>
         </button>
 
@@ -72,7 +72,7 @@ function takePhoto() {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-image: url('https://images.unsplash.com/photo-1708708553991-6a97854e151f?q=80&w=1335&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+  background-image: url('https://unsplash.com/photos/a-painting-of-a-white-flower-with-green-leaves-CfUx9gx3eVk');
 }
 
 video {

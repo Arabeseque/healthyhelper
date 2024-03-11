@@ -1,23 +1,38 @@
 <script setup lang="ts">
+import { setToken } from '@/utils/auth'
+
 onLaunch(() => {
-  uni.loadFontFace({
-    family: 'Nanum',
-    source:
-      'url("https://font-1305224645.cos.ap-nanjing.myqcloud.com/NanumMyeongjo-Regular.ttf")',
-    global: true
-  }),
-    // uni.loadFontFace({
-    //   family: 'Smile',
-    //   source:
-    //     'url("https://font-1305224645.cos.ap-nanjing.myqcloud.com/SmileySans-Oblique.ttf")',
-    //   global: true
-    // }),
-    uni.loadFontFace({
-      family: 'NoteSans',
-      source:
-        'url("https://font-1305224645.cos.ap-nanjing.myqcloud.com/NotoSansSC-VariableFont_wght.ttf")',
-      global: true
-    })
+  // uni.loadFontFace({
+  //   family: 'Nanum',
+  //   source:
+  //     'url("https://font-1305224645.cos.ap-nanjing.myqcloud.com/NanumMyeongjo-Regular.ttf")',
+  //   global: true
+  // }),
+  //   uni.loadFontFace({
+  //     family: 'NoteSans',
+  //     source:
+  //       'url("https://font-1305224645.cos.ap-nanjing.myqcloud.com/NotoSansSC-VariableFont_wght.ttf")',
+  //     global: true
+  //   }),
+  uni.login({
+    provider: 'weixin',
+    success: function (loginRes) {
+      console.log(loginRes.authResult)
+      // 获取用户信息
+      uni.getUserInfo({
+        provider: 'weixin',
+        success: function (infoRes) {
+          // console.log(infoRes)
+        }
+      })
+      // TODO: 是否可以使用手段来快速推进？
+      // 调用微信 API 登录
+      // 直接 setToken 模拟登录
+      setToken(
+        'eyJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_6tWKi5NUrJScgwN8dANDXYNUtJRSq0oULIyNDc0MjGzMDKz1FEqLU4t8kwBqjJUgnDyEnNTgVxjI6VaAFG2HZRBAAAA.zJ5x45yNYTJRgcsglmDhw-nsSx6ZpAsKqne_QR0DaO4tk-b85dUv4TgNefOE5YeY5HPvxrbvuCB0t8Ir78w1tw'
+      )
+    }
+  })
 })
 onShow(() => {
   console.log('App Show')

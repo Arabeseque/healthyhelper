@@ -1,4 +1,10 @@
 {
+  "easycom": {
+    "autoscan": true,
+    "custom": {
+      "qiun-data-charts": "@qiun/uni-ucharts/components/qiun-data-charts/qiun-data-charts.vue"
+    }
+  },
 
 	"pages": [ 
 		{
@@ -20,6 +26,12 @@
 			"path": "pages/login/index",
 			"style": {
 				"navigationBarTitleText": "我的"
+			}
+		},
+    {
+			"path": "pages/tools/chat",
+			"style": {
+				"navigationBarTitleText": "ChatWithAI"
 			}
 		}
 

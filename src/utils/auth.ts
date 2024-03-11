@@ -1,5 +1,5 @@
 
-const TokenKey = '';
+const TokenKey = 'token';
 
 // 认证令牌
 export function getToken() {
