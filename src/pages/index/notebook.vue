@@ -10,7 +10,7 @@ import Pie from '@/components/notebook/Pie.vue'
 <template>
   <NotebookHeader />
 
-  <view class="bg-[#99d65c] p-1.5">
+  <view class="bg-[#99d65c] p-3">
     <view
       class="box-border flex w-full flex-col gap-4 rounded-xl bg-white p-4 shadow-md">
       <!-- Header -->

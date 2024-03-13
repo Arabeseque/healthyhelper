@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import uIcons from '@dcloudio/uni-ui/lib/uni-icons/uni-icons.vue'
+import Popup from '@/components/index/Popup.vue'
 
 function chooseMedia() {
   uni.chooseMedia({
@@ -54,14 +55,7 @@ function takePhoto() {
         </button>
 
         <!-- TODO: 手动记录 -->
-        <button
-          class="border-[#6fb23a flex w-[150px] items-center justify-center gap-2 rounded-3xl border font-bold text-[#6fb23a]">
-          <view
-            class="flex h-[22px] w-[25px] items-center justify-center overflow-hidden">
-            <u-icons color="#6fb23a" type="medal" size="30"></u-icons>
-          </view>
-          <view>手动记录</view>
-        </button>
+        <Popup></Popup>
       </view>
     </view>
   </view>
@@ -72,7 +66,7 @@ function takePhoto() {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-image: url('https://unsplash.com/photos/a-painting-of-a-white-flower-with-green-leaves-CfUx9gx3eVk');
+  background-image: url('https://images.unsplash.com/photo-1710089765258-a5fbe8ead59c?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
 }
 
 video {

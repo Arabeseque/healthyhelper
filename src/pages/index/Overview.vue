@@ -9,10 +9,15 @@
     </view>
   </view>
 
+  <!-- TODO: Semibar -->
+  <view class="h-40 w-full">
+    <SemiBar />
+  </view>
+
   <view class="relative opacity-60">
     <view class="tableMark">
       <span class="tableRange w-20 pl-2 text-xl">0</span>
-      <span class="tableRange w-9 text-xl">{{ totalkilo }}</span>
+      <span class="tableRange w-9 text-xl">{{ recommendTotal }}</span>
     </view>
   </view>
 
@@ -21,7 +26,9 @@
       <view class="w-16">
         <progress :percent="50" stroke-width="8" border-radius="6" />
       </view>
-      <span class="pt-2 text-lg font-semibold">0/247</span>
+      <span class="pt-2 text-lg font-semibold">
+        {{ summaryData.tanshui }}/{{ recommendData.tanshui }}
+      </span>
       <span class="text-xs opacity-60">碳水(g)</span>
     </view>
 
@@ -29,7 +36,9 @@
       <view class="w-16">
         <progress :percent="50" stroke-width="8" border-radius="6" />
       </view>
-      <span class="pt-2 text-lg font-semibold">0/247</span>
+      <span class="pt-2 text-lg font-semibold">
+        {{ summaryData.danbai }}/{{ recommendData.danbai }}
+      </span>
       <span class="text-xs opacity-60">蛋白质(g)</span>
     </view>
 
@@ -37,18 +46,76 @@
       <view class="w-16">
         <progress :percent="50" stroke-width="8" border-radius="6" />
       </view>
-      <span class="pt-2 text-lg font-semibold">0/247</span>
+      <span class="pt-2 text-lg font-semibold">
+        {{ summaryData.zhifang }}/{{ recommendData.zhifang }}
+      </span>
       <span class="text-xs opacity-60">脂肪(g)</span>
     </view>
   </view>
 </template>
 
 <script setup lang="ts">
+import Semibar from '@/components/notebook/SemiBar.vue'
+
 const kilo = 400
 const totalkilo = 1647
 
 const rotateDeg = computed(() => {
   return `rotate(${(kilo / totalkilo) * 180}deg)`
+})
+
+// TODO: summary data
+const summaryData = ref({})
+function getTableData(params: any) {
+  uni.request({
+    url: import.meta.env.VITE_BASE_API + params.url,
+    method: params.method,
+    data: params.params ? params.params : {},
+    header: {
+      token:
+        'eyJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_6tWKi5NUrJScgwN8dANDXYNUtJRSq0oULIyNDc0Mjc0Mzc21FEqLU4t8kwBqjJUgnDyEnNTgVxjI6VaAGZDjc1BAAAA.YSX3JxTTNMAV8tub28sOB_TIZsNxx6pVVN7EmQVB-OXTk-kHmTZ_hqH0Ph--V7FLVhVOT2wrGdZp6QgTOcdK6A' //自定义请求头信息
+    },
+    success: (res) => {
+      summaryData.value = res.data.data
+      console.log(summaryData.value, 'summaryData')
+    }
+  })
+}
+getTableData({
+  url: '/record/summary/today/1',
+  method: 'GET'
+})
+
+const recommendData = ref({})
+function getRecommodTableData(params: any) {
+  uni.request({
+    url: import.meta.env.VITE_BASE_API + params.url,
+    method: params.method,
+    data: params.params ? params.params : {},
+    header: {
+      token:
+        'eyJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_6tWKi5NUrJScgwN8dANDXYNUtJRSq0oULIyNDc0Mjc0Mzc21FEqLU4t8kwBqjJUgnDyEnNTgVxjI6VaAGZDjc1BAAAA.YSX3JxTTNMAV8tub28sOB_TIZsNxx6pVVN7EmQVB-OXTk-kHmTZ_hqH0Ph--V7FLVhVOT2wrGdZp6QgTOcdK6A' //自定义请求头信息
+    },
+    success: (res) => {
+      recommendData.value = res.data.data
+      console.log(recommendData.value, 'recommendData')
+    }
+  })
+}
+
+// sum of remommendData
+const recommendTotal = computed(() => {
+  return Object.values(recommendData.value).reduce((acc, cur) => acc + cur, 0)
+})
+
+getTableData({
+  url: '/record/summary/today/1',
+  method: 'GET'
+})
+
+getRecommodTableData({
+  url: '/user/bestNutrition/1',
+  method: 'GET'
 })
 </script>
 
@@ -116,7 +183,7 @@ const rotateDeg = computed(() => {
   transform-origin: center top;
 }
 .graph::after {
-  transform: v-bind(rotateDeg);
+  transform: 40%;
 }
 
 @keyframes demo {

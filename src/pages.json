@@ -2,7 +2,9 @@
   "easycom": {
     "autoscan": true,
     "custom": {
-      "qiun-data-charts": "@qiun/uni-ucharts/components/qiun-data-charts/qiun-data-charts.vue"
+      "qiun-data-charts": "@qiun/uni-ucharts/components/qiun-data-charts/qiun-data-charts.vue",
+      "fui-(.*)": "firstui-uni/firstui/fui-$1/fui-$1.vue"
+
     }
   },
 
@@ -33,7 +35,13 @@
 			"style": {
 				"navigationBarTitleText": "ChatWithAI"
 			}
-		}
+		},
+    {
+      "path": "pages/addform",
+      "style": {
+        "navigationBarTitleText": "添加记录"
+      }
+    }
 
 	],
 	"globalStyle": {

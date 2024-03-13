@@ -47,8 +47,6 @@ function getTableData(params) {
     },
     success: (res) => {
       if (!res.data.data) return
-      console.log(res, 'Pie')
-      console.log(res.data.data, 'Pie.data.data')
 
       chartData.value = {
         series: [
@@ -60,9 +58,6 @@ function getTableData(params) {
           }
         ]
       }
-
-      console.log(chartData.value, 'charData.value')
-      // chartData = res.data.data
     }
   })
 }

@@ -4414,6 +4414,11 @@ find-up@^5.0.0:
     locate-path "^6.0.0"
     path-exists "^4.0.0"
 
+firstui-uni@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.npmmirror.com/firstui-uni/-/firstui-uni-2.3.0.tgz#34417329e48b4ed7eb9a7904304ebfe564523b26"
+  integrity sha512-UwsDovhkZVQfSgRDMqHhgqqi4MVdBTyTuohU2UuWfYgkVtrsNOdNHfroJhZF6OJm/ceanxcbY6tYqu4TbR1o5w==
+
 flat-cache@^3.0.4:
   version "3.0.4"
   resolved "https://registry.npmmirror.com/flat-cache/-/flat-cache-3.0.4.tgz#61b0338302b2fe9f957dcc32fc2a87f1c3048b11"
@@ -6676,6 +6681,11 @@ thenify-all@^1.0.0:
   dependencies:
     any-promise "^1.0.0"
 
+three@0.134:
+  version "0.134.0"
+  resolved "https://registry.npmmirror.com/three/-/three-0.134.0.tgz#d7ad4d85d050da0861bf39749b06ddfb5f17157f"
+  integrity sha512-LbBerg7GaSPjYtTOnu41AMp7tV6efUNR3p4Wk5NzkSsNTBuA5mDGOfwwZL1jhhVMLx9V20HolIUo0+U3AXehbg==
+
 timm@^1.6.1:
   version "1.7.1"
   resolved "https://registry.npmmirror.com/timm/-/timm-1.7.1.tgz#96bab60c7d45b5a10a8a4d0f0117c6b7e5aff76f"
@@ -6702,6 +6712,11 @@ toidentifier@1.0.1:
   version "1.0.1"
   resolved "https://registry.npmmirror.com/toidentifier/-/toidentifier-1.0.1.tgz#3be34321a88a820ed1bd80dfaa33e479fbb8dd35"
   integrity sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==
+
+troisjs@^0.3.4:
+  version "0.3.4"
+  resolved "https://registry.npmmirror.com/troisjs/-/troisjs-0.3.4.tgz#b41f15b9e7732995ce936f98c12b953d6644d0ab"
+  integrity sha512-aonG2lw+QyTjytJpvYIaGv2AiIKzm+eSYT4ByG64uVh+jCLAWxnblS6bCewIckvCMqs2j3z351Q/IFIPWYViCQ==
 
 ts-api-utils@^1.0.1:
   version "1.0.1"
