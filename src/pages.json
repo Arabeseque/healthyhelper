@@ -3,78 +3,75 @@
     "autoscan": true,
     "custom": {
       "qiun-data-charts": "@qiun/uni-ucharts/components/qiun-data-charts/qiun-data-charts.vue",
-      "fui-(.*)": "firstui-uni/firstui/fui-$1/fui-$1.vue"
-
+      "fui-(.*)": "firstui-uni/firstui/fui-$1/fui-$1.vue",
+      "^uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue"
     }
   },
 
-	"pages": [ 
-		{
-			"path": "pages/index/index",
-			"style": {
-			}
-		},
-		{
-			"path": "pages/index/notebook",
-			"style": {
-			}
-		},
-		{
-			"path": "pages/index/calendar",
-			"style": {
-			}
-		},
-		{
-			"path": "pages/login/index",
-			"style": {
-				"navigationBarTitleText": "我的"
-			}
-		},
+  "pages": [
     {
-			"path": "pages/tools/chat",
-			"style": {
-				"navigationBarTitleText": "ChatWithAI"
-			}
-		},
+      "path": "pages/index/index",
+      "style": {}
+    },
+    {
+      "path": "pages/index/notebook",
+      "style": {}
+    },
+    {
+      "path": "pages/index/calendar",
+      "style": {}
+    },
+    {
+      "path": "pages/login/index",
+      "style": {
+        "navigationBarTitleText": "我的"
+      }
+    },
+    {
+      "path": "pages/tools/chat",
+      "style": {
+        "navigationBarTitleText": "ChatWithAI"
+      }
+    },
     {
       "path": "pages/addform",
       "style": {
         "navigationBarTitleText": "添加记录"
       }
     }
-
-	],
-	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
-	},
-	"tabBar": {
-		"selectedColor": "#3cc51f",
-		"borderStyle": "black",
-		"backgroundColor": "#ffffff",
-		"fontSize": "16px",
-		"iconWidth": "30px",
-		"height": "10vh",
-		"list": [{
-			"pagePath": "pages/index/notebook",
-			"iconPath": "./static/LucideNotebookText.png",
-			"selectedIconPath": "./static/LucideNotebookTextColor.png",
-			"text": "每日记录"
-		}, 
-		{
-			"pagePath": "pages/index/index",
-			"iconPath": "./static/MaterialSymbolsAddCircle.png",
-			"selectedIconPath": "./static/MaterialSymbolsAddCircleColor.png",
-			"text": "卡路里相机"
-		},
-		{
-			"pagePath": "pages/index/calendar",
-			"iconPath": "./static/MaterialSymbolsFolderOpen.png",
-			"selectedIconPath": "./static/MaterialSymbolsFolderOpenColor.png",
-			"text": "日历管理"
-		}
-	]
-	}
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "selectedColor": "#3cc51f",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "fontSize": "16px",
+    "iconWidth": "30px",
+    "height": "10vh",
+    "list": [
+      {
+        "pagePath": "pages/index/notebook",
+        "iconPath": "./static/LucideNotebookText.png",
+        "selectedIconPath": "./static/LucideNotebookTextColor.png",
+        "text": "每日记录"
+      },
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "./static/MaterialSymbolsAddCircle.png",
+        "selectedIconPath": "./static/MaterialSymbolsAddCircleColor.png",
+        "text": "卡路里相机"
+      },
+      {
+        "pagePath": "pages/index/calendar",
+        "iconPath": "./static/MaterialSymbolsFolderOpen.png",
+        "selectedIconPath": "./static/MaterialSymbolsFolderOpenColor.png",
+        "text": "日历管理"
+      }
+    ]
+  }
 }

@@ -3,12 +3,12 @@
     <view class="fui-page__bd">
       <button
         @click="showPopup(3)"
-        class="border-[#6fb23a flex w-[150px] items-center justify-center gap-2 rounded-3xl border font-bold text-[#6fb23a]">
+        class="border-[#185864 flex w-[150px] items-center justify-center gap-2 rounded-3xl border font-bold text-[#6fb23a]">
         <view
           class="flex h-[22px] w-[25px] items-center justify-center overflow-hidden">
-          <u-icons color="#6fb23a" type="medal" size="30"></u-icons>
+          <u-icons color="#185864" type="medal" size="30"></u-icons>
         </view>
-        <view @click="">手动记录</view>
+        <view class="color-[#185864]">手动记录</view>
       </button>
     </view>
 
