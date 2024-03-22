@@ -20,7 +20,6 @@ function takePhoto() {
     count: 9,
     mediaType: ['image'],
     sourceType: ['camera'],
-    maxDuration: 30,
     camera: 'back',
     success(res) {
       console.log(res.tempFiles)
@@ -80,6 +79,7 @@ async function getRecommodData() {
     success: (res: any) => {
       console.log(res.data.data)
       recommandData.value = res.data.data
+      renderData.value = recommandData.value[0]
     }
   })
 }
@@ -120,8 +120,54 @@ function handleEating() {
 
     success: (res: any) => {
       console.log(res)
+      showToast()
+      ani(['fade'], true)
     }
   })
+}
+
+const toast = ref()
+function showToast() {
+  toast.value.show({
+    type: 'text',
+    // position: 'top',
+    duration: 2000,
+    text: '已添加到今日食谱',
+    size: 50,
+    width: 100
+  })
+}
+
+const showAdvice = ref(true)
+const styles = ref({})
+const mode = ref(['fade'])
+
+const total = computed(() => {
+  return recommandData.value?.length
+})
+
+const curPage = ref(0)
+
+const renderData = ref()
+watch(recommandData, (newVal) => {
+  renderData.value = newVal
+})
+
+function ani(mode: any, mask: any) {
+  if (mask) {
+    styles.value.backgroundColor = 'rgba(0,0,0,0.6)'
+  } else {
+    styles.value.backgroundColor = 'rgba(0,0,0,0)'
+  }
+  setTimeout(() => {
+    mode.value = mode
+    showAdvice.value = !showAdvice.value
+  }, 80)
+
+  setTimeout(() => {
+    // if (cur < total) {
+    // }
+  }, 300)
 }
 
 init()
@@ -129,71 +175,76 @@ init()
 
 <template>
   <view class="container flex h-[100vh] flex-col" blurEffect="light">
-    <TransDemo />
+    <fui-toast ref="toast"></fui-toast>
+
     <view class="p-4">
-      <view
-        class="box-border flex w-full flex-col gap-4 rounded-xl bg-white p-4 opacity-90 shadow-md">
-        <!-- Header -->
-        <view class="flex justify-between">
-          <view class="py-2 text-xl font-bold">豆皮</view>
+      <fui-animation :duration="500" :animationType="mode" :show="showAdvice">
+        <view
+          class="box-border flex w-full flex-col gap-4 rounded-xl bg-white p-4 opacity-90 shadow-md">
+          <!-- Header -->
+          <view class="flex justify-between">
+            <view class="py-2 text-xl font-bold">豆皮</view>
+            <view>
+              <a
+                @click="handleEating"
+                href="#"
+                class="inline-flex items-center rounded-lg bg-orange-400 px-3 py-2 text-center text-sm font-bold text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                就吃这个!
+              </a>
+            </view>
+          </view>
+          <view class="text-xs text-stone-800">
+            健康助手根据个人营养计划生成
+          </view>
+
+          <!-- 分割线 -->
+          <view class="border opacity-10"></view>
+
+          <!-- List 早餐 午餐 晚餐 -->
+
           <view>
-            <a
-              @click="handleEating"
-              href="#"
-              class="inline-flex items-center rounded-lg bg-orange-400 px-3 py-2 text-center text-sm font-bold text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-              就吃这个!
-            </a>
-          </view>
-        </view>
-        <view class="text-xs text-stone-800">健康助手根据个人营养计划生成</view>
-
-        <!-- 分割线 -->
-        <view class="border opacity-10"></view>
-
-        <!-- List 早餐 午餐 晚餐 -->
-
-        <view>
-          <view class="flex flex-col gap-2">
-            <view class="flex items-center justify-between">
-              <span>脂肪</span>
-              <span class="text-sm opacity-60">0/549千卡</span>
+            <view class="flex flex-col gap-2">
+              <view class="flex items-center justify-between">
+                <span>脂肪</span>
+                <span class="text-sm opacity-60">0/549千卡</span>
+              </view>
+              <view class="pt-2">
+                <progress
+                  :percent="50"
+                  stroke-width="15"
+                  border-radius="6"
+                  activeColor="#185864" />
+              </view>
             </view>
-            <view class="pt-2">
-              <progress
-                :percent="50"
-                stroke-width="15"
-                border-radius="6"
-                activeColor="#185864" />
+            <view class="flex flex-col gap-2">
+              <view class="flex items-center justify-between">
+                <span>蛋白</span>
+                <span class="text-sm opacity-60">0/549千卡</span>
+              </view>
+              <view class="pt-2">
+                <progress
+                  :percent="50"
+                  stroke-width="15"
+                  border-radius="6"
+                  activeColor="#f9a647" />
+              </view>
             </view>
-          </view>
-          <view class="flex flex-col gap-2">
-            <view class="flex items-center justify-between">
-              <span>蛋白</span>
-              <span class="text-sm opacity-60">0/549千卡</span>
-            </view>
-            <view class="pt-2">
-              <progress
-                :percent="50"
-                stroke-width="15"
-                border-radius="6"
-                activeColor="#f9a647" />
-            </view>
-          </view>
-          <view class="flex flex-col gap-2">
-            <view class="flex items-center justify-between">
-              <span>碳水</span>
-              <span class="text-sm opacity-60">0/549千卡</span>
-            </view>
-            <view class="pt-2">
-              <progress
-                :percent="50"
-                stroke-width="15"
-                border-radius="6"
-                activeColor="#e2dbd0" />
+            <view class="flex flex-col gap-2">
+              <view class="flex items-center justify-between">
+                <span>碳水</span>
+                <span class="text-sm opacity-60">0/549千卡</span>
+              </view>
+              <view class="pt-2">
+                <progress
+                  :percent="50"
+                  stroke-width="15"
+                  border-radius="6"
+                  activeColor="#e2dbd0" />
+              </view>
             </view>
           </view>
         </view>
-      </view>
+      </fui-animation>
     </view>
 
     <view class="flex-auto"></view>
