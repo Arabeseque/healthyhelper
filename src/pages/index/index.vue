@@ -58,9 +58,7 @@ interface RecommandData {
 }
 
 const recommandData = ref<RecommandData[]>()
-
 const renderData = ref()
-
 async function getRecommodData() {
   // analyse/recommand/1/2023-05-10
   // const date = new Date().toLocaleDateString()
@@ -81,10 +79,10 @@ async function getRecommodData() {
       `/analyse/recommand/1/${testFormattedDate}`,
     method: 'GET',
     success: (res: any) => {
-      console.log(res.data.data)
+      // console.log(res.data.data)
       recommandData.value = res.data.data
       renderData.value = recommandData.value[0]
-      console.log(renderData.value, 'renderData')
+      // console.log(renderData.value, 'renderData')
     }
   })
 }
@@ -97,7 +95,7 @@ async function getRecommodInfo() {
     method: 'GET',
     success: (res: any) => {
       recommandInfo.value = res.data.data
-      console.log(recommandInfo.value, 'recommandInfo')
+      // console.log(recommandInfo.value, 'recommandInfo')
     }
   })
 }
@@ -118,11 +116,10 @@ function formatTime(date: Date) {
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
 }
 
+const curPage = ref(0) // 当前页面
 function handleEating() {
   const now = new Date()
-
   const formattedTime = formatTime(now)
-
   uni.request({
     url: import.meta.env.VITE_BASE_API + '/record/foods',
     method: 'POST',
@@ -136,11 +133,21 @@ function handleEating() {
           recordTime: formattedTime
         }
       ],
-
     success: (res: any) => {
-      console.log(res)
+      // console.log(res)
       showToast()
       ani(['fade'], true)
+
+      setTimeout(() => {
+        if (curPage.value < recommandData.value.length - 1) {
+          curPage.value++
+          renderData.value = recommandData.value[curPage.value]
+        } else {
+          curPage.value = 0
+          renderData.value = recommandData.value[curPage.value]
+        }
+        showAdvice.value = !showAdvice.value
+      }, 300)
     }
   })
 }
@@ -160,16 +167,6 @@ function showToast() {
 const showAdvice = ref(true)
 const styles = ref({})
 const mode = ref(['fade'])
-
-// const total = computed(() => {
-//   return recommandData.value?.length
-// })
-
-const curPage = ref(0)
-
-// watch(recommandData, (newVal) => {
-//   renderData.value = newVal
-// })
 
 function ani(mode: any, mask: any) {
   if (mask) {
