@@ -2,18 +2,6 @@
 import { setToken } from '@/utils/auth'
 
 onLaunch(() => {
-  // uni.loadFontFace({
-  //   family: 'Nanum',
-  //   source:
-  //     'url("https://font-1305224645.cos.ap-nanjing.myqcloud.com/NanumMyeongjo-Regular.ttf")',
-  //   global: true
-  // }),
-  //   uni.loadFontFace({
-  //     family: 'NoteSans',
-  //     source:
-  //       'url("https://font-1305224645.cos.ap-nanjing.myqcloud.com/NotoSansSC-VariableFont_wght.ttf")',
-  //     global: true
-  //   }),
   uni.login({
     provider: 'weixin',
     success: function (loginRes) {

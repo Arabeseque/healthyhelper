@@ -59,6 +59,8 @@ interface RecommandData {
 
 const recommandData = ref<RecommandData[]>()
 
+const renderData = ref()
+
 async function getRecommodData() {
   // analyse/recommand/1/2023-05-10
   // const date = new Date().toLocaleDateString()
@@ -72,20 +74,37 @@ async function getRecommodData() {
 
   // 格式化日期
   const formattedDate = `${year}-${month}-${day}`
+  const testFormattedDate = '2024-03-21'
   uni.request({
     url:
-      import.meta.env.VITE_BASE_API + `/analyse/recommand/1/${formattedDate}`,
+      import.meta.env.VITE_BASE_API +
+      `/analyse/recommand/1/${testFormattedDate}`,
     method: 'GET',
     success: (res: any) => {
       console.log(res.data.data)
       recommandData.value = res.data.data
       renderData.value = recommandData.value[0]
+      console.log(renderData.value, 'renderData')
+    }
+  })
+}
+
+const userId = 1
+const recommandInfo = ref()
+async function getRecommodInfo() {
+  uni.request({
+    url: import.meta.env.VITE_BASE_API + `/user/bestNutrition/${userId}`,
+    method: 'GET',
+    success: (res: any) => {
+      recommandInfo.value = res.data.data
+      console.log(recommandInfo.value, 'recommandInfo')
     }
   })
 }
 
 async function init() {
   await getRecommodData()
+  await getRecommodInfo()
 }
 
 function formatTime(date: Date) {
@@ -142,16 +161,15 @@ const showAdvice = ref(true)
 const styles = ref({})
 const mode = ref(['fade'])
 
-const total = computed(() => {
-  return recommandData.value?.length
-})
+// const total = computed(() => {
+//   return recommandData.value?.length
+// })
 
 const curPage = ref(0)
 
-const renderData = ref()
-watch(recommandData, (newVal) => {
-  renderData.value = newVal
-})
+// watch(recommandData, (newVal) => {
+//   renderData.value = newVal
+// })
 
 function ani(mode: any, mask: any) {
   if (mask) {
@@ -170,6 +188,27 @@ function ani(mode: any, mask: any) {
   }, 300)
 }
 
+const progressZhifang = computed(() => {
+  if (!recommandInfo.value.zhifang || !renderData.value.zhifang) {
+    return 0
+  }
+  return (renderData.value.zhifang / recommandInfo.value.zhifang) * 100
+})
+
+const progressDanbai = computed(() => {
+  if (!recommandInfo.value.danbai || !renderData.value.danbai) {
+    return 0
+  }
+  return (renderData.value.danbai / recommandInfo.value.danbai) * 100
+})
+
+const progressTanshui = computed(() => {
+  if (!recommandInfo.value.tanshui || !renderData.value.tanshui) {
+    return 0
+  }
+  return (renderData.value.tanshui / recommandInfo.value.tanshui) * 100
+})
+
 init()
 </script>
 
@@ -180,10 +219,10 @@ init()
     <view class="p-4">
       <fui-animation :duration="500" :animationType="mode" :show="showAdvice">
         <view
-          class="box-border flex w-full flex-col gap-4 rounded-xl bg-white p-4 opacity-90 shadow-md">
+          class="m-4 box-border flex w-full flex-col gap-4 rounded-xl bg-white p-4 opacity-90 shadow-md">
           <!-- Header -->
           <view class="flex justify-between">
-            <view class="py-2 text-xl font-bold">豆皮</view>
+            <view class="py-2 text-xl font-bold">{{ renderData.name }}</view>
             <view>
               <a
                 @click="handleEating"
@@ -206,37 +245,49 @@ init()
             <view class="flex flex-col gap-2">
               <view class="flex items-center justify-between">
                 <span>脂肪</span>
-                <span class="text-sm opacity-60">0/549千卡</span>
+                <span class="text-sm opacity-60">
+                  {{ renderData.zhifang }}/{{ recommandInfo.zhifang }} 千卡
+                </span>
               </view>
               <view class="pt-2">
                 <progress
-                  :percent="50"
+                  :percent="progressZhifang"
                   stroke-width="15"
                   border-radius="6"
                   activeColor="#185864" />
               </view>
             </view>
-            <view class="flex flex-col gap-2">
+            <view
+              class="flex flex-col gap-2"
+              v-if="renderData.danbai && recommandInfo.danbai">
               <view class="flex items-center justify-between">
                 <span>蛋白</span>
-                <span class="text-sm opacity-60">0/549千卡</span>
+                <span class="text-sm opacity-60">
+                  <span class="text-sm opacity-60">
+                    {{ renderData.danbai }}/{{ recommandInfo.danbai }}千卡
+                  </span>
+                </span>
               </view>
               <view class="pt-2">
                 <progress
-                  :percent="50"
+                  :percent="progressDanbai"
                   stroke-width="15"
                   border-radius="6"
                   activeColor="#f9a647" />
               </view>
             </view>
-            <view class="flex flex-col gap-2">
+            <view
+              class="flex flex-col gap-2"
+              v-if="renderData.tanshui && recommandInfo.tanshui">
               <view class="flex items-center justify-between">
                 <span>碳水</span>
-                <span class="text-sm opacity-60">0/549千卡</span>
+                <span class="text-sm opacity-60">
+                  {{ renderData.tanshui }}/{{ recommandInfo.tanshui }}千卡
+                </span>
               </view>
               <view class="pt-2">
                 <progress
-                  :percent="50"
+                  :percent="progressTanshui"
                   stroke-width="15"
                   border-radius="6"
                   activeColor="#e2dbd0" />
@@ -281,7 +332,7 @@ init()
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-image: url('https://images.unsplash.com/photo-1710089765258-a5fbe8ead59c?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+  background-image: url('https://images.pexels.com/photos/2049422/pexels-photo-2049422.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
 }
 
 video {

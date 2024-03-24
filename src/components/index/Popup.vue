@@ -8,7 +8,7 @@
           class="flex h-[22px] w-[25px] items-center justify-center overflow-hidden">
           <u-icons color="#185864" type="medal" size="30"></u-icons>
         </view>
-        <view class="color-[#185864]">手动记录</view>
+        <view class="text-[#185864]">手动记录</view>
       </button>
     </view>
 
@@ -69,6 +69,7 @@ function handleTimeClick(typeId) {
   console.log(typeId, 'typeId')
   uni.navigateTo({
     url: `/pages/index/notebook`,
+    replace: true,
     success: function (res) {
       // 通过eventChannel向被打开页面传送数据
       res.eventChannel.emit('acceptDataFromOpenerPage', {
