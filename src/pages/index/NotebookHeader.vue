@@ -1,7 +1,7 @@
 <template>
   <!-- TODO: Header -->
   <view
-    class="header flex w-full flex-col items-center bg-[#99d65c] p-4 text-sm text-white backdrop-blur-3xl">
+    class="header flex w-full flex-col items-center bg-[#9dc9b6] p-4 text-sm text-white backdrop-blur-3xl">
     <view class="flex w-full items-center justify-between">
       <view class="flex items-end justify-center gap-2">
         <text class="i-mdi-account text-2xl">496</text>
@@ -86,7 +86,7 @@ function getTableData(params: any) {
     data: params.params ? params.params : {},
     header: {
       token:
-        'eyJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_6tWKi5NUrJScgwN8dANDXYNUtJRSq0oULIyNDc0Mjc0Mzc21FEqLU4t8kwBqjJUgnDyEnNTgVxjI6VaAGZDjc1BAAAA.YSX3JxTTNMAV8tub28sOB_TIZsNxx6pVVN7EmQVB-OXTk-kHmTZ_hqH0Ph--V7FLVhVOT2wrGdZp6QgTOcdK6A' //自定义请求头信息
+        'eyJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_6tWKi5NUrJScgwN8dANDXYNUtJRSq0oULIyNDc0Mjc0Mzc21FEqLU4t8kwBqjJUgnDyEnNTgVxjI6VaAGZDjc1BAAAA.YSX3JxTTNMAV8tub28sOB_TIZsNxx6pVVN7EmQVB-OXTk-kHmTZ_hqH0Ph--V7FLVhVOT2wrGdZp6QgTOcdK6A' // 自定义请求头信息
     },
     success: (res) => {
       summaryData.value = res.data.data
@@ -94,10 +94,6 @@ function getTableData(params: any) {
     }
   })
 }
-getTableData({
-  url: '/record/summary/today/1',
-  method: 'GET'
-})
 
 const recommendData = ref({})
 function getRecommodTableData(params: any) {
@@ -107,7 +103,7 @@ function getRecommodTableData(params: any) {
     data: params.params ? params.params : {},
     header: {
       token:
-        'eyJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_6tWKi5NUrJScgwN8dANDXYNUtJRSq0oULIyNDc0Mjc0Mzc21FEqLU4t8kwBqjJUgnDyEnNTgVxjI6VaAGZDjc1BAAAA.YSX3JxTTNMAV8tub28sOB_TIZsNxx6pVVN7EmQVB-OXTk-kHmTZ_hqH0Ph--V7FLVhVOT2wrGdZp6QgTOcdK6A' //自定义请求头信息
+        'eyJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_6tWKi5NUrJScgwN8dANDXYNUtJRSq0oULIyNDc0Mjc0Mzc21FEqLU4t8kwBqjJUgnDyEnNTgVxjI6VaAGZDjc1BAAAA.YSX3JxTTNMAV8tub28sOB_TIZsNxx6pVVN7EmQVB-OXTk-kHmTZ_hqH0Ph--V7FLVhVOT2wrGdZp6QgTOcdK6A' // 自定义请求头信息
     },
     success: (res) => {
       recommendData.value = res.data.data
@@ -117,9 +113,9 @@ function getRecommodTableData(params: any) {
 }
 
 // sum of remommendData
-const recommendTotal = computed(() => {
-  return Object.values(recommendData.value).reduce((acc, cur) => acc + cur, 0)
-})
+// const recommendTotal = computed(() => {
+//   return Object.values(recommendData.value).reduce((acc, cur) => acc + cur, 0)
+// })
 
 getTableData({
   url: '/record/summary/today/1',
@@ -134,7 +130,7 @@ getRecommodTableData({
 
 <style scoped>
 :root {
-  --color: #6fb23a;
+  --color: #a0c69d;
 }
 
 .header {

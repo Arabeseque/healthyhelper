@@ -5,27 +5,25 @@
 </template>
 
 <script setup lang="ts">
-const chartData = computed(() => {
-  return {
-    series: [
-      {
-        name: 'danbai',
-        data: summaryData.value.danbai / recommendData.value.danbai
-      },
-      {
-        name: 'zhifang',
-        data: summaryData.value.zhifang / recommendData.value.zhifang
-      },
-      {
-        name: 'tanshui',
-        data: summaryData.value.tanshui / recommendData.value.tanshui
-      }
-    ]
-  }
+const chartData = ref({
+  series: [
+    {
+      name: 'danbai',
+      data: 0.5
+    },
+    {
+      name: 'zhifang',
+      data: 0
+    },
+    {
+      name: 'tanshui',
+      data: 0
+    }
+  ]
 })
 
 const opts = {
-  color: ['#FAC858', '#EE6666', '#73C0DE'],
+  color: ['#185864', '#f9a647', '#73C0DE'],
   padding: undefined,
   title: {
     name: '活力指标',
@@ -35,7 +33,7 @@ const opts = {
   subtitle: {
     name: '营养水平',
     fontSize: 4,
-    color: '#666666'
+    color: '#e2dbd0'
   },
   extra: {
     arcbar: {
@@ -58,18 +56,30 @@ function getTableData(params: any) {
     data: params.params ? params.params : {},
     header: {
       token:
-        'eyJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_6tWKi5NUrJScgwN8dANDXYNUtJRSq0oULIyNDc0Mjc0Mzc21FEqLU4t8kwBqjJUgnDyEnNTgVxjI6VaAGZDjc1BAAAA.YSX3JxTTNMAV8tub28sOB_TIZsNxx6pVVN7EmQVB-OXTk-kHmTZ_hqH0Ph--V7FLVhVOT2wrGdZp6QgTOcdK6A' //自定义请求头信息
+        'eyJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_6tWKi5NUrJScgwN8dANDXYNUtJRSq0oULIyNDc0Mjc0Mzc21FEqLU4t8kwBqjJUgnDyEnNTgVxjI6VaAGZDjc1BAAAA.YSX3JxTTNMAV8tub28sOB_TIZsNxx6pVVN7EmQVB-OXTk-kHmTZ_hqH0Ph--V7FLVhVOT2wrGdZp6QgTOcdK6A' // 自定义请求头信息
     },
     success: (res) => {
       summaryData.value = res.data.data
-      console.log(summaryData.value, 'summaryData')
+
+      chartData.value.series = [
+        {
+          name: 'danbai',
+          data: summaryData.value.danbai / recommendData.value.danbai
+        },
+        {
+          name: 'zhifang',
+          data: summaryData.value.zhifang / recommendData.value.zhifang
+        },
+        {
+          name: 'tanshui',
+          data: summaryData.value.tanshui / recommendData.value.tanshui
+        }
+      ]
+      // console.log(summaryData.value, 'summaryData')
+      // console.log(chartData.value, 'success Data')
     }
   })
 }
-getTableData({
-  url: '/record/summary/today/1',
-  method: 'GET'
-})
 
 const recommendData = ref({})
 function getRecommodTableData(params: any) {
@@ -79,7 +89,7 @@ function getRecommodTableData(params: any) {
     data: params.params ? params.params : {},
     header: {
       token:
-        'eyJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_6tWKi5NUrJScgwN8dANDXYNUtJRSq0oULIyNDc0Mjc0Mzc21FEqLU4t8kwBqjJUgnDyEnNTgVxjI6VaAGZDjc1BAAAA.YSX3JxTTNMAV8tub28sOB_TIZsNxx6pVVN7EmQVB-OXTk-kHmTZ_hqH0Ph--V7FLVhVOT2wrGdZp6QgTOcdK6A' //自定义请求头信息
+        'eyJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_6tWKi5NUrJScgwN8dANDXYNUtJRSq0oULIyNDc0Mjc0Mzc21FEqLU4t8kwBqjJUgnDyEnNTgVxjI6VaAGZDjc1BAAAA.YSX3JxTTNMAV8tub28sOB_TIZsNxx6pVVN7EmQVB-OXTk-kHmTZ_hqH0Ph--V7FLVhVOT2wrGdZp6QgTOcdK6A' // 自定义请求头信息
     },
     success: (res) => {
       recommendData.value = res.data.data
@@ -87,11 +97,6 @@ function getRecommodTableData(params: any) {
     }
   })
 }
-
-// sum of remommendData
-const recommendTotal = computed(() => {
-  return Object.values(recommendData.value).reduce((acc, cur) => acc + cur, 0)
-})
 
 getTableData({
   url: '/record/summary/today/1',

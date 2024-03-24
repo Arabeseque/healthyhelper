@@ -20,66 +20,64 @@ const chartData = ref({
   ]
 })
 </script>
+
 <template>
-  <view class="rounded-2xl px-2 shadow-2xl">
-    <uni-calendar
-      :insert="true"
-      :lunar="true"
-      :start-date="'2019-3-2'"
-      :end-date="'2019-5-20'"
-      @change="change" />
-  </view>
-
-  <view class="bg-[#b8ec78] p-3 px-2">
-    <view
-      class="flex w-full flex-col gap-4 rounded-2xl bg-white p-4 shadow-2xl">
-      <!-- Header -->
-      <view class="py-2">🍐 一日三餐</view>
-
-      <!-- 分割线 -->
-      <view class="border opacity-10"></view>
-
-      <!-- List 早餐 午餐 晚餐 -->
-      <view>
-        <view class="flex flex-col gap-2">
-          <view class="flex items-center justify-between">
-            <span>早餐</span>
-            <span class="text-sm opacity-60">0/549千卡</span>
-          </view>
-          <view class="pt-2">
-            <progress :percent="50" stroke-width="15" border-radius="6" />
-          </view>
-        </view>
-      </view>
-
-      <!-- TODO: 图表 -->
-      <view class="charts-box h-full w-full">
-        <qiun-data-charts type="column" :chartData="chartData" />
-      </view>
+  <view>
+    <view class="rounded-2xl px-2 shadow-2xl">
+      <uni-calendar
+        :insert="true"
+        :lunar="true"
+        :start-date="'2019-3-2'"
+        :end-date="'2019-5-20'"
+        @change="change" />
     </view>
 
-    <view class="p-1.5"></view>
-
-    <view class="flex justify-between">
+    <view class="bg-[#93bb92] p-3 px-2">
       <view
-        class="box-border flex w-[48%] flex-col gap-4 rounded-xl bg-white p-4 shadow-md">
-        <!-- Header -->
-        <view class="flex items-center justify-center gap-2 py-2">
-          <image
-            src="https://simpleicons.org/icons/affinityphoto.svg"
-            class="h-6 w-6" />
-          <view>ChatWithAI</view>
+        class="flex w-full flex-col gap-4 rounded-2xl bg-white p-4 shadow-2xl">
+        <view class="py-2 text-xl font-bold">🍐 Chat With AI</view>
+        <view class="border opacity-10"></view>
+
+        <view>
+          <view class="flex flex-col gap-2">
+            <!-- <view class="flex items-center justify-between">
+              <span>早餐</span>
+              <span class="text-sm opacity-60">0/549千卡</span>
+            </view> -->
+            <!-- <view class="pt-2">
+              <progress :percent="50" stroke-width="15" border-radius="6" />
+            </view> -->
+          </view>
         </view>
+        <!-- 
+        <view class="charts-box h-full w-full">
+          <qiun-data-charts type="column" :chartData="chartData" />
+        </view> -->
       </view>
 
-      <view
-        class="box-border flex w-[48%] flex-col gap-4 rounded-xl bg-white p-4 shadow-md">
-        <!-- Header -->
-        <view class="flex items-center justify-center gap-2 py-2">
-          <image
-            src="https://simpleicons.org/icons/affinityphoto.svg"
-            class="h-6 w-6" />
-          <view>TODO</view>
+      <view class="p-1.5"></view>
+
+      <view class="flex justify-between">
+        <view
+          class="box-border flex w-[48%] flex-col gap-4 rounded-xl bg-white p-4 shadow-md">
+          <!-- Header -->
+          <view class="flex items-center justify-center gap-2 py-2">
+            <image
+              src="https://simpleicons.org/icons/affinityphoto.svg"
+              class="h-6 w-6" />
+            <view>ChatWithAI</view>
+          </view>
+        </view>
+
+        <view
+          class="box-border flex w-[48%] flex-col gap-4 rounded-xl bg-white p-4 shadow-md">
+          <!-- Header -->
+          <view class="flex items-center justify-center gap-2 py-2">
+            <image
+              src="https://simpleicons.org/icons/affinityphoto.svg"
+              class="h-6 w-6" />
+            <view>TODO</view>
+          </view>
         </view>
       </view>
     </view>

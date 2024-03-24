@@ -1,33 +1,8 @@
 <template>
   <view class="fui-wrap">
-    <view class="fui-page__bd">
-      <button
-        @click="showPopup(3)"
-        class="border-[#185864 flex w-[150px] items-center justify-center gap-2 rounded-3xl border font-bold text-[#6fb23a]">
-        <view
-          class="flex h-[22px] w-[25px] items-center justify-center overflow-hidden">
-          <u-icons color="#185864" type="medal" size="30"></u-icons>
-        </view>
-        <view class="text-[#185864]">手动记录</view>
-      </button>
-    </view>
+    <view class="fui-page__bd"></view>
 
-    <fui-bottom-popup :show="show3" @close="closePopup(3)">
-      <view class="fui-scroll__wrap">
-        <view class="fui-title fui-title__pb">选择时间</view>
-        <scroll-view scroll-y class="fui-scroll__view">
-          <fui-list-cell
-            v-for="(item, index) in itemList"
-            :key="index"
-            @click="handleTimeClick(index)">
-            {{ item }}
-          </fui-list-cell>
-        </scroll-view>
-        <view class="fui-icon__close" @tap="closePopup(3)">
-          <fui-icon name="close" :size="48"></fui-icon>
-        </view>
-      </view>
-    </fui-bottom-popup>
+    <!-- TODO: 手写 Modal -->
   </view>
 </template>
 
