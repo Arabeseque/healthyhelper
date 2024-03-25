@@ -292,9 +292,47 @@ const adviceModalStyles = ref({
 
 init()
 
+// function handleRecord() {
+//   uni.navigateTo({
+//     url: '/pages/index/record'
+//   })
+// }
+
+const styleInput = ref({
+  width: '100%',
+  height: '80px',
+  marginTop: '75vh'
+})
+
+const modeInput = ref(['fade'])
+
+const showInput = ref(false)
+function aniInput(mode: any, mask: any) {
+  setTimeout(() => {
+    modeInput.value = mode
+    showInput.value = !showInput.value
+  }, 80)
+}
+
+const foodName = ref('')
 function handleRecord() {
-  uni.navigateTo({
-    url: '/pages/index/record'
+  uni.request({
+    url:
+      import.meta.env.VITE_BASE_API +
+      '/nutrition/search' +
+      '?query=' +
+      foodName.value,
+    method: 'GET',
+
+    success: (res: any) => {
+      console.log(res.data.data, 'search')
+
+      const data = res.data.data
+      // 获取 data第一个元素的key
+      const foodId = Object.keys(data)[0]
+      console.log(foodId, 'foodif')
+      commonUploadFoodInfo(foodId)
+    }
   })
 }
 </script>
@@ -423,7 +461,7 @@ function handleRecord() {
 
         <!-- TODO: 手动记录 -->
         <button
-          @click="handleRecord"
+          @click="aniInput(['fade'], true)"
           class="border-[#185864 flex w-[150px] items-center justify-center gap-2 rounded-3xl border font-bold text-[#6fb23a]">
           <view
             class="flex h-[22px] w-[25px] items-center justify-center overflow-hidden">
@@ -433,6 +471,24 @@ function handleRecord() {
         </button>
       </view>
     </view>
+
+    <!-- TODO:  -->
+    <fui-animation
+      :duration="500"
+      :animationType="mode"
+      :styles="styleInput"
+      :show="showInput">
+      <view class="flex items-center justify-center">
+        <fui-input
+          label="食品"
+          borderTop
+          v-model="foodName"
+          placeholder="输入食品的名称"></fui-input>
+        <fui-button width="60px" background="#f9a647" @click="handleRecord">
+          添加
+        </fui-button>
+      </view>
+    </fui-animation>
   </view>
 </template>
 
