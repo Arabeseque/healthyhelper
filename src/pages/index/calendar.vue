@@ -40,13 +40,30 @@ const chartData = ref({
 
         <view>
           <view class="flex flex-col gap-2">
-            <!-- <view class="flex items-center justify-between">
-              <span>早餐</span>
-              <span class="text-sm opacity-60">0/549千卡</span>
-            </view> -->
-            <!-- <view class="pt-2">
-              <progress :percent="50" stroke-width="15" border-radius="6" />
-            </view> -->
+            <view class="flex justify-start gap-2">
+              <!-- loading -->
+              <fui-loading :isFixed="false"></fui-loading>
+
+              <fui-avatar
+                text="AI"
+                background="#FFB703"
+                size="small"></fui-avatar>
+
+              <view
+                class="flex h-16 w-32 items-center justify-center rounded-xl bg-neutral-100 px-4 py-3">
+                今天有什么可以帮你?
+              </view>
+            </view>
+          </view>
+
+          <view class="flex items-center justify-center pt-20">
+            <fui-input
+              borderTop
+              v-model="foodName"
+              placeholder="输入食品的名称"></fui-input>
+            <fui-button width="60px" background="#f9a647" @click="handleRecord">
+              提问
+            </fui-button>
           </view>
         </view>
         <!-- 

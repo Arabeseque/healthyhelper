@@ -12,29 +12,7 @@ function chooseMedia() {
     success(res: any) {
       // getPicData(res.tempFiles[0])
       const tempFilePaths = res.tempFiles
-      console.log(tempFilePaths, 'tempFile')
-
-      uni.uploadFile({
-        url: import.meta.env.VITE_BASE_API + '/ai/pic',
-        filePath: tempFilePaths[0].tempFilePath,
-        name: 'image',
-        // formData: {
-        //   user: 'test'
-        // },
-        success: (uploadFileRes) => {
-          // JSON 处理
-          console.log(JSON.parse(uploadFileRes.data), 'uploadRes')
-          // 上传内容
-          const data = JSON.parse(uploadFileRes.data).data
-          console.log(data, 'data')
-          for (const item of data) {
-            commonUploadFoodInfo(item.id)
-          }
-        },
-        fail: (err) => {
-          console.error(err)
-        }
-      })
+      uploadImage(tempFilePaths)
     }
   })
 }
@@ -48,29 +26,7 @@ function takePhoto() {
     success(res: any) {
       // getPicData(res.tempFiles[0])
       const tempFilePaths = res.tempFiles
-      console.log(tempFilePaths, 'tempFile')
-
-      uni.uploadFile({
-        url: import.meta.env.VITE_BASE_API + '/ai/pic',
-        filePath: tempFilePaths[0].tempFilePath,
-        name: 'image',
-        // formData: {
-        //   user: 'test'
-        // },
-        success: (uploadFileRes) => {
-          // JSON 处理
-          console.log(JSON.parse(uploadFileRes.data), 'uploadRes')
-          // 上传内容
-          const data = JSON.parse(uploadFileRes.data).data
-          console.log(data, 'data')
-          for (const item of data) {
-            commonUploadFoodInfo(item.id)
-          }
-        },
-        fail: (err) => {
-          console.error(err)
-        }
-      })
+      uploadImage(tempFilePaths)
     }
   })
 }
@@ -80,7 +36,6 @@ function takePhoto() {
 // }
 
 // TODO: 手动记录表单
-
 const recommandData = ref({
   danbai: 0,
   danguchun: 0,
@@ -292,12 +247,6 @@ const adviceModalStyles = ref({
 
 init()
 
-// function handleRecord() {
-//   uni.navigateTo({
-//     url: '/pages/index/record'
-//   })
-// }
-
 const styleInput = ref({
   width: '100%',
   height: '80px',
@@ -332,6 +281,58 @@ function handleRecord() {
       const foodId = Object.keys(data)[0]
       console.log(foodId, 'foodif')
       commonUploadFoodInfo(foodId)
+    }
+  })
+}
+
+const showImage = ref(false)
+const styleImage = ref({
+  width: '100%'
+})
+const modelImage = ref(['fade'])
+function aniImage(mode: any, mask: any) {
+  modelImage.value = mode
+  showImage.value = !showImage.value
+}
+
+const uploadImageSrc = ref()
+const analyseImageRes = ref()
+
+function uploadImage(tempFilePaths) {
+  uploadImageSrc.value = tempFilePaths[0].tempFilePath
+  console.log(uploadImageSrc.value, 'image')
+
+  uni.uploadFile({
+    url: import.meta.env.VITE_BASE_API + '/ai/pic',
+    filePath: tempFilePaths[0].tempFilePath,
+    name: 'image',
+    success: (uploadFileRes) => {
+      // JSON 处理
+      // 上传内容
+      const data = JSON.parse(uploadFileRes.data).data
+      analyseImageRes.value = data
+      console.log(data, 'data')
+
+      // 显示图片 调用计算器
+      if (showAdvice.value) {
+        ani(['fade'], true)
+      }
+
+      if (showInput.value) {
+        aniInput(['fade'], true)
+      }
+
+      setTimeout(() => {
+        aniImage(['fade'], true)
+        // 显示图片区域
+      }, 800)
+
+      for (const item of data) {
+        commonUploadFoodInfo(item.id)
+      }
+    },
+    fail: (err) => {
+      console.error(err)
     }
   })
 }
@@ -472,7 +473,6 @@ function handleRecord() {
       </view>
     </view>
 
-    <!-- TODO:  -->
     <fui-animation
       :duration="500"
       :animationType="mode"
@@ -487,6 +487,49 @@ function handleRecord() {
         <fui-button width="60px" background="#f9a647" @click="handleRecord">
           添加
         </fui-button>
+      </view>
+    </fui-animation>
+
+    <!-- TODO: showImage  -->
+    <fui-animation
+      :duration="500"
+      :animationType="mode"
+      :styles="styleImage"
+      :show="showImage">
+      <view class="flex flex-col items-center justify-center">
+        <image
+          lazy-load="true"
+          :src="uploadImageSrc"
+          class="h-60 w-60 rounded-xl shadow-md"></image>
+
+        <view class="flex flex-col pt-4">
+          <view
+            class="flex items-center justify-end gap-4 pr-4 opacity-90"
+            :key="item.id"
+            v-for="item in analyseImageRes">
+            <view>{{ item.name }}</view>
+            <view
+              class="flex items-center justify-center gap-1 rounded-xl shadow-xl">
+              <view class="border-1 rounded-l-xl bg-white p-2 shadow-xl">
+                <u-icons type="left" size="25"></u-icons>
+              </view>
+              <view class="border-1 bg-white p-2 text-xl">100</view>
+              <view class="border-1 rounded-r-xl bg-white p-2 shadow-xl">
+                <u-icons type="right" size="25"></u-icons>
+              </view>
+            </view>
+          </view>
+        </view>
+
+        <!-- TODO: 拍照 -->
+        <button
+          class="photo mr-5 flex w-[150px] items-center justify-center gap-2 rounded-3xl bg-[#f9a647] text-white">
+          <view
+            class="flex h-[20px] w-[25px] items-center justify-center overflow-hidden">
+            <u-icons color="white" type="camera" size="30"></u-icons>
+          </view>
+          <view>提交</view>
+        </button>
       </view>
     </fui-animation>
   </view>
