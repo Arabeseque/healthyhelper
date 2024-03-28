@@ -164,6 +164,7 @@ function commonUploadFoodInfo(foodId: any) {
     success: (res: any) => {
       // console.log(res)
       showToast()
+
       ani(['fade'], true)
 
       setTimeout(() => {
@@ -263,25 +264,42 @@ function aniInput(mode: any, mask: any) {
   }, 80)
 }
 
-const foodName = ref('')
+const foodInputValue = ref({
+  foodName: '',
+  foodWeight: ''
+})
 function handleRecord() {
   uni.request({
-    url:
-      import.meta.env.VITE_BASE_API +
-      '/nutrition/search' +
-      '?query=' +
-      foodName.value,
-    method: 'GET',
-
-    success: (res: any) => {
-      console.log(res.data.data, 'search')
-
-      const data = res.data.data
-      // 获取 data第一个元素的key
-      const foodId = Object.keys(data)[0]
-      console.log(foodId, 'foodif')
-      commonUploadFoodInfo(foodId)
-    }
+    url: import.meta.env.VITE_BASE_API + '/record/foods',
+    method: 'POST',
+    data: [
+      {
+        userId: 1,
+        foodId: item.id,
+        recordTime: formatTime(new Date()),
+        danbai: item.danbai * percent,
+        danguchun: item.danguchun * percent,
+        gai: item.gai * percent,
+        huluobosu: item.huluobosu * percent,
+        jia: item.jia * percent,
+        lin: item.lin * percent,
+        mei: item.mei * percent,
+        meng: item.meng * percent,
+        na: item.na * percent,
+        reliang: item.reliang * percent,
+        tanshui: item.tanshui * percent,
+        tie: item.tie * percent,
+        tong: item.tong * percent,
+        va: item.va * percent,
+        vc: item.vc * percent,
+        ve: item.ve * percent,
+        xi: item.xi * percent,
+        xianwei: item.xianwei * percent,
+        xin: item.xin * percent,
+        yansuan: item.yansuan * percent
+      }
+    ],
+    success: (res: any) => {}
   })
 }
 
@@ -310,7 +328,16 @@ function uploadImage(tempFilePaths) {
       // JSON 处理
       // 上传内容
       const data = JSON.parse(uploadFileRes.data).data
+      // 为所有的 data 添加 count 字段为100
+      data.forEach((item) => {
+        item.count = 100
+      })
+
       analyseImageRes.value = data
+      // data.length === arr.length
+
+      // foodCountArr.value = Array(data.length).fill(100)
+
       console.log(data, 'data')
 
       // 显示图片 调用计算器
@@ -326,15 +353,87 @@ function uploadImage(tempFilePaths) {
         aniImage(['fade'], true)
         // 显示图片区域
       }, 800)
-
-      for (const item of data) {
-        commonUploadFoodInfo(item.id)
-      }
     },
     fail: (err) => {
       console.error(err)
     }
   })
+}
+
+function handleCountAdd(item: any) {
+  // console.log(item, 'Add')
+  analyseImageRes.value.forEach((element) => {
+    if (element.id === item.id) {
+      element.count += 5
+      // console.log(analyseImageRes.value, 'analyseImageRes')
+    }
+  })
+}
+
+function handleCountDown(item: any) {
+  analyseImageRes.value.forEach((element) => {
+    if (element.id === item.id) {
+      element.count -= 5
+    }
+  })
+}
+
+function handleUpload() {
+  // console.log('upload')
+  // console.log(analyseImageRes.value, 'analyseImageRes')
+
+  analyseImageRes.value.forEach((item) => {
+    const percent = item.count / 100
+
+    uni.request({
+      url: import.meta.env.VITE_BASE_API + '/record/foods',
+      method: 'POST',
+      data: [
+        {
+          userId: 1,
+          foodId: item.id,
+          recordTime: formatTime(new Date()),
+          danbai: item.danbai * percent,
+          danguchun: item.danguchun * percent,
+          gai: item.gai * percent,
+          huluobosu: item.huluobosu * percent,
+          jia: item.jia * percent,
+          lin: item.lin * percent,
+          mei: item.mei * percent,
+          meng: item.meng * percent,
+          na: item.na * percent,
+          reliang: item.reliang * percent,
+          tanshui: item.tanshui * percent,
+          tie: item.tie * percent,
+          tong: item.tong * percent,
+          va: item.va * percent,
+          vc: item.vc * percent,
+          ve: item.ve * percent,
+          xi: item.xi * percent,
+          xianwei: item.xianwei * percent,
+          xin: item.xin * percent,
+          yansuan: item.yansuan * percent
+        }
+      ],
+      success: (res: any) => {}
+    })
+  })
+
+  showToast()
+
+  // 显示图片 调用计算器
+  aniImage(['fade'], true)
+
+  if (showInput.value) {
+    aniInput(['fade'], true)
+  }
+
+  setTimeout(() => {
+    // 显示图片区域
+    if (!showAdvice.value) {
+      ani(['fade'], true)
+    }
+  }, 800)
 }
 </script>
 
@@ -478,15 +577,25 @@ function uploadImage(tempFilePaths) {
       :animationType="mode"
       :styles="styleInput"
       :show="showInput">
-      <view class="flex items-center justify-center">
-        <fui-input
-          label="食品"
-          borderTop
-          v-model="foodName"
-          placeholder="输入食品的名称"></fui-input>
-        <fui-button width="60px" background="#f9a647" @click="handleRecord">
-          添加
-        </fui-button>
+      <view class="flex flex-col gap-2 pb-8">
+        <view class="flex items-center justify-center">
+          <fui-input
+            label="食品"
+            borderTop
+            v-model="foodInputValue.name"
+            placeholder="输入食品的名称"></fui-input>
+        </view>
+
+        <view class="flex items-center justify-center">
+          <fui-input
+            label="重量"
+            borderTop
+            v-model="foodInputValue.foodWeight"
+            placeholder="输入食品的重量"></fui-input>
+          <fui-button width="60px" background="#f9a647" @click="handleRecord">
+            添加
+          </fui-button>
+        </view>
       </view>
     </fui-animation>
 
@@ -496,13 +605,13 @@ function uploadImage(tempFilePaths) {
       :animationType="mode"
       :styles="styleImage"
       :show="showImage">
-      <view class="flex flex-col items-center justify-center">
+      <view class="flex flex-col items-center justify-center pb-20">
         <image
           lazy-load="true"
           :src="uploadImageSrc"
           class="h-60 w-60 rounded-xl shadow-md"></image>
 
-        <view class="flex flex-col pt-4">
+        <view class="flex flex-col gap-2 pt-4">
           <view
             class="flex items-center justify-end gap-4 pr-4 opacity-90"
             :key="item.id"
@@ -510,11 +619,17 @@ function uploadImage(tempFilePaths) {
             <view>{{ item.name }}</view>
             <view
               class="flex items-center justify-center gap-1 rounded-xl shadow-xl">
-              <view class="border-1 rounded-l-xl bg-white p-2 shadow-xl">
+              <view
+                class="border-1 rounded-l-xl bg-white p-2 shadow-xl"
+                @click="handleCountDown(item)">
                 <u-icons type="left" size="25"></u-icons>
               </view>
-              <view class="border-1 bg-white p-2 text-xl">100</view>
-              <view class="border-1 rounded-r-xl bg-white p-2 shadow-xl">
+              <view class="border-1 bg-white p-2 text-xl">
+                {{ item.count }}
+              </view>
+              <view
+                class="border-1 rounded-r-xl bg-white p-2 shadow-xl"
+                @click="handleCountAdd(item)">
                 <u-icons type="right" size="25"></u-icons>
               </view>
             </view>
@@ -523,11 +638,8 @@ function uploadImage(tempFilePaths) {
 
         <!-- TODO: 拍照 -->
         <button
-          class="photo mr-5 flex w-[150px] items-center justify-center gap-2 rounded-3xl bg-[#f9a647] text-white">
-          <view
-            class="flex h-[20px] w-[25px] items-center justify-center overflow-hidden">
-            <u-icons color="white" type="camera" size="30"></u-icons>
-          </view>
+          @click="handleUpload"
+          class="photo mr-14 mt-5 flex w-[150px] items-center justify-center gap-2 rounded-3xl bg-[#f9a647] text-white">
           <view>提交</view>
         </button>
       </view>
