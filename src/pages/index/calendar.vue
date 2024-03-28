@@ -65,7 +65,7 @@
     <view
         class="box-border flex w-full flex-col gap-4 rounded-xl bg-white p-4 shadow-md">
         <!-- Header -->
-        <view class="py-1">我的目标</view>
+        <view class="py-1">我的记录</view>
 
         <!-- 分割线 -->
         <view class="border opacity-10"></view>
