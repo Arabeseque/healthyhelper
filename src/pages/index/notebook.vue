@@ -12,7 +12,7 @@ function getTodayRecord(userId: number) {
     method: 'GET',
     header: {},
     success: (res: any) => {
-      console.log(res.data.data, 'getTodayRecord')
+      // console.log(res.data.data, 'getTodayRecord')
       todayRecord.value = res.data.data
     }
   })
@@ -58,6 +58,7 @@ init()
 
         <view>
           <view class="flex flex-col gap-2">
+            <!-- 早餐 -->
             <view class="flex items-center justify-between">
               <span>早餐</span>
               <span class="text-sm opacity-60">
@@ -72,120 +73,86 @@ init()
                 color="#d07c6c" />
             </view>
           </view>
-        </view>
-      </view>
 
-      <view class="p-1.5"></view>
+          <view class="p-1.5"></view>
 
-      <view class="flex justify-between">
-        <view
-          class="box-border flex w-[48%] flex-col gap-4 rounded-xl bg-white p-4 shadow-md">
-          <!-- Header -->
-          <view class="py-2">🐶 晚餐</view>
-
-          <!-- 分割线 -->
-          <view class="border opacity-10"></view>
-
-          <!-- List 早餐 午餐 晚餐 -->
-
-          <view>
-            <view class="flex flex-col gap-2">
-              <view class="flex items-center justify-between">
-                <span>能量</span>
-                <span class="text-sm opacity-60">
-                  {{ todayRecord.dinner }}/550千卡
-                </span>
-              </view>
-              <view class="pt-2">
-                <progress
-                  :percent="progressDinner"
-                  stroke-width="15"
-                  border-radius="6"
-                  color="#f9a647" />
-              </view>
-            </view>
+          <!-- 午餐 -->
+          <view class="flex items-center justify-between">
+            <!-- Header -->
+            <span>午餐</span>
+            <!-- 分割线 -->
+            <span class="text-sm opacity-60">
+              {{ todayRecord.lunch }}/549千卡
+            </span>
           </view>
-        </view>
+          <view class="pt-2">
+            <progress
+              :percent="progressLunch"
+              stroke-width="15"
+              border-radius="6"
+              color="#d07c6c" />
+          </view>
 
-        <view
-          class="box-border flex w-[48%] flex-col gap-4 rounded-xl bg-white p-4 shadow-md">
-          <!-- Header -->
-          <view class="py-2">🦊 午餐</view>
+          <view class="p-1.5"></view>
 
-          <!-- 分割线 -->
-          <view class="border opacity-10"></view>
-
-          <!-- List 早餐 午餐 晚餐 -->
-
-          <view>
-            <view class="flex flex-col gap-2">
-              <view class="flex items-center justify-between">
-                <span>能量</span>
-                <span class="text-sm opacity-60">
-                  {{ todayRecord.lunch }}/549千卡
-                </span>
-              </view>
-              <view class="pt-2">
-                <progress
-                  :percent="progressLunch"
-                  stroke-width="15"
-                  border-radius="6"
-                  color="#185864" />
-              </view>
-            </view>
+          <!-- 晚餐 -->
+          <view class="flex items-center justify-between">
+            <!-- Header -->
+            <span>晚餐</span>
+            <!-- 分割线 -->
+            <span class="text-sm opacity-60">
+              {{ todayRecord.dinner }}/550千卡
+            </span>
+          </view>
+          <view class="pt-2">
+            <progress
+              :percent="progressDinner"
+              stroke-width="15"
+              border-radius="6"
+              color="#d07c6c" />
           </view>
         </view>
       </view>
 
-      <view class="p-1.5"></view>
-
-      <!-- 营养摄入 -->
-      <view
-        class="box-border flex w-full flex-col gap-4 rounded-xl bg-white p-4 shadow-md">
-        <!-- Header -->
-        <view class="py-2">🐶 空间时间</view>
-
-        <!-- 分割线 -->
-        <view class="border opacity-10"></view>
-
-        <!-- List 早餐 午餐 晚餐 -->
-
-        <view>
-          <view class="flex flex-col gap-2">
-            <view class="flex items-center justify-between">
-              <span>能量</span>
-              <span class="text-sm opacity-60">
-                {{ todayRecord.snacks }}/300千卡
-              </span>
-            </view>
-            <view class="pt-2">
-              <progress
-                :percent="progressSnacks"
-                stroke-width="15"
-                border-radius="6"
-                color="#e2dbd0" />
-            </view>
-          </view>
-        </view>
-      </view>
-
-      <view class="p-1.5"></view>
+      <view class="py-2"></view>
 
       <!-- 更多 -->
       <view
         class="box-border flex w-full flex-col gap-4 rounded-xl bg-white p-4 shadow-md">
         <!-- Header -->
-        <view class="py-2">图表分析</view>
+        <view class="py-1">变化曲线</view>
 
         <!-- 分割线 -->
         <view class="border opacity-10"></view>
 
-        <!-- List 早餐 午餐 晚餐 -->
+        <view class="uni-margin-wrap">
+          <swiper
+            class="swiper"
+            circular
+            :indicator-dots="indicatorDots"
+            :autoplay="autoplay"
+            :interval="interval"
+            :duration="duration">
+            <swiper-item>
+              <Pie />
+            </swiper-item>
+            <swiper-item>
+              <Pie />
+            </swiper-item>
+            <swiper-item>
+              <Pie />
+            </swiper-item>
+          </swiper>
+        </view>
 
-        <Pie />
+        <!-- <Pie /> -->
       </view>
     </view>
   </view>
 </template>
 
-<style scoped></style>
+<style scoped>
+.swiper {
+  height: 300px;
+}
+</style>

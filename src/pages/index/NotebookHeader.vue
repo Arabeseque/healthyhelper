@@ -66,7 +66,7 @@
       </view>
     </view>
 
-    <view class="py-2"></view>
+    <!-- <view class="py-2"></view> -->
 
     <!-- <Overview /> -->
   </view>
@@ -90,7 +90,7 @@ function getTableData(params: any) {
     },
     success: (res) => {
       summaryData.value = res.data.data
-      console.log(summaryData.value, 'summaryData')
+      // console.log(summaryData.value, 'summaryData')
     }
   })
 }
@@ -107,7 +107,7 @@ function getRecommodTableData(params: any) {
     },
     success: (res) => {
       recommendData.value = res.data.data
-      console.log(recommendData.value, 'recommendData')
+      // console.log(recommendData.value, 'recommendData')
     }
   })
 }
