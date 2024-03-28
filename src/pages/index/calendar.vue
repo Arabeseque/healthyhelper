@@ -1,6 +1,7 @@
 <template>
-  <view>
-    <view class="calendar-wrapper mx-2" style="border-radius: 5%">
+  <view class="bg-[#9dc9b6] px-3 py-2 shadow-xl">
+    <!-- 日历 -->
+    <view class="calendar-wrapper mx-2" style="border-radius:20px">
       <view class="header" v-if="headerBar">
         <view class="preWidth" @click="changeMonth('pre')">
           <view class="pre"></view>
@@ -56,6 +57,42 @@
           v-if="!collapsible"></image>
       </view> -->
     </view>
+
+    <!-- 分割 -->
+    <view class="py-2"></view>
+
+    <!-- 目标 -->
+    <view
+        class="box-border flex w-full flex-col gap-4 rounded-xl bg-white p-4 shadow-md">
+        <!-- Header -->
+        <view class="py-1">我的目标</view>
+
+        <!-- 分割线 -->
+        <view class="border opacity-10"></view>
+
+        <view class="uni-margin-wrap">
+          <swiper
+            class="swiper"
+            circular
+            :indicator-dots="indicatorDots"
+            :autoplay="autoplay"
+            :interval="interval"
+            :duration="duration">
+            <swiper-item>
+              <Pie />
+            </swiper-item>
+            <swiper-item>
+              <Pie />
+            </swiper-item>
+            <swiper-item>
+              <Pie />
+            </swiper-item>
+          </swiper>
+        </view>
+
+        <!-- <Pie /> -->
+      </view>
+
   </view>
 </template>
 
@@ -72,7 +109,7 @@ export default {
     markDays: {
       type: Array,
       default: () => {
-        return []
+        return ["2024-03-27"]
       }
     },
     // 是否展开
@@ -308,10 +345,10 @@ export default {
 
 <style lang="scss" scoped>
 .calendar-wrapper {
-  color: #fff;
+  color: #222;
   font-size: 28rpx;
   text-align: center;
-  background-color: rgb(157,201,182);
+  background-color: #fff;
   padding-bottom: 10rpx;
   // box-shadow: 0 45rpx rgba(157,201,182, 0.32);
   .header {
@@ -322,9 +359,11 @@ export default {
     color: #fff;
     font-size: 32rpx;
     font-weight: bold;
+    background-color:rgb(69, 190, 137) ;
+    border-radius:20px 20px 0 0;
     .preWidth,
     .nextWidth {
-      background: rgba(157,201,182, 0.3);
+      // background: rgba(157,201,182, 0.3);
       width: 40rpx;
       height: 40rpx;
       padding: 10rpx;
@@ -391,12 +430,13 @@ export default {
           }
 
           &.nolm {
-            color: #fff;
+            color: #333;
             opacity: 0.3;
           }
         }
         .isWorkDay {
-          color: #fff;
+          // color: #fff;
+          color:#222
         }
         .notSigned {
           font-style: normal;
@@ -426,12 +466,12 @@ export default {
         }
         .markDay {
           font-style: normal;
-          width: 8rpx;
-          height: 8rpx;
+          width: 10rpx;
+          height: 10rpx;
           background: #fc7a64;
           border-radius: 10rpx;
           position: absolute;
-          left: 50%;
+          left: 45%;
           bottom: 0;
           pointer-events: none;
         }
