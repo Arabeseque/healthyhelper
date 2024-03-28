@@ -45,6 +45,18 @@
       "style": {
         "navigationBarTitleText": "添加记录"
       }
+    },
+    {
+      "path":"pages/Notebook/targetInfo",
+      "style":{
+        "navigationBarTitleText": "目标清单"
+      }
+    },
+    {
+      "path":"pages/Notebook/weightInfo",
+      "style":{
+        "navigationBarTitleText": "体重"
+      }
     }
   ],
   "globalStyle": {

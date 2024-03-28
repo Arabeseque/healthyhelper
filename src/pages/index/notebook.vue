@@ -18,6 +18,7 @@ function getTodayRecord(userId: number) {
   })
 }
 
+// 计算
 const progressBreakfast = computed(() => {
   return (todayRecord.value.breakfast / 300) * 100
 })
@@ -33,6 +34,12 @@ const progressDinner = computed(() => {
 const progressSnacks = computed(() => {
   return (todayRecord.value.snacks / 300) * 100
 })
+
+function toWeightInfo(){
+  uni.navigateTo({
+    url:`../../pages/Notebook/weightInfo`
+  })
+}
 
 function init() {
   getTodayRecord(1)
@@ -133,7 +140,7 @@ init()
             :autoplay="autoplay"
             :interval="interval"
             :duration="duration">
-            <swiper-item>
+            <swiper-item @click="toWeightInfo">
               <Pie />
             </swiper-item>
             <swiper-item>

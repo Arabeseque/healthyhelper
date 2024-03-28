@@ -11,8 +11,10 @@
     </view>
 
     <view class="py-2"></view>
+
+    <!-- 目标圆环 -->
     <view
-      class="box-border flex w-full justify-between gap-4 rounded-xl bg-white p-4 shadow-md">
+      class="box-border flex w-full justify-between gap-4 rounded-xl bg-white px-4 shadow-md" @click="toTargetInfo">
       <view class="w-[48%]">
         <SemiBar />
       </view>
@@ -27,7 +29,7 @@
               {{ summaryData.danbai }}
             </span>
             <span class="p-1 text-sm opacity-60">
-              / {{ recommendData.danbai }}
+              / {{ planData.danbai }}
             </span>
 
             <span class="text-xs text-stone-700">g</span>
@@ -42,7 +44,7 @@
               {{ summaryData.zhifang }}
             </span>
             <span class="p-1 text-sm opacity-60">
-              / {{ recommendData.zhifang }}
+              / {{ planData.zhifang }}
             </span>
 
             <span class="text-xs text-stone-700">g</span>
@@ -57,7 +59,7 @@
               {{ summaryData.tanshui }}
             </span>
             <span class="p-1 text-sm opacity-60">
-              / {{ recommendData.tanshui }}
+              / {{ planData.tanshui }}
             </span>
 
             <span class="text-xs text-stone-700">g</span>
@@ -95,8 +97,8 @@ function getTableData(params: any) {
   })
 }
 
-const recommendData = ref({})
-function getRecommodTableData(params: any) {
+const planData = ref({})
+function getPlanTableData(params: any) {
   uni.request({
     url: import.meta.env.VITE_BASE_API + params.url,
     method: params.method,
@@ -106,15 +108,21 @@ function getRecommodTableData(params: any) {
         'eyJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_6tWKi5NUrJScgwN8dANDXYNUtJRSq0oULIyNDc0Mjc0Mzc21FEqLU4t8kwBqjJUgnDyEnNTgVxjI6VaAGZDjc1BAAAA.YSX3JxTTNMAV8tub28sOB_TIZsNxx6pVVN7EmQVB-OXTk-kHmTZ_hqH0Ph--V7FLVhVOT2wrGdZp6QgTOcdK6A' // 自定义请求头信息
     },
     success: (res) => {
-      recommendData.value = res.data.data
-      // console.log(recommendData.value, 'recommendData')
+      planData.value = res.data.data
+      // console.log(planData.value, 'planData')
     }
   })
 }
 
+function toTargetInfo(){
+  uni.navigateTo({
+    url:`../../pages/Notebook/targetInfo`
+  })
+}
+
 // sum of remommendData
-// const recommendTotal = computed(() => {
-//   return Object.values(recommendData.value).reduce((acc, cur) => acc + cur, 0)
+// const planTotal = computed(() => {
+//   return Object.values(planData.value).reduce((acc, cur) => acc + cur, 0)
 // })
 
 getTableData({
@@ -122,8 +130,8 @@ getTableData({
   method: 'GET'
 })
 
-getRecommodTableData({
-  url: '/user/bestNutrition/1',
+getPlanTableData({
+  url: '/user/plan/1',
   method: 'GET'
 })
 </script>
