@@ -1,12 +1,14 @@
 <template>
   <view class="bg-[#9dc9b6] px-3 py-2 shadow-xl">
     <!-- 日历 -->
-    <view class="calendar-wrapper mx-2" style="border-radius:20px">
+    <view class="calendar-wrapper mx-2" style="border-radius: 20px">
       <view class="header" v-if="headerBar">
         <view class="preWidth" @click="changeMonth('pre')">
           <view class="pre"></view>
         </view>
-        <view style="padding-top:10px">{{ y + '年' + formatNum(m) + '月' }}</view>
+        <view style="padding-top: 10px">
+          {{ y + '年' + formatNum(m) + '月' }}
+        </view>
         <view class="nextWidth" @click="changeMonth('next')">
           <view class="next"></view>
         </view>
@@ -61,42 +63,91 @@
     <!-- 分割 -->
     <view class="py-2"></view>
 
-    <!-- 目标 -->
+    <!-- 我的记录 -->
     <view
-        class="box-border flex w-full flex-col gap-4 rounded-xl bg-white p-4 shadow-md">
-        <!-- Header -->
-        <view class="py-1">我的记录</view>
+      class="box-border flex w-full flex-col gap-4 rounded-xl bg-white p-4 shadow-md">
+      <!-- Header -->
 
-        <!-- 分割线 -->
-        <view class="border opacity-10"></view>
-
-        <view class="uni-margin-wrap">
-          <swiper
-            class="swiper"
-            circular
-            :indicator-dots="indicatorDots"
-            :autoplay="autoplay"
-            :interval="interval"
-            :duration="duration">
-            <swiper-item>
-              <Pie />
-            </swiper-item>
-            <swiper-item>
-              <Pie />
-            </swiper-item>
-            <swiper-item>
-              <Pie />
-            </swiper-item>
-          </swiper>
+      <!-- 目标圆环 -->
+      <!-- <view
+        class="box-border flex w-full justify-between gap-4 rounded-xl bg-white px-4 shadow-md"
+        >
+        <view class="w-[20%]">
+          <SemiBar2 />
         </view>
+        <view
+          class="flex flex-col items-center justify-center gap-2 pr-8 text-black">
+          <view class="flex gap-2">
+            <view class="flex items-center justify-between">
+              <image
+                src="https://api.iconify.design/ph:bowl-food-fill.svg?color=%2373c0de"
+                class="h-6 w-6 pr-1"></image>
+              <span class="text-sm font-bold opacity-60">
+                蛋白质
+              </span>
+              <span class="p-1 text-sm opacity-60">
+                / {{ planData.danbai }}
+              </span>
 
-        <!-- <Pie /> -->
+              <span class="text-xs text-stone-700">g</span>
+            </view>
+          </view>
+          <view class="flex gap-2">
+            <view class="flex items-center justify-between">
+              <image
+                src="https://api.iconify.design/material-symbols:local-fire-department-rounded.svg?color=%23df4242"
+                class="h-6 w-6 pr-1"></image>
+              <span class="text-sm font-bold opacity-60">
+                脂肪
+              </span>
+              <span class="p-1 text-sm opacity-60">
+                / {{ planData.zhifang }}
+              </span>
+
+              <span class="text-xs text-stone-700">g</span>
+            </view>
+          </view>
+          <view class="flex gap-2">
+            <view class="flex items-center justify-between">
+              <image
+                src="https://api.iconify.design/fluent:food-24-filled.svg?color=%23fac858"
+                class="h-6 w-6 pr-1"></image>
+              <span class="text-sm font-bold opacity-60">
+                碳水
+              </span>
+              <span class="p-1 text-sm opacity-60">
+                / {{ planData.tanshui }}
+              </span>
+
+              <span class="text-xs text-stone-700">g</span>
+            </view>
+          </view>
+        </view>
+      </view> -->
+
+      <!-- 分割线 -->
+      <view class="border opacity-10"></view>
+      <view class="uni-margin-wrap">
+        <ul>
+          <li>
+            <view>茶水</view>
+            <view>重量:17g</view>
+            <view>热量:5000千卡</view>
+            <view>蛋白:81g</view>
+            <view>脂肪:13</view>
+          </li>
+          <li></li>
+        </ul>
       </view>
 
+      <!-- <Pie /> -->
+    </view>
   </view>
 </template>
 
 <script>
+import SemiBar2 from '@/components/notebook/SemiBar.vue'
+
 export default {
   name: 'ren-calendar',
   props: {
@@ -106,12 +157,13 @@ export default {
       default: 0
     },
     // 标记的日期
-    markDays: {
-      type: Array,
-      default: () => {
-        return ["2024-03-27"]
-      }
-    },
+    // markDays: {
+    //   type: Array,
+    //   default: () => {
+    //     return ['2024-03-27', '2024-03-29']
+    //   }
+    // default:this.recordDays
+    // },
     // 是否展开
     open: {
       type: Boolean,
@@ -139,6 +191,11 @@ export default {
       choose: '',
       headerBar: true, // 月份切换按钮,
       // collapsible:true //展开按钮
+
+      //有记录的天数
+      recordDays: [],
+      //当天记录
+      todayData: []
     }
   },
   created() {
@@ -147,6 +204,8 @@ export default {
   },
   mounted() {
     this.choose = this.getToday().date
+    this.getDateData()
+    this.getTodayData()
   },
   computed: {
     // 顶部星期栏
@@ -251,9 +310,9 @@ export default {
     // 标记日期
     isMarkDay(y, m, d) {
       let flag = false
-      for (let i = 0; i < this.markDays.length; i++) {
+      for (let i = 0; i < this.recordDays.length; i++) {
         let dy = `${y}-${m}-${d}`
-        if (this.markDays[i] == dy) {
+        if (this.recordDays[i] == dy) {
           flag = true
           break
         }
@@ -314,6 +373,7 @@ export default {
         this.$emit('onDayClick', response)
       }
       console.log(response)
+      // console.log(event)
     },
     //改变年月
     changYearMonth(y, m) {
@@ -338,6 +398,31 @@ export default {
         }
       }
       this.dates = this.monthDay(this.y, this.m)
+    },
+
+    // 获取日期数据
+    getDateData() {
+      uni.request({
+        url: import.meta.env.VITE_BASE_API + '/record/dates/1',
+        method: 'GET',
+        header: {},
+        success: (res) => {
+          this.recordDays = res.data.data
+          // console.log(this.recordDays)
+        }
+      })
+    },
+
+    //获取当天食物
+    getTodayData() {
+      uni.request({
+        url: import.meta.env.VITE_BASE_API + `/record/nutrition/1/2024-02-18`,
+        method: 'GET',
+        header: {},
+        success: (res) => {
+          this.todayData = res.data.data
+        }
+      })
     }
   }
 }
@@ -359,8 +444,8 @@ export default {
     color: #fff;
     font-size: 32rpx;
     font-weight: bold;
-    background-color:rgb(69, 190, 137) ;
-    border-radius:20px 20px 0 0;
+    background-color: rgb(69, 190, 137);
+    border-radius: 20px 20px 0 0;
     .preWidth,
     .nextWidth {
       // background: rgba(157,201,182, 0.3);
@@ -436,7 +521,7 @@ export default {
         }
         .isWorkDay {
           // color: #fff;
-          color:#222
+          color: #222;
         }
         .notSigned {
           font-style: normal;

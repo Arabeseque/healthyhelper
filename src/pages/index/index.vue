@@ -508,7 +508,7 @@ function handleUpload() {
                     @click="handleEating"
                     href="#"
                     class="inline-flex items-center rounded-lg bg-orange-400 px-3 py-2 text-center text-sm font-bold text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    就吃这个!
+                    换一个
                   </a>
                 </view>
               </view>
