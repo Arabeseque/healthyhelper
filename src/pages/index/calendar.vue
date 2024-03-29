@@ -71,29 +71,41 @@
       <!-- 分割线 -->
       <view class="border opacity-10"></view>
       <view class="uni-margin-wrap" v-if="this.flag == 1">
-        <ul v-for="(items,index) in this.todayData" :key="index" class="divide-y divide-slate-200" >
-          <li class="flex justify-between ">
+        <ul
+          v-for="(items, index) in this.todayData"
+          :key="index"
+          class="divide-y divide-slate-200">
+          <li class="flex justify-between">
             <view>
               <view>{{ items.foodName }}</view>
-              <view style="font-size:12px;color:#666">{{items.zhongliang}}g</view>
+              <view style="font-size: 12px; color: #666">
+                {{ items.zhongliang }}g
+              </view>
             </view>
-            <view class="pt-1.5" style="font-size:14px;color:#666">{{items.reliang}}千卡</view>
+            <view class="pt-1.5" style="font-size: 14px; color: #666">
+              {{ items.reliang }}千卡
+            </view>
           </li>
           <view class="py-1"></view>
         </ul>
       </view>
 
-      <view class="uni-margin-wrap" v-if="this.flag == 0">
-        没有记录
-      </view>
-
+      <view class="uni-margin-wrap" v-if="this.flag == 0">没有记录</view>
       <!-- <Pie /> -->
+    </view>
+
+    <view class="py-2"></view>
+
+    <view
+      class="box-border flex w-full flex-col gap-4 rounded-xl bg-white p-4 shadow-md">
+      <view class="charts-box">
+        <qiun-data-charts type="column" :opts="opts" :chartData="chartData" />
+      </view>
     </view>
   </view>
 </template>
 
 <script>
-
 export default {
   name: 'ren-calendar',
   props: {
@@ -142,10 +154,61 @@ export default {
       recordDays: [],
       //当天记录
       todayData: [],
+
       //要查询的日期
-      daySearch:"",
-      flag:""
+      daySearch: '',
+
+      //判断当天有没有数据
+      flag: '',
+      
+      //获取计划量
+      planData:"",
+
+      // 柱状图计划量数据
+      pillarPlan:[],
+
+      // ------------------------柱状图----------------------------
+      chartData: {},
+      //您可以通过修改 config-ucharts.js 文件中下标为 ['column'] 的节点来配置全局默认参数，如都是默认参数，此处可以不传 opts 。实际应用过程中 opts 只需传入与全局默认参数中不一致的【某一个属性】即可实现同类型的图表显示不同的样式，达到页面简洁的需求。
+      opts: {
+        color: [
+          '#1890FF',
+          '#91CB74',
+          '#FAC858',
+          '#EE6666',
+          '#73C0DE',
+          '#3CA272',
+          '#FC8452',
+          '#9A60B4',
+          '#ea7ccc'
+        ],
+        padding: [15, 15, 0, 5],
+        enableScroll: false,
+        legend: {},
+        xAxis: {
+          disableGrid: true
+        },
+        yAxis: {
+          data: [
+            {
+              min: 0
+            }
+          ]
+        },
+        extra: {
+          column: {
+            type: 'group',
+            width: 30,
+            activeBgColor: '#000000',
+            activeBgOpacity: 0.08
+          }
+        }
+      }
     }
+  },
+  onReady() {
+    // 柱状图
+    this.getServerData()
   },
   created() {
     this.dates = this.monthDay(this.y, this.m)
@@ -156,6 +219,7 @@ export default {
     this.daySearch = this.getToday().date
     this.getDateData()
     this.getTodayData()
+    this.getPlanData()
   },
   computed: {
     // 顶部星期栏
@@ -326,6 +390,7 @@ export default {
       this.daySearch = response.date
       this.getTodayData()
       // console.log(event)
+      this.getServerData()
     },
     //改变年月
     changYearMonth(y, m) {
@@ -368,17 +433,58 @@ export default {
     //获取当天食物
     getTodayData() {
       uni.request({
-        url: import.meta.env.VITE_BASE_API + `/record/nutrition/1/` + this.daySearch,
+        url:
+          import.meta.env.VITE_BASE_API +
+          `/record/nutrition/1/` +
+          this.daySearch,
         method: 'GET',
         header: {},
         success: (res) => {
           this.todayData = res.data.data
-          if(this.todayData == "该用户还没有记录") this.flag = 0
+          if (this.todayData == '该用户还没有记录') this.flag = 0
           else this.flag = 1
           // console.log(this.flag)
         }
       })
-    }
+    },
+     //获取计划量
+     getPlanData() {
+      uni.request({
+        url:
+          import.meta.env.VITE_BASE_API +`/user/plan/1`,
+        method: 'GET',
+        header: {},
+        success: (res) => {
+          this.planData = res.data.data
+          this.pillarPlan.push(res.data.data.danbai)
+          this.pillarPlan.push(res.data.data.zhifang)
+          this.pillarPlan.push(res.data.data.tanshui)
+
+          // console.log(this.pillarPlan)
+        }
+      })
+    },
+    // ----------------柱状图------------------------
+    getServerData() {
+      //模拟从服务器获取数据时的延时
+      setTimeout(() => {
+        //模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接
+        let res = {
+          categories: ['蛋白质', '脂肪', '碳水'],
+          series: [
+            {
+              name: '当天量',
+              data: [70,70,100]//this.todayData 
+            },
+            {
+              name: '计划量',
+              data: this.pillarPlan 
+            }
+          ]
+        }
+        this.chartData = JSON.parse(JSON.stringify(res))
+      }, 500)
+    },
   }
 }
 </script>
