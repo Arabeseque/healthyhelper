@@ -35,9 +35,17 @@ const progressSnacks = computed(() => {
   return (todayRecord.value.snacks / 300) * 100
 })
 
+// 前往体重详情
 function toWeightInfo(){
   uni.navigateTo({
     url:`../../pages/Notebook/weightInfo`
+  })
+}
+
+// 前往一日三餐详情
+function toDayInfo(){
+  uni.navigateTo({
+    url:`../../pages/Notebook/dayInfo`
   })
 }
 
@@ -54,7 +62,7 @@ init()
 
     <view class="bg-[#9dc9b6] px-3 py-2 shadow-xl">
       <view
-        class="box-border flex w-full flex-col gap-4 rounded-xl bg-white p-4 shadow-md">
+        class="box-border flex w-full flex-col gap-4 rounded-xl bg-white p-4 shadow-md" @click="toDayInfo">
         <!-- Header -->
         <view class="py-2">🍐 一日三餐</view>
 
@@ -141,10 +149,10 @@ init()
             :interval="interval"
             :duration="duration">
             <swiper-item @click="toWeightInfo">
-              <Pie />
+              <Pie class="justify-center flex" />
             </swiper-item>
             <swiper-item>
-              <Pie />
+            <Pie />
             </swiper-item>
             <swiper-item>
               <Pie />

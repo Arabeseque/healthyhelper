@@ -57,6 +57,12 @@
       "style":{
         "navigationBarTitleText": "体重"
       }
+    },
+    {
+      "path":"pages/Notebook/dayInfo",
+      "style":{
+        "navigationBarTitleText": "一日三餐"
+      }
     }
   ],
   "globalStyle": {
