@@ -269,37 +269,82 @@ const foodInputValue = ref({
   foodWeight: ''
 })
 function handleRecord() {
+  const percent = foodInputValue.value.foodWeight / 100
+  // nutrition/search
   uni.request({
-    url: import.meta.env.VITE_BASE_API + '/record/foods',
-    method: 'POST',
-    data: [
-      {
-        userId: 1,
-        foodId: item.id,
-        recordTime: formatTime(new Date()),
-        danbai: item.danbai * percent,
-        danguchun: item.danguchun * percent,
-        gai: item.gai * percent,
-        huluobosu: item.huluobosu * percent,
-        jia: item.jia * percent,
-        lin: item.lin * percent,
-        mei: item.mei * percent,
-        meng: item.meng * percent,
-        na: item.na * percent,
-        reliang: item.reliang * percent,
-        tanshui: item.tanshui * percent,
-        tie: item.tie * percent,
-        tong: item.tong * percent,
-        va: item.va * percent,
-        vc: item.vc * percent,
-        ve: item.ve * percent,
-        xi: item.xi * percent,
-        xianwei: item.xianwei * percent,
-        xin: item.xin * percent,
-        yansuan: item.yansuan * percent
+    url: import.meta.env.VITE_BASE_API + '/nutrition/search',
+    method: 'GET',
+    data: {
+      query: foodInputValue.value.foodName
+    },
+    success: (res: any) => {
+      console.log(res.data.data)
+      if (res.data.data.length === 0) {
+        return
       }
-    ],
-    success: (res: any) => {}
+
+      const itemKey = Object.keys(res.data.data)[0]
+      const itemName = res.data.data[itemKey]
+      console.log(itemName, 'itemName')
+      // 根据Id获取 item 信息
+
+      // /nutrition/food
+      uni.request({
+        url: import.meta.env.VITE_BASE_API + `/nutrition/food`,
+        method: 'GET',
+        data: {
+          foodName: itemName
+        },
+        success: (res: any) => {
+          const item = res.data.data
+          console.log(item, 'item')
+
+          uni.request({
+            url: import.meta.env.VITE_BASE_API + '/record/foods',
+            method: 'POST',
+            data: [
+              {
+                userId: 1,
+                foodId: item.id,
+                recordTime: formatTime(new Date()),
+                danbai: item.danbai * percent,
+                danguchun: item.danguchun * percent,
+                gai: item.gai * percent,
+                huluobosu: item.huluobosu * percent,
+                jia: item.jia * percent,
+                lin: item.lin * percent,
+                mei: item.mei * percent,
+                meng: item.meng * percent,
+                na: item.na * percent,
+                reliang: item.reliang * percent,
+                tanshui: item.tanshui * percent,
+                tie: item.tie * percent,
+                tong: item.tong * percent,
+                va: item.va * percent,
+                vc: item.vc * percent,
+                ve: item.ve * percent,
+                xi: item.xi * percent,
+                xianwei: item.xianwei * percent,
+                xin: item.xin * percent,
+                yansuan: item.yansuan * percent
+              }
+            ],
+            success: (res: any) => {
+              // console.log(res)
+              showToast()
+
+              aniInput(['fade'], true)
+
+              setTimeout(() => {
+                if (!showAdvice.value) {
+                  ani(['fade'], true)
+                }
+              }, 800)
+            }
+          })
+        }
+      })
+    }
   })
 }
 
@@ -582,7 +627,7 @@ function handleUpload() {
           <fui-input
             label="食品"
             borderTop
-            v-model="foodInputValue.name"
+            v-model="foodInputValue.foodName"
             placeholder="输入食品的名称"></fui-input>
         </view>
 
