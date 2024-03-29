@@ -8,7 +8,6 @@
     }
   },
   "pages": [
-    
     {
       "path": "pages/index/index",
       "style": {}
@@ -17,7 +16,10 @@
       "path": "pages/index/record",
       "style": {}
     },
-
+    {
+      "path": "pages/advice/index",
+      "style": {}
+    },
     {
       "path": "pages/index/notebook",
       "style": {}
@@ -31,7 +33,7 @@
     {
       "path": "pages/login/index",
       "style": {
-        "navigationBarTitleText": "我的"
+        "navigationBarTitleText": "登录"
       }
     },
     {
@@ -47,18 +49,19 @@
       }
     },
     {
-      "path":"pages/Notebook/targetInfo",
-      "style":{
+      "path": "pages/Notebook/targetInfo",
+      "style": {
         "navigationBarTitleText": "目标清单"
       }
     },
     {
-      "path":"pages/Notebook/weightInfo",
-      "style":{
+      "path": "pages/Notebook/weightInfo",
+      "style": {
         "navigationBarTitleText": "体重"
       }
     },
     {
+<<<<<<< HEAD
       "path":"pages/Notebook/heatInfo",
       "style":{
         "navigationBarTitleText": "热量"
@@ -67,6 +70,10 @@
     {
       "path":"pages/Notebook/dayInfo",
       "style":{
+=======
+      "path": "pages/Notebook/dayInfo",
+      "style": {
+>>>>>>> fa2d526 (feat: backup)
         "navigationBarTitleText": "一日三餐"
       }
     }
