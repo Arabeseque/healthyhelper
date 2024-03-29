@@ -2,7 +2,12 @@
 import NotebookHeader from './NotebookHeader.vue'
 // import { getTableDataApi } from '@/api/table'
 // import RoundArea from '@/components/notebook/RoundArea.vue'
-import Pie from '@/components/notebook/Pie.vue'
+
+//体重曲线
+import Line from '@/components/notebook/Line.vue'
+// 热量曲线
+import heatPie from '@/components/notebook/heatLine.vue';
+
 
 const todayRecord = ref()
 // 今日营养元素各类总和
@@ -149,18 +154,17 @@ init()
             :interval="interval"
             :duration="duration">
             <swiper-item @click="toWeightInfo">
-              <Pie class="justify-center flex" />
+              <Line class="justify-center flex" />
             </swiper-item>
             <swiper-item>
-            <Pie />
+            <Line />
             </swiper-item>
             <swiper-item>
-              <Pie />
+              <Line />
             </swiper-item>
           </swiper>
         </view>
 
-        <!-- <Pie /> -->
       </view>
     </view>
   </view>

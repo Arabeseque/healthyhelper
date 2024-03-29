@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import uIcons from '@dcloudio/uni-ui/lib/uni-icons/uni-icons.vue'
 import Popup from '@/components/index/Popup.vue'
-import Pie from '@/components/notebook/Pie.vue'
+import Line from '@/components/notebook/Line.vue'
 
 function chooseMedia() {
   uni.chooseMedia({
@@ -591,7 +591,7 @@ function handleUpload() {
             <view class="flex justify-between">
               <view class="py-2 text-xl font-bold">图表</view>
             </view>
-            <Pie></Pie>
+            <Line></Line>
           </view>
         </swiper-item>
       </swiper>
