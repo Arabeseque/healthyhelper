@@ -147,7 +147,7 @@ function formatTime(date: Date) {
 }
 
 const curPage = ref(0) // 当前页面
-function commonUploadFoodInfo(foodId: any) {
+function commonUploadFoodInfo(foodId: any, type: string) {
   const now = new Date()
   const formattedTime = formatTime(now)
   uni.request({
@@ -166,24 +166,59 @@ function commonUploadFoodInfo(foodId: any) {
       // console.log(res)
       showToast()
 
-      ani(['fade'], true)
+      if (type === 'food') {
+        ani(['fade'], true)
 
-      setTimeout(() => {
-        if (curPage.value < recommandData.value.length - 1) {
-          curPage.value++
-          renderData.value = recommandData.value[curPage.value]
-        } else {
-          curPage.value = 0
-          renderData.value = recommandData.value[curPage.value]
-        }
-        showAdvice.value = !showAdvice.value
-      }, 300)
+        setTimeout(() => {
+          if (curPage.value < recommandData.value.length - 1) {
+            curPage.value++
+            renderData.value = recommandData.value[curPage.value]
+          } else {
+            curPage.value = 0
+            renderData.value = recommandData.value[curPage.value]
+          }
+          showAdvice.value = !showAdvice.value
+        }, 300)
+      } else {
+        aniFruit(['fade'], true)
+        setTimeout(() => {
+          if (curPage.value < recommandDataFruit.value.length - 1) {
+            curPage.value++
+            renderDataFruit.value = recommandDataFruit.value[curPage.value]
+          } else {
+            curPage.value = 0
+            renderDataFruit.value = recommandDataFruit.value[curPage.value]
+          }
+          showAdviceFruit.value = !showAdviceFruit.value
+        }, 300)
+      }
     }
   })
 }
 
+function aniFruit(mode: any, mask: any) {
+  // if (mask) {
+  //   adviceModalStylesFruit.value.backgroundColor = 'rgba(0,0,0,0.6)'
+  // } else {
+  //   adviceModalStylesFruit.value.backgroundColor = 'rgba(0,0,0,0)'
+  // }
+  setTimeout(() => {
+    mode.value = mode
+    showAdviceFruit.value = !showAdviceFruit.value
+  }, 80)
+
+  setTimeout(() => {
+    // if (cur < total) {
+    // }
+  }, 300)
+}
+
 function handleEating() {
-  commonUploadFoodInfo(recommandData.value[curPage.value].foodId)
+  commonUploadFoodInfo(recommandData.value[curPage.value].foodId, 'food')
+}
+
+function handleEatingFruit() {
+  commonUploadFoodInfo(recommandDataFruit.value[curPage.value].foodId, 'fruit')
 }
 
 const toast = ref()
@@ -481,14 +516,105 @@ function handleUpload() {
     }
   }, 800)
 }
+
+// TODO: renderDataFruit
+const renderDataFruit = ref()
+const showAdviceFruit = ref(true)
+const progressZhifangFruit = computed(() => {
+  if (!recommandInfo.value.zhifang || !renderDataFruit.value.zhifang) {
+    return 0
+  }
+  return (renderDataFruit.value.zhifang / recommandInfo.value.zhifang) * 100
+})
+const progressDanbaiFruit = computed(() => {
+  if (!recommandInfo.value.danbai || !renderDataFruit.value.danbai) {
+    return 0
+  }
+  return (renderDataFruit.value.danbai / recommandInfo.value.danbai) * 100
+})
+const progressTanshuiFruit = computed(() => {
+  if (!recommandInfo.value.tanshui || !renderDataFruit.value.tanshui) {
+    return 0
+  }
+  return (renderDataFruit.value.tanshui / recommandInfo.value.tanshui) * 100
+})
+
+const adviceModalStylesFruit = ref({
+  // width
+  width: '100%',
+  // height
+  height: '350px'
+})
+
+const recommandDataFruit = ref({
+  danbai: 0,
+  danguchun: 0,
+  foodId: 0,
+  gai: 0,
+  huluobosu: 0,
+  id: 0,
+  jia: 0,
+  lin: 0,
+  mei: 0,
+  meng: 0,
+  na: 0,
+  name: '',
+  recordTime: '',
+  reliang: 0,
+  tanshui: 0,
+  tie: 0,
+  tong: 0,
+  userId: 0,
+  va: 0,
+  vc: 0,
+  ve: 0,
+  xi: 0,
+  xianwei: 0,
+  xin: 0,
+  yansuan: 0
+})
+
+async function getRecommodDataFruit() {
+  // analyse/recommand/1/2023-05-10
+  // const date = new Date().toLocaleDateString()
+  // 获取当前日期
+  const date = new Date()
+
+  // 获取年、月、日
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+
+  // 格式化日期
+  const formattedDate = `${year}-${month}-${day}`
+  const testFormattedDate = '2024-03-21'
+  uni.request({
+    url:
+      import.meta.env.VITE_BASE_API +
+      `/analyse/recommand/fruit/1/${testFormattedDate}`,
+    method: 'GET',
+    success: (res: any) => {
+      // console.log(res.data.data)
+      recommandDataFruit.value = res.data.data
+      if (!recommandData.value) {
+        return
+      }
+      renderDataFruit.value = recommandDataFruit.value[0]
+      // console.log(renderData.value, 'renderData')
+    }
+  })
+}
+
+getRecommodDataFruit()
 </script>
 
 <template>
   <view class="container flex h-[100vh] flex-col" blurEffect="light">
     <fui-toast ref="toast"></fui-toast>
 
-    <view>
+    <view class="pt-36">
       <swiper circular class="h-96">
+        <!-- normal -->
         <swiper-item>
           <fui-animation
             :duration="500"
@@ -578,6 +704,107 @@ function handleUpload() {
                       stroke-width="15"
                       border-radius="6"
                       activeColor="#e2dbd0" />
+                  </view>
+                </view>
+              </view>
+            </view>
+          </fui-animation>
+        </swiper-item>
+        <!-- TODO: fruit -->
+        <swiper-item>
+          <fui-animation
+            :duration="500"
+            :animationType="mode"
+            :show="showAdviceFruit"
+            :styles="adviceModalStylesFruit">
+            <view
+              v-if="renderDataFruit"
+              class="fruitContainer m-4 box-border flex w-full flex-col gap-4 rounded-xl p-4 shadow-md">
+              <!-- Header -->
+              <view class="flex justify-between">
+                <view class="py-2 text-xl font-bold">
+                  {{ renderDataFruit.name }}
+                </view>
+
+                <view>
+                  <a
+                    @click="handleEatingFruit"
+                    href="#"
+                    class="inline-flex items-center rounded-lg bg-[#ffaf2d] px-3 py-2 text-center text-sm font-bold text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    就吃这个!
+                  </a>
+                </view>
+              </view>
+              <view class="text-xs text-stone-800">
+                健康助手根据个人营养计划生成
+              </view>
+
+              <!-- 分割线 -->
+              <view class="border opacity-10"></view>
+
+              <!-- List 早餐 午餐 晚餐 -->
+
+              <view>
+                <view class="flex flex-col gap-2">
+                  <view class="flex items-center justify-between">
+                    <span>热量</span>
+                    <span class="text-sm opacity-60">
+                      <span v-if="renderDataFruit.reliang">
+                        {{ renderDataFruit.reliang }}
+                      </span>
+                      /
+                      <span v-if="recommandInfo.zhifang">
+                        {{ recommandInfo.zhifang }}
+                      </span>
+                      千卡
+                    </span>
+                  </view>
+                  <view class="pt-2">
+                    <progress
+                      :percent="progressZhifangFruit"
+                      stroke-width="15"
+                      border-radius="6"
+                      activeColor="#037f8f" />
+                  </view>
+                </view>
+                <view
+                  class="flex flex-col gap-2"
+                  v-if="renderDataFruit.danbai && recommandInfo.danbai">
+                  <view class="flex items-center justify-between">
+                    <span>蛋白</span>
+                    <span class="text-sm opacity-60">
+                      <span class="text-sm opacity-60">
+                        {{ renderDataFruit.danbai }}/{{
+                          recommandInfo.danbai
+                        }}千卡
+                      </span>
+                    </span>
+                  </view>
+                  <view class="pt-2">
+                    <progress
+                      :percent="progressDanbaiFruit"
+                      stroke-width="15"
+                      border-radius="6"
+                      activeColor="#94b7c6" />
+                  </view>
+                </view>
+                <view
+                  class="flex flex-col gap-2"
+                  v-if="renderDataFruit.tanshui && recommandInfo.tanshui">
+                  <view class="flex items-center justify-between">
+                    <span>碳水</span>
+                    <span class="text-sm opacity-60">
+                      {{ renderDataFruit.tanshui }}/{{
+                        recommandInfo.tanshui
+                      }}千卡
+                    </span>
+                  </view>
+                  <view class="pt-2">
+                    <progress
+                      :percent="progressTanshuiFruit"
+                      stroke-width="15"
+                      border-radius="6"
+                      activeColor="#037f8f" />
                   </view>
                 </view>
               </view>
@@ -712,7 +939,7 @@ function handleUpload() {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-image: url('https://images.pexels.com/photos/2049422/pexels-photo-2049422.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+  background-image: url('https://images.pexels.com/photos/302457/pexels-photo-302457.jpeg?auto=compress&cs=tinysrgb&w=400');
 }
 
 video {
@@ -725,5 +952,13 @@ video {
   height: auto;
   z-index: -100;
   transform: translateX(-50%) translateY(-50%);
+}
+
+.fruitContainer {
+  background-image: url('https://images.pexels.com/photos/1028598/pexels-photo-1028598.jpeg?auto=compress&cs=tinysrgb&w=600');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.9;
 }
 </style>
