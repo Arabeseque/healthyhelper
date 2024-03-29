@@ -5,7 +5,6 @@
 </template>
 
 <script setup>
-
 const opts = ref({
   color: [
     '#1890FF',
@@ -46,7 +45,7 @@ function getTableData(params) {
     data: params.params ? params.params : {},
     header: {
       token:
-        'eyJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_6tWKi5NUrJScgwN8dANDXYNUtJRSq0oULIyNDc0Mjc0Mzc21FEqLU4t8kwBqjJUgnDyEnNTgVxjI6VaAGZDjc1BAAAA.YSX3JxTTNMAV8tub28sOB_TIZsNxx6pVVN7EmQVB-OXTk-kHmTZ_hqH0Ph--V7FLVhVOT2wrGdZp6QgTOcdK6A' //自定义请求头信息
+        'eyJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_6tWKi5NUrJScgwN8dANDXYNUtJRSq0oULIyNDc0Mjc0Mzc21FEqLU4t8kwBqjJUgnDyEnNTgVxjI6VaAGZDjc1BAAAA.YSX3JxTTNMAV8tub28sOB_TIZsNxx6pVVN7EmQVB-OXTk-kHmTZ_hqH0Ph--V7FLVhVOT2wrGdZp6QgTOcdK6A' // 自定义请求头信息
     },
     success: (res) => {
       if (!res.data.data) return
@@ -81,6 +80,6 @@ getTableData({
 <style scoped>
 .charts-box {
   width: 100%;
-  height: 300px;
+  /* height: 300px; */
 }
 </style>

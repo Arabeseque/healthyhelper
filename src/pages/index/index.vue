@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import uIcons from '@dcloudio/uni-ui/lib/uni-icons/uni-icons.vue'
 import Popup from '@/components/index/Popup.vue'
+import Pie from '@/components/notebook/Pie.vue'
 
 function chooseMedia() {
   uni.chooseMedia({
@@ -487,99 +488,113 @@ function handleUpload() {
     <fui-toast ref="toast"></fui-toast>
 
     <view>
-      <fui-animation
-        :duration="500"
-        :animationType="mode"
-        :show="showAdvice"
-        :styles="adviceModalStyles">
-        <view
-          v-if="renderData"
-          class="m-4 box-border flex w-full flex-col gap-4 rounded-xl bg-white p-4 opacity-90 shadow-md">
-          <!-- Header -->
-          <view class="flex justify-between">
-            <view class="py-2 text-xl font-bold">
-              {{ renderData.name }}
-            </view>
-            <view>
-              <a
-                @click="handleEating"
-                href="#"
-                class="inline-flex items-center rounded-lg bg-orange-400 px-3 py-2 text-center text-sm font-bold text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                就吃这个!
-              </a>
-            </view>
-          </view>
-          <view class="text-xs text-stone-800">
-            健康助手根据个人营养计划生成
-          </view>
-
-          <!-- 分割线 -->
-          <view class="border opacity-10"></view>
-
-          <!-- List 早餐 午餐 晚餐 -->
-
-          <view>
-            <view class="flex flex-col gap-2">
-              <view class="flex items-center justify-between">
-                <span>脂肪</span>
-                <span class="text-sm opacity-60">
-                  <span v-if="renderData.zhifang">
-                    {{ renderData.zhifang }}
-                  </span>
-                  /
-                  <span v-if="recommandInfo.zhifang">
-                    {{ recommandInfo.zhifang }}
-                  </span>
-                  千卡
-                </span>
-              </view>
-              <view class="pt-2">
-                <progress
-                  :percent="progressZhifang"
-                  stroke-width="15"
-                  border-radius="6"
-                  activeColor="#185864" />
-              </view>
-            </view>
+      <swiper circular class="h-96">
+        <swiper-item>
+          <fui-animation
+            :duration="500"
+            :animationType="mode"
+            :show="showAdvice"
+            :styles="adviceModalStyles">
             <view
-              class="flex flex-col gap-2"
-              v-if="renderData.danbai && recommandInfo.danbai">
-              <view class="flex items-center justify-between">
-                <span>蛋白</span>
-                <span class="text-sm opacity-60">
-                  <span class="text-sm opacity-60">
-                    {{ renderData.danbai }}/{{ recommandInfo.danbai }}千卡
-                  </span>
-                </span>
+              v-if="renderData"
+              class="m-4 box-border flex w-full flex-col gap-4 rounded-xl bg-white p-4 opacity-90 shadow-md">
+              <!-- Header -->
+              <view class="flex justify-between">
+                <view class="py-2 text-xl font-bold">
+                  {{ renderData.name }}
+                </view>
+                <view>
+                  <a
+                    @click="handleEating"
+                    href="#"
+                    class="inline-flex items-center rounded-lg bg-orange-400 px-3 py-2 text-center text-sm font-bold text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    就吃这个!
+                  </a>
+                </view>
               </view>
-              <view class="pt-2">
-                <progress
-                  :percent="progressDanbai"
-                  stroke-width="15"
-                  border-radius="6"
-                  activeColor="#f9a647" />
+              <view class="text-xs text-stone-800">
+                健康助手根据个人营养计划生成
+              </view>
+
+              <!-- 分割线 -->
+              <view class="border opacity-10"></view>
+
+              <!-- List 早餐 午餐 晚餐 -->
+
+              <view>
+                <view class="flex flex-col gap-2">
+                  <view class="flex items-center justify-between">
+                    <span>脂肪</span>
+                    <span class="text-sm opacity-60">
+                      <span v-if="renderData.zhifang">
+                        {{ renderData.zhifang }}
+                      </span>
+                      /
+                      <span v-if="recommandInfo.zhifang">
+                        {{ recommandInfo.zhifang }}
+                      </span>
+                      千卡
+                    </span>
+                  </view>
+                  <view class="pt-2">
+                    <progress
+                      :percent="progressZhifang"
+                      stroke-width="15"
+                      border-radius="6"
+                      activeColor="#185864" />
+                  </view>
+                </view>
+                <view
+                  class="flex flex-col gap-2"
+                  v-if="renderData.danbai && recommandInfo.danbai">
+                  <view class="flex items-center justify-between">
+                    <span>蛋白</span>
+                    <span class="text-sm opacity-60">
+                      <span class="text-sm opacity-60">
+                        {{ renderData.danbai }}/{{ recommandInfo.danbai }}千卡
+                      </span>
+                    </span>
+                  </view>
+                  <view class="pt-2">
+                    <progress
+                      :percent="progressDanbai"
+                      stroke-width="15"
+                      border-radius="6"
+                      activeColor="#f9a647" />
+                  </view>
+                </view>
+                <view
+                  class="flex flex-col gap-2"
+                  v-if="renderData.tanshui && recommandInfo.tanshui">
+                  <view class="flex items-center justify-between">
+                    <span>碳水</span>
+                    <span class="text-sm opacity-60">
+                      {{ renderData.tanshui }}/{{ recommandInfo.tanshui }}千卡
+                    </span>
+                  </view>
+                  <view class="pt-2">
+                    <progress
+                      :percent="progressTanshui"
+                      stroke-width="15"
+                      border-radius="6"
+                      activeColor="#e2dbd0" />
+                  </view>
+                </view>
               </view>
             </view>
-            <view
-              class="flex flex-col gap-2"
-              v-if="renderData.tanshui && recommandInfo.tanshui">
-              <view class="flex items-center justify-between">
-                <span>碳水</span>
-                <span class="text-sm opacity-60">
-                  {{ renderData.tanshui }}/{{ recommandInfo.tanshui }}千卡
-                </span>
-              </view>
-              <view class="pt-2">
-                <progress
-                  :percent="progressTanshui"
-                  stroke-width="15"
-                  border-radius="6"
-                  activeColor="#e2dbd0" />
-              </view>
+          </fui-animation>
+        </swiper-item>
+        <swiper-item>
+          <view
+            class="m-4 box-border flex w-[90%] flex-col gap-4 rounded-xl bg-white p-4 opacity-90 shadow-md">
+            <!-- Header -->
+            <view class="flex justify-between">
+              <view class="py-2 text-xl font-bold">图表</view>
             </view>
+            <Pie></Pie>
           </view>
-        </view>
-      </fui-animation>
+        </swiper-item>
+      </swiper>
     </view>
 
     <view class="flex-auto"></view>
