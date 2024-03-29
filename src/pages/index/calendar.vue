@@ -68,76 +68,23 @@
       class="box-border flex w-full flex-col gap-4 rounded-xl bg-white p-4 shadow-md">
       <!-- Header -->
 
-      <!-- 目标圆环 -->
-      <!-- <view
-        class="box-border flex w-full justify-between gap-4 rounded-xl bg-white px-4 shadow-md"
-        >
-        <view class="w-[20%]">
-          <SemiBar2 />
-        </view>
-        <view
-          class="flex flex-col items-center justify-center gap-2 pr-8 text-black">
-          <view class="flex gap-2">
-            <view class="flex items-center justify-between">
-              <image
-                src="https://api.iconify.design/ph:bowl-food-fill.svg?color=%2373c0de"
-                class="h-6 w-6 pr-1"></image>
-              <span class="text-sm font-bold opacity-60">
-                蛋白质
-              </span>
-              <span class="p-1 text-sm opacity-60">
-                / {{ planData.danbai }}
-              </span>
-
-              <span class="text-xs text-stone-700">g</span>
-            </view>
-          </view>
-          <view class="flex gap-2">
-            <view class="flex items-center justify-between">
-              <image
-                src="https://api.iconify.design/material-symbols:local-fire-department-rounded.svg?color=%23df4242"
-                class="h-6 w-6 pr-1"></image>
-              <span class="text-sm font-bold opacity-60">
-                脂肪
-              </span>
-              <span class="p-1 text-sm opacity-60">
-                / {{ planData.zhifang }}
-              </span>
-
-              <span class="text-xs text-stone-700">g</span>
-            </view>
-          </view>
-          <view class="flex gap-2">
-            <view class="flex items-center justify-between">
-              <image
-                src="https://api.iconify.design/fluent:food-24-filled.svg?color=%23fac858"
-                class="h-6 w-6 pr-1"></image>
-              <span class="text-sm font-bold opacity-60">
-                碳水
-              </span>
-              <span class="p-1 text-sm opacity-60">
-                / {{ planData.tanshui }}
-              </span>
-
-              <span class="text-xs text-stone-700">g</span>
-            </view>
-          </view>
-        </view>
-      </view> -->
-
       <!-- 分割线 -->
       <view class="border opacity-10"></view>
-      <view class="uni-margin-wrap">
-        <ul>
-          <li>
-            <view>茶水</view>
-            <view>重量:17g</view>
-            <view>热量:5000千卡</view>
-            <view>蛋白:81g</view>
-            <view>脂肪:13</view>
+      <view class="uni-margin-wrap" v-if="this.flag == 1">
+        <ul v-for="(items,index) in this.todayData" :key="index" class="divide-y divide-slate-200" >
+          <li class="flex justify-between ">
+            <view>
+              <view>{{ items.foodName }}</view>
+              <view style="font-size:12px;color:#666">{{items.zhongliang}}g</view>
+            </view>
+            <view class="pt-1.5" style="font-size:14px;color:#666">{{items.reliang}}千卡</view>
           </li>
-          <li></li>
+          <view class="py-1"></view>
         </ul>
+      </view>
+
+      <view class="uni-margin-wrap" v-if="this.flag == 0">
+        没有记录
       </view>
 
       <!-- <Pie /> -->
@@ -146,7 +93,6 @@
 </template>
 
 <script>
-import SemiBar2 from '@/components/notebook/SemiBar.vue'
 
 export default {
   name: 'ren-calendar',
@@ -195,7 +141,10 @@ export default {
       //有记录的天数
       recordDays: [],
       //当天记录
-      todayData: []
+      todayData: [],
+      //要查询的日期
+      daySearch:"",
+      flag:""
     }
   },
   created() {
@@ -204,6 +153,7 @@ export default {
   },
   mounted() {
     this.choose = this.getToday().date
+    this.daySearch = this.getToday().date
     this.getDateData()
     this.getTodayData()
   },
@@ -372,7 +322,9 @@ export default {
         this.choose = date
         this.$emit('onDayClick', response)
       }
-      console.log(response)
+      // console.log(response.date)
+      this.daySearch = response.date
+      this.getTodayData()
       // console.log(event)
     },
     //改变年月
@@ -416,11 +368,14 @@ export default {
     //获取当天食物
     getTodayData() {
       uni.request({
-        url: import.meta.env.VITE_BASE_API + `/record/nutrition/1/2024-02-18`,
+        url: import.meta.env.VITE_BASE_API + `/record/nutrition/1/` + this.daySearch,
         method: 'GET',
         header: {},
         success: (res) => {
           this.todayData = res.data.data
+          if(this.todayData == "该用户还没有记录") this.flag = 0
+          else this.flag = 1
+          // console.log(this.flag)
         }
       })
     }

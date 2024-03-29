@@ -6,7 +6,7 @@ import NotebookHeader from './NotebookHeader.vue'
 //体重曲线
 import Line from '@/components/notebook/Line.vue'
 // 热量曲线
-import heatPie from '@/components/notebook/heatLine.vue';
+import heatLine from '@/components/notebook/heatLine.vue';
 
 
 const todayRecord = ref()
@@ -47,12 +47,20 @@ function toWeightInfo(){
   })
 }
 
+//前往热量详情
+function toHeatInfo(){
+  uni.navigateTo({
+    url:`../../pages/Notebook/heatInfo`
+  })
+}
+
 // 前往一日三餐详情
 function toDayInfo(){
   uni.navigateTo({
     url:`../../pages/Notebook/dayInfo`
   })
 }
+
 
 function init() {
   getTodayRecord(1)
@@ -156,12 +164,12 @@ init()
             <swiper-item @click="toWeightInfo">
               <Line class="justify-center flex" />
             </swiper-item>
-            <swiper-item>
-            <Line />
+            <swiper-item @click="toHeatInfo">
+            <heatLine class="justify-center flex" />
             </swiper-item>
-            <swiper-item>
+            <!-- <swiper-item>
               <Line />
-            </swiper-item>
+            </swiper-item> -->
           </swiper>
         </view>
 

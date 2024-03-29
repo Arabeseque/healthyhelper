@@ -14,9 +14,9 @@
 
     <!-- 目标圆环 -->
     <view
-      class="box-border flex w-full justify-between gap-4 rounded-xl bg-white px-4 shadow-md">
+      class="box-border flex w-full justify-between gap-4 rounded-xl bg-white px-4 shadow-md" @click="toTargetInfo">
       <view class="w-[48%]">
-        <SemiBar2 />
+        <SemiBar />
       </view>
       <view
         class="flex flex-col items-center justify-center gap-2 pr-8 text-black">
@@ -26,10 +26,10 @@
               src="https://api.iconify.design/ph:bowl-food-fill.svg?color=%2373c0de"
               class="h-6 w-6 pr-1"></image>
             <span class="text-sm font-bold opacity-60">
-              蛋白
+              {{ summaryData.danbai }}
             </span>
             <span class="p-1 text-sm opacity-60">
-              / 蛋白
+              / {{ planData.danbai }}
             </span>
 
             <span class="text-xs text-stone-700">g</span>
@@ -41,10 +41,10 @@
               src="https://api.iconify.design/material-symbols:local-fire-department-rounded.svg?color=%23df4242"
               class="h-6 w-6 pr-1"></image>
             <span class="text-sm font-bold opacity-60">
-              脂肪
+              {{ summaryData.zhifang }}
             </span>
             <span class="p-1 text-sm opacity-60">
-              / 脂肪
+              / {{ planData.zhifang }}
             </span>
 
             <span class="text-xs text-stone-700">g</span>
@@ -56,10 +56,10 @@
               src="https://api.iconify.design/fluent:food-24-filled.svg?color=%23fac858"
               class="h-6 w-6 pr-1"></image>
             <span class="text-sm font-bold opacity-60">
-              碳水
+              {{ summaryData.tanshui }}
             </span>
             <span class="p-1 text-sm opacity-60">
-              碳水
+              / {{ planData.tanshui }}
             </span>
 
             <span class="text-xs text-stone-700">g</span>
@@ -75,7 +75,7 @@
 </template>
 
 <script setup lang="ts">
-import SemiBar2 from '@/components/notebook/SemiBar2.vue'
+import SemiBar from '@/components/notebook/SemiBar.vue'
 import Overview from './Overview.vue'
 import Demo from '@/components/model/Demo.vue'
 

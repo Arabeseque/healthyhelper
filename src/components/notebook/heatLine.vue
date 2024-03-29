@@ -38,41 +38,42 @@ const opts = ref({
 
 const chartData = ref()
 
-// function getTableData(params) {
-//   uni.request({
-//     url: import.meta.env.VITE_BASE_API + params.url,
-//     method: params.method,
-//     data: params.params ? params.params : {},
-//     header: {
-//       token:
-//         'eyJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_6tWKi5NUrJScgwN8dANDXYNUtJRSq0oULIyNDc0Mjc0Mzc21FEqLU4t8kwBqjJUgnDyEnNTgVxjI6VaAGZDjc1BAAAA.YSX3JxTTNMAV8tub28sOB_TIZsNxx6pVVN7EmQVB-OXTk-kHmTZ_hqH0Ph--V7FLVhVOT2wrGdZp6QgTOcdK6A' // 自定义请求头信息
-//     },
-//     success: (res) => {
-//       if (!res.data.data) return
+function getTableData(params) {
+  uni.request({
+    url: import.meta.env.VITE_BASE_API + params.url,
+    method: params.method,
+    data: params.params ? params.params : {},
+    header: {
+      token:
+        'eyJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_6tWKi5NUrJScgwN8dANDXYNUtJRSq0oULIyNDc0Mjc0Mzc21FEqLU4t8kwBqjJUgnDyEnNTgVxjI6VaAGZDjc1BAAAA.YSX3JxTTNMAV8tub28sOB_TIZsNxx6pVVN7EmQVB-OXTk-kHmTZ_hqH0Ph--V7FLVhVOT2wrGdZp6QgTOcdK6A' // 自定义请求头信息
+    },
+    success: (res) => {
+      if (!res.data.data) return
 
-//       chartData.value = {
-//         categories: Object.keys(res.data.data.slice(0, 7)).map((item) => {
-//           return (
-//             res.data.data[item].recordTime.split(' ')[0].split('-')[1] +
-//             '-' +
-//             res.data.data[item].recordTime.split(' ')[0].split('-')[2]
-//           )
-//         }),
-//         series: [
-//           {
-//             name: '体重',
-//             data: Object.keys(res.data.data.slice(0, 7)).map((item) => {
-//               return res.data.data[item].recordWeight
-//             })
-//           }
-//         ]
-//       }
-//     }
-//   })
-// }
+      chartData.value = {
+        categories: Object.keys(res.data.data.slice(0, 7)).map((item) => {
+          return (
+            res.data.data[item].date.split(' ')[0].split('-')[1] +
+            '-' +
+            res.data.data[item].date.split(' ')[0].split('-')[2]
+          )
+        }),
+        series: [
+          {
+            name: '热量',
+            data: Object.keys(res.data.data.slice(0, 7)).map((item) => {
+              return res.data.data[item].reliang
+            })
+          }
+        ]
+      }
+      console.log(res.data.data[item].reliang,"热量")
+    }
+  })
+}
 
 getTableData({
-  url: '/user/energys/1',
+  url: '/record/energys/1',
   method: 'GET'
 })
 </script>
