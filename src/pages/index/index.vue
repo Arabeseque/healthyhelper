@@ -719,7 +719,7 @@ getRecommodDataFruit()
             :styles="adviceModalStylesFruit">
             <view
               v-if="renderDataFruit"
-              class="m-4 box-border flex w-full flex-col gap-4 rounded-xl bg-[#dad6d6] p-4 opacity-90 shadow-md">
+              class="fruitContainer m-4 box-border flex w-full flex-col gap-4 rounded-xl p-4 shadow-md">
               <!-- Header -->
               <view class="flex justify-between">
                 <view class="py-2 text-xl font-bold">
@@ -952,5 +952,13 @@ video {
   height: auto;
   z-index: -100;
   transform: translateX(-50%) translateY(-50%);
+}
+
+.fruitContainer {
+  background-image: url('https://images.pexels.com/photos/1028598/pexels-photo-1028598.jpeg?auto=compress&cs=tinysrgb&w=600');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.9;
 }
 </style>
