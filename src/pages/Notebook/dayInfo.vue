@@ -1,7 +1,7 @@
 <template>
   <view>
     <view class="bg-[#9dc9b6] px-3 py-2 shadow-xl">
-        <view>{{ breakfast.value }}</view>
+      <view>{{ breakfast.value }}</view>
       <view>
         <!-- 三餐情况 -->
         <view
@@ -22,7 +22,10 @@
                 <span class="text-sm opacity-60" v-if="todayInfo[0] == 0">
                   未吃
                 </span>
-                <span class="text-sm opacity-60" v-if="todayInfo[0] == 1" style="color:aquamarine">
+                <span
+                  class="text-sm opacity-60"
+                  v-if="todayInfo[0] == 1"
+                  style="color: aquamarine">
                   已吃
                 </span>
               </view>
@@ -155,16 +158,14 @@
         </view>
 
         <view class="py-2"></view>
-      
       </view>
     </view>
   </view>
 </template>
 <script setup lang="ts">
-
 const todayRecord = ref()
-let todayInfo: infoArr[] = []
-let breakfast = ref()
+const todayInfo: infoArr[] = []
+const breakfast = ref()
 // let lunch = ref()
 // let dinner = ref()
 // let breakfastHeat = ref()
@@ -188,7 +189,7 @@ function getTodayRecord(params: any) {
       if (todayRecord.value.dinner == 0) todayInfo.push(0)
       else todayInfo.push(1)
 
-      //判断是否超标
+      // 判断是否超标
       if (todayRecord.value.breakfast >= 300) todayInfo.push(1)
       else todayInfo.push(0)
 
@@ -201,8 +202,8 @@ function getTodayRecord(params: any) {
       console.log(todayInfo[0])
       console.log(todayInfo)
 
-      breakfast.value = todayInfo[0];
-    //   console.log(breakfast.value)
+      breakfast.value = todayInfo[0]
+      //   console.log(breakfast.value)
     }
   })
 }

@@ -127,12 +127,12 @@ export default {
       type: Boolean,
       default: true
     },
-    //是否可收缩
+    // 是否可收缩
     // collapsible: {
     //   type: Boolean,
     //   default: true
     // },
-    //未来日期是否不可点击
+    // 未来日期是否不可点击
     disabledAfter: {
       type: Boolean,
       default: false
@@ -150,26 +150,26 @@ export default {
       headerBar: true, // 月份切换按钮,
       // collapsible:true //展开按钮
 
-      //有记录的天数
+      // 有记录的天数
       recordDays: [],
-      //当天记录
+      // 当天记录
       todayData: [],
 
-      //要查询的日期
+      // 要查询的日期
       daySearch: '',
 
-      //判断当天有没有数据
+      // 判断当天有没有数据
       flag: '',
-      
-      //获取计划量
-      planData:"",
+
+      // 获取计划量
+      planData: '',
 
       // 柱状图计划量数据
-      pillarPlan:[],
+      pillarPlan: [],
 
       // ------------------------柱状图----------------------------
       chartData: {},
-      //您可以通过修改 config-ucharts.js 文件中下标为 ['column'] 的节点来配置全局默认参数，如都是默认参数，此处可以不传 opts 。实际应用过程中 opts 只需传入与全局默认参数中不一致的【某一个属性】即可实现同类型的图表显示不同的样式，达到页面简洁的需求。
+      // 您可以通过修改 config-ucharts.js 文件中下标为 ['column'] 的节点来配置全局默认参数，如都是默认参数，此处可以不传 opts 。实际应用过程中 opts 只需传入与全局默认参数中不一致的【某一个属性】即可实现同类型的图表显示不同的样式，达到页面简洁的需求。
       opts: {
         color: [
           '#1890FF',
@@ -234,18 +234,18 @@ export default {
   },
   methods: {
     formatNum(num) {
-      let res = Number(num)
+      const res = Number(num)
       return res < 10 ? '0' + res : res
     },
     getToday() {
-      let date = new Date()
-      let y = date.getFullYear()
-      let m = date.getMonth()
-      let d = date.getDate()
-      let week = new Date().getDay()
-      let weekText = ['日', '一', '二', '三', '四', '五', '六']
-      let formatWeek = '星期' + weekText[week]
-      let today = {
+      const date = new Date()
+      const y = date.getFullYear()
+      const m = date.getMonth()
+      const d = date.getDate()
+      const week = new Date().getDay()
+      const weekText = ['日', '一', '二', '三', '四', '五', '六']
+      const formatWeek = '星期' + weekText[week]
+      const today = {
         date: y + '-' + this.formatNum(m + 1) + '-' + this.formatNum(d),
         week: formatWeek
       }
@@ -253,13 +253,13 @@ export default {
     },
     // 获取当前月份数据
     monthDay(y, month) {
-      let dates = []
-      let m = Number(month)
-      let firstDayOfMonth = new Date(y, m - 1, 1).getDay() // 当月第一天星期几
-      let lastDateOfMonth = new Date(y, m, 0).getDate() // 当月最后一天
-      let lastDayOfLastMonth = new Date(y, m - 2, 0).getDate() // 上一月的最后一天
-      let weekstart = this.weekstart == 7 ? 0 : this.weekstart
-      let startDay = (() => {
+      const dates = []
+      const m = Number(month)
+      const firstDayOfMonth = new Date(y, m - 1, 1).getDay() // 当月第一天星期几
+      const lastDateOfMonth = new Date(y, m, 0).getDate() // 当月最后一天
+      const lastDayOfLastMonth = new Date(y, m - 2, 0).getDate() // 上一月的最后一天
+      const weekstart = this.weekstart == 7 ? 0 : this.weekstart
+      const startDay = (() => {
         // 周初有几天是上个月的
         if (firstDayOfMonth == weekstart) {
           return 0
@@ -269,7 +269,7 @@ export default {
           return 7 - weekstart + firstDayOfMonth
         }
       })()
-      let endDay = 7 - ((startDay + lastDateOfMonth) % 7) // 结束还有几天是下个月的
+      const endDay = 7 - ((startDay + lastDateOfMonth) % 7) // 结束还有几天是下个月的
       for (let i = 1; i <= startDay; i++) {
         dates.push({
           date: this.formatNum(lastDayOfLastMonth - startDay + i),
@@ -284,7 +284,7 @@ export default {
           day: (j % 7) + firstDayOfMonth - 1 || 7,
           month: this.formatNum(m),
           year: y,
-          isCurM: true //是否当前月份
+          isCurM: true // 是否当前月份
         })
       }
       for (let k = 1; k <= endDay; k++) {
@@ -299,10 +299,10 @@ export default {
       return dates
     },
     isWorkDay(y, m, d) {
-      //是否工作日
-      let ymd = `${y}/${m}/${d}`
-      let formatDY = new Date(ymd.replace(/-/g, '/'))
-      let week = formatDY.getDay()
+      // 是否工作日
+      const ymd = `${y}/${m}/${d}`
+      const formatDY = new Date(ymd.replace(/-/g, '/'))
+      const week = formatDY.getDay()
       if (week == 0 || week == 6) {
         return false
       } else {
@@ -310,11 +310,11 @@ export default {
       }
     },
     isFutureDay(y, m, d) {
-      //是否未来日期
-      let ymd = `${y}/${m}/${d}`
-      let formatDY = new Date(ymd.replace(/-/g, '/'))
-      let showTime = formatDY.getTime()
-      let curTime = new Date().getTime()
+      // 是否未来日期
+      const ymd = `${y}/${m}/${d}`
+      const formatDY = new Date(ymd.replace(/-/g, '/'))
+      const showTime = formatDY.getTime()
+      const curTime = new Date().getTime()
       if (showTime > curTime) {
         return true
       } else {
@@ -325,7 +325,7 @@ export default {
     isMarkDay(y, m, d) {
       let flag = false
       for (let i = 0; i < this.recordDays.length; i++) {
-        let dy = `${y}-${m}-${d}`
+        const dy = `${y}-${m}-${d}`
         if (this.recordDays[i] == dy) {
           flag = true
           break
@@ -334,8 +334,8 @@ export default {
       return flag
     },
     isToday(y, m, d) {
-      let checkD = y + '-' + m + '-' + d
-      let today = this.getToday().date
+      const checkD = y + '-' + m + '-' + d
+      const today = this.getToday().date
       if (checkD == today) {
         return true
       } else {
@@ -360,14 +360,14 @@ export default {
     // },
     // 点击回调
     selectOne(i, event) {
-      let date = `${i.year}-${i.month}-${i.date}`
-      let selectD = new Date(date).getTime()
-      let curTime = new Date().getTime()
-      let week = new Date(date).getDay()
-      let weekText = ['日', '一', '二', '三', '四', '五', '六']
-      let formatWeek = '星期' + weekText[week]
-      let response = {
-        date: date,
+      const date = `${i.year}-${i.month}-${i.date}`
+      const selectD = new Date(date).getTime()
+      const curTime = new Date().getTime()
+      const week = new Date(date).getDay()
+      const weekText = ['日', '一', '二', '三', '四', '五', '六']
+      const formatWeek = '星期' + weekText[week]
+      const response = {
+        date,
         week: formatWeek
       }
       if (!i.isCurM) {
@@ -392,7 +392,7 @@ export default {
       // console.log(event)
       this.getServerData()
     },
-    //改变年月
+    // 改变年月
     changYearMonth(y, m) {
       this.dates = this.monthDay(y, m)
       this.y = y
@@ -430,7 +430,7 @@ export default {
       })
     },
 
-    //获取当天食物
+    // 获取当天食物
     getTodayData() {
       uni.request({
         url:
@@ -447,11 +447,10 @@ export default {
         }
       })
     },
-     //获取计划量
-     getPlanData() {
+    // 获取计划量
+    getPlanData() {
       uni.request({
-        url:
-          import.meta.env.VITE_BASE_API +`/user/plan/1`,
+        url: import.meta.env.VITE_BASE_API + `/user/plan/1`,
         method: 'GET',
         header: {},
         success: (res) => {
@@ -460,31 +459,31 @@ export default {
           this.pillarPlan.push(res.data.data.zhifang)
           this.pillarPlan.push(res.data.data.tanshui)
 
-          // console.log(this.pillarPlan)
+          // console.log(this.pillarPlan)a
         }
       })
     },
     // ----------------柱状图------------------------
     getServerData() {
-      //模拟从服务器获取数据时的延时
+      // 模拟从服务器获取数据时的延时
       setTimeout(() => {
-        //模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接
-        let res = {
+        // 模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接
+        const res = {
           categories: ['蛋白质', '脂肪', '碳水'],
           series: [
             {
               name: '当天量',
-              data: [70,70,100]//this.todayData 
+              data: [70, 70, 100] // this.todayData
             },
             {
               name: '计划量',
-              data: this.pillarPlan 
+              data: this.pillarPlan
             }
           ]
         }
         this.chartData = JSON.parse(JSON.stringify(res))
       }, 500)
-    },
+    }
   }
 }
 </script>
@@ -496,6 +495,7 @@ export default {
   text-align: center;
   background-color: #fff;
   padding-bottom: 10rpx;
+
   // box-shadow: 0 45rpx rgba(157,201,182, 0.32);
   .header {
     display: flex;
@@ -507,6 +507,7 @@ export default {
     font-weight: bold;
     background-color: rgb(69, 190, 137);
     border-radius: 20px 20px 0 0;
+
     .preWidth,
     .nextWidth {
       // background: rgba(157,201,182, 0.3);
@@ -515,6 +516,7 @@ export default {
       padding: 10rpx;
       margin: 0 20rpx;
     }
+
     .pre,
     .next {
       width: 0;
@@ -522,11 +524,13 @@ export default {
       border-top: 20rpx solid transparent;
       border-bottom: 20rpx solid transparent;
     }
+
     .pre {
       margin-right: 30rpx;
       border-right: 20rpx solid #fff;
       margin-right: 10rpx;
     }
+
     .next {
       margin-left: 30rpx;
       border-left: 20rpx solid #fff;
@@ -539,6 +543,7 @@ export default {
     align-items: center;
     height: 80rpx;
     line-height: 80rpx;
+
     view {
       flex: 1;
     }
@@ -548,6 +553,7 @@ export default {
     position: relative;
     overflow: hidden;
     transition: height 0.4s ease;
+
     .days {
       transition: top 0.3s;
       display: flex;
@@ -561,6 +567,7 @@ export default {
         height: 80rpx;
         line-height: 80rpx;
         width: calc(100% / 7);
+
         .day {
           font-style: normal;
           display: inline-block;
@@ -570,6 +577,7 @@ export default {
           line-height: 60rpx;
           overflow: hidden;
           border-radius: 60rpx;
+
           &.choose {
             background-color: #fe7379;
             color: #fff;
@@ -580,10 +588,12 @@ export default {
             opacity: 0.3;
           }
         }
+
         .isWorkDay {
           // color: #fff;
           color: #222;
         }
+
         .notSigned {
           font-style: normal;
           width: 8rpx;
@@ -595,10 +605,12 @@ export default {
           bottom: 0;
           pointer-events: none;
         }
+
         .today {
           color: #fff;
           background-color: #a8c0ff;
         }
+
         .workDay {
           font-style: normal;
           width: 8rpx;
@@ -610,6 +622,7 @@ export default {
           bottom: 0;
           pointer-events: none;
         }
+
         .markDay {
           font-style: normal;
           width: 10rpx;
@@ -628,11 +641,13 @@ export default {
   .hide {
     height: 80rpx !important;
   }
+
   .dropDown {
     width: 50rpx;
     height: 50rpx;
     background-color: #fc7a64;
   }
+
   // .weektoggle {
   //   width: 100rpx;
   //   height: 30rpx;

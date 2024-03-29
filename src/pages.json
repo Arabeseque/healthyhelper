@@ -61,19 +61,14 @@
       }
     },
     {
-<<<<<<< HEAD
-      "path":"pages/Notebook/heatInfo",
-      "style":{
+      "path": "pages/Notebook/heatInfo",
+      "style": {
         "navigationBarTitleText": "热量"
       }
     },
     {
-      "path":"pages/Notebook/dayInfo",
-      "style":{
-=======
       "path": "pages/Notebook/dayInfo",
       "style": {
->>>>>>> fa2d526 (feat: backup)
         "navigationBarTitleText": "一日三餐"
       }
     }
