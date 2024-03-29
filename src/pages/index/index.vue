@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import uIcons from '@dcloudio/uni-ui/lib/uni-icons/uni-icons.vue'
-import Popup from '@/components/index/Popup.vue'
 import Line from '@/components/notebook/Line.vue'
 
 function chooseMedia() {
@@ -18,7 +17,6 @@ function chooseMedia() {
   })
 }
 function takePhoto() {
-  console.log('takePhoto')
   uni.chooseMedia({
     count: 9,
     mediaType: ['image'],
@@ -87,6 +85,7 @@ async function getRecommodData() {
     success: (res: any) => {
       // console.log(res.data.data)
       recommandData.value = res.data.data
+      // console.log(res.data.data, 'returnData')
       if (!recommandData.value) {
         return
       }
@@ -130,9 +129,12 @@ async function getRecommodInfo() {
   })
 }
 
-async function init() {
-  await getRecommodData()
-  await getRecommodInfo()
+function init() {
+  getRecommodData()
+
+  getRecommodDataFruit()
+  getRecommodInfo()
+  // console.log(renderData.value, 'renderData')
 }
 
 function formatTime(date: Date) {
@@ -605,14 +607,29 @@ async function getRecommodDataFruit() {
   })
 }
 
-getRecommodDataFruit()
+function navigateToAdvice() {
+  uni.navigateTo({
+    url: '/pages/advice/index'
+  })
+}
 </script>
 
 <template>
   <view class="container flex h-[100vh] flex-col" blurEffect="light">
     <fui-toast ref="toast"></fui-toast>
+    <view>
+      <view
+        class="color-black flex items-center justify-center pt-20 text-3xl font-bold">
+        零卡生活
+      </view>
+      <!-- subtitle -->
+      <view
+        class="color-black flex items-center justify-center pt-2 text-xl font-bold">
+        为您提供健康饮食建议
+      </view>
+    </view>
 
-    <view class="pt-36">
+    <view class="pt-6">
       <swiper circular class="h-96">
         <!-- normal -->
         <swiper-item>
@@ -623,7 +640,8 @@ getRecommodDataFruit()
             :styles="adviceModalStyles">
             <view
               v-if="renderData"
-              class="m-4 box-border flex w-full flex-col gap-4 rounded-xl bg-white p-4 opacity-90 shadow-md">
+              @click="navigateToAdvice"
+              class="foodContainer m-4 box-border flex w-full flex-col gap-4 rounded-xl p-4 opacity-90 shadow-md">
               <!-- Header -->
               <view class="flex justify-between">
                 <view class="py-2 text-xl font-bold">
@@ -634,7 +652,11 @@ getRecommodDataFruit()
                     @click="handleEating"
                     href="#"
                     class="inline-flex items-center rounded-lg bg-orange-400 px-3 py-2 text-center text-sm font-bold text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+<<<<<<< HEAD
                     换一个
+=======
+                    换一个!
+>>>>>>> fa2d526 (feat: backup)
                   </a>
                 </view>
               </view>
@@ -713,6 +735,7 @@ getRecommodDataFruit()
         <!-- TODO: fruit -->
         <swiper-item>
           <fui-animation
+            @click="navigateToAdvice"
             :duration="500"
             :animationType="mode"
             :show="showAdviceFruit"
@@ -731,7 +754,7 @@ getRecommodDataFruit()
                     @click="handleEatingFruit"
                     href="#"
                     class="inline-flex items-center rounded-lg bg-[#ffaf2d] px-3 py-2 text-center text-sm font-bold text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    就吃这个!
+                    换一个!
                   </a>
                 </view>
               </view>
@@ -939,7 +962,7 @@ getRecommodDataFruit()
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-image: url('https://images.pexels.com/photos/302457/pexels-photo-302457.jpeg?auto=compress&cs=tinysrgb&w=400');
+  background-image: url('https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=400');
 }
 
 video {
@@ -956,6 +979,14 @@ video {
 
 .fruitContainer {
   background-image: url('https://images.pexels.com/photos/1028598/pexels-photo-1028598.jpeg?auto=compress&cs=tinysrgb&w=600');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.9;
+}
+
+.foodContainer {
+  background-image: url('https://images.pexels.com/photos/616401/pexels-photo-616401.jpeg?auto=compress&cs=tinysrgb&w=400');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
