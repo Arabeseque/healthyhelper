@@ -57,16 +57,6 @@
                 </view>
               </li>
               <view class="py-1"></view>
-              <li class="flex">
-                <view class="flex flex-none">疾病</view>
-                <view  class="flex flex-initial">
-                    <view class="px-2 flex flex-initial">糖尿病</view>
-                    <view class="px-2 flex flex-initial">糖尿病</view>
-                    <view class="px-2 flex flex-initial">糖尿病</view>
-                    <view class="px-2 flex flex-initial">糖尿病</view>
-                    <view class="px-2 flex flex-initial">糖尿病</view>
-                </view>
-              </li>
             </ul>
           </view>
         </view>
@@ -75,12 +65,43 @@
        <!-- 我的数据 -->
         <view>
             <view class="m3 p-3">我的数据</view>
-            <view class="py-1"></view>
-            <view>
-                <view class="m-3 box-border rounded-xl bg-white p-3 w-1/4">
+            <!-- <view class="py-1"></view> -->
+            <view class="flex">
+                <view class="m-3 box-border rounded-xl bg-white p-3 w-1/4 flex-1">
                     <view class="icon">标</view>
-                    <view class="mt-6 ">1</view>
+                    <view class="mt-8 text-xl">1</view>
+                    <view class="text-xs py-1">体重记录<span>/天</span></view>
                 </view>
+                <view class="m-3 box-border rounded-xl bg-white p-3 w-1/4 flex-1">
+                    <view class="icon">标</view>
+                    <view class="mt-8 text-xl">1</view>
+                    <view class="text-xs py-1">热量记录<span>/天</span></view>
+                </view>
+                <view class="m-3 box-border rounded-xl bg-white p-3 w-1/4 flex-1">
+                    <view class="icon">标</view>
+                    <view class="mt-8 text-xl">1</view>
+                    <view class="text-xs py-1">饮食记录<span>/天</span></view>
+                </view>
+            </view>
+        </view>
+
+        <!-- 下方功能 -->
+        <view class="m-3 box-border rounded-xl bg-white p-3">
+            <view class="flex justify-between">
+                <view>我的疾病</view>
+                <view>></view>
+            </view>
+            <view class="flex justify-between pt-4">
+                <view>体重管理</view>
+                <view>></view>
+            </view>
+            <view class="flex justify-between pt-4">
+                <view>添加饮水</view>
+                <view>></view>
+            </view>
+            <view class="flex justify-between pt-4">
+                <view>自定义营养计划</view>
+                <view>></view>
             </view>
         </view>
     </view>
