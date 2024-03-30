@@ -58,10 +58,13 @@ function handleRegister() {
       if (res.data.code === 200) {
         console.log(res, 'registerRes')
         uni.setStorageSync('token', 'tokenMock')
-        // 回到首页
-        uni.switchTab({
-          url: '/pages/index/index'
+        // 填写个人信息
+        uni.navigateTo({
+          url: '/pages/profile/index'
         })
+        // uni.switchTab({
+        //   url: '/pages/index/index'
+        // })
         uni.showToast({
           title: '注册成功',
           icon: 'success'
