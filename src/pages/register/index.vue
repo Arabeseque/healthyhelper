@@ -1,7 +1,7 @@
 <template>
   <div class="registration-container container">
-    <h1 class="py-6 text-3xl">登录</h1>
-    <form @submit="register" class="flex flex-col gap-6">
+    <h1 class="py-6 text-3xl">注册</h1>
+    <form class="flex flex-col gap-6">
       <label for="username">用户名:</label>
 
       <view class="py-2"></view>
@@ -9,7 +9,7 @@
       <fui-input
         borderTop
         placeholder="请输入用户名"
-        :model="loginData.username"></fui-input>
+        v-model="registerData.username"></fui-input>
 
       <view class="py-2"></view>
       <label for="password">密码:</label>
@@ -18,11 +18,18 @@
       <fui-input
         borderTop
         placeholder="请输入密码"
-        :model="loginData.password"></fui-input>
+        v-model="registerData.password"></fui-input>
 
       <view class="py-2"></view>
 
-      <button type="submit" @click="handleLogin">登录</button>
+      <!-- 年龄 -->
+      <label for="age">年龄:</label>
+      <view class="py-2"></view>
+
+      <fui-input
+        borderTop
+        placeholder="请输入年龄"
+        v-model="registerData.age"></fui-input>
       <view class="py-2"></view>
 
       <button type="submit" @click="handleRegister">注册</button>
@@ -31,40 +38,44 @@
 </template>
 
 <script setup lang="ts">
-const loginData = reactive({
+const registerData = ref({
   username: '',
-  password: ''
+  password: '',
+  age: 0
 })
-function handleLogin() {
-  console.log('Login button clicked')
+
+function handleRegister() {
+  console.log('Register button clicked')
   uni.request({
-    url: import.meta.env.VITE_BASE_API + '/user/index/login',
+    url: import.meta.env.VITE_BASE_API + '/user/index/register',
     method: 'POST',
     data: {
-      username: loginData.username,
-      password: loginData.password
+      username: registerData.value.username,
+      password: registerData.value.password,
+      age: registerData.value.age
     },
     success: (res) => {
       if (res.data.code === 200) {
-        console.log(res, 'loginRes')
+        console.log(res, 'registerRes')
         uni.setStorageSync('token', 'tokenMock')
-        uni.switchTab({
-          url: '/pages/index/index'
+        // 填写个人信息
+        uni.navigateTo({
+          url: '/pages/profile/index'
+        })
+        // uni.switchTab({
+        //   url: '/pages/index/index'
+        // })
+        uni.showToast({
+          title: '注册成功',
+          icon: 'success'
         })
       } else {
         uni.showToast({
-          title: '账户或密码错误',
+          title: '注册失败',
           icon: 'none'
         })
       }
     }
-  })
-}
-
-function handleRegister() {
-  console.log('Register button clicked')
-  uni.redirectTo({
-    url: '/pages/register/index'
   })
 }
 </script>
