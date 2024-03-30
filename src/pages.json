@@ -71,6 +71,12 @@
       "style": {
         "navigationBarTitleText": "一日三餐"
       }
+    },
+    {
+      "path": "pages/personalPage/personalPage",
+      "style": {
+        "navigationBarTitleText": "个人中心"
+      }
     }
   ],
   "globalStyle": {

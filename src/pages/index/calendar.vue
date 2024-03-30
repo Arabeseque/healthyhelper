@@ -1,7 +1,22 @@
 <template>
-  <view class="bg-[#9dc9b6] px-3 py-2 shadow-xl">
+  <view class="bg-[#9dc9b6] p-4 px-3 shadow-xl">
+    <!-- 用户入口 -->
+    <view
+      class="header flex w-full flex-col items-center bg-[#9dc9b6] p-1.5 pt-2 text-sm text-white backdrop-blur-3xl">
+      <view
+        class="flex w-full items-center justify-between"
+        @click="toPersonalPage()">
+        <view class="flex items-end justify-center gap-2">
+          <text class="i-mdi-account text-2xl">496</text>
+          <span>Shane H</span>
+        </view>
+      </view>
+    </view>
+
+    <view class="py-1"></view>
+
     <!-- 日历 -->
-    <view class="calendar-wrapper mx-2" style="border-radius: 20px">
+    <view class="calendar-wrapper" style="border-radius: 20px">
       <view class="header" v-if="headerBar">
         <view class="preWidth" @click="changeMonth('pre')">
           <view class="pre"></view>
@@ -166,6 +181,8 @@ export default {
 
       // 柱状图计划量数据
       pillarPlan: [],
+      //柱状图当天数据
+      pillarTodayData:[],
 
       // ------------------------柱状图----------------------------
       chartData: {},
@@ -233,6 +250,13 @@ export default {
     }
   },
   methods: {
+    // -------------------------------日历上-------------------------------------
+    toPersonalPage() {
+      uni.navigateTo({
+        url: `../../pages/personalPage/personalPage`
+      })
+    },
+    // ---------------------------日历-------------------------------------
     formatNum(num) {
       const res = Number(num)
       return res < 10 ? '0' + res : res
@@ -430,8 +454,10 @@ export default {
       })
     },
 
+    // ---------------------------------------日历下------------------------------------
     // 获取当天食物
     getTodayData() {
+      this.pillarTodayData.length = 0
       uni.request({
         url:
           import.meta.env.VITE_BASE_API +
@@ -441,9 +467,26 @@ export default {
         header: {},
         success: (res) => {
           this.todayData = res.data.data
+          var danbai = 0
+          var zhifang = 0
+          var tanshui = 0
           if (this.todayData == '该用户还没有记录') this.flag = 0
-          else this.flag = 1
-          // console.log(this.flag)
+          else {
+            this.flag = 1
+
+             //计算当天三种值
+            for (var i in this.todayData) {
+              danbai += this.todayData[i].danbai
+              zhifang += this.todayData[i].zhifang
+              tanshui += this.todayData[i].tanshui
+            }
+          }
+
+          this.pillarTodayData.push(danbai)
+          this.pillarTodayData.push(zhifang)
+          this.pillarTodayData.push(tanshui)
+
+
         }
       })
     },
@@ -458,8 +501,6 @@ export default {
           this.pillarPlan.push(res.data.data.danbai)
           this.pillarPlan.push(res.data.data.zhifang)
           this.pillarPlan.push(res.data.data.tanshui)
-
-          // console.log(this.pillarPlan)a
         }
       })
     },
@@ -473,7 +514,7 @@ export default {
           series: [
             {
               name: '当天量',
-              data: [70, 70, 100] // this.todayData
+              data: this.pillarTodayData // this.todayData
             },
             {
               name: '计划量',
@@ -489,6 +530,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+// --------------------用户入口-----------------------------
+.header {
+  font-family: 'Nanum', 'NoteSans';
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+// ---------------------日历-------------------------------
 .calendar-wrapper {
   color: #222;
   font-size: 28rpx;
