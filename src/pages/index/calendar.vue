@@ -8,7 +8,7 @@
         @click="toPersonalPage()">
         <view class="flex items-end justify-center gap-2">
           <text class="i-mdi-account text-2xl">496</text>
-          <span>Shane H</span>
+          <span>张秀荣</span>
         </view>
       </view>
     </view>

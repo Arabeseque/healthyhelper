@@ -74,7 +74,8 @@
 <script>
 export default {
   mounted() {
-    this.getBestHeat(), this.getTodayHeat()
+    this.getBestHeat()
+    this.getTodayHeat()
   },
   data() {
     return {

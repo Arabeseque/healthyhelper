@@ -4,7 +4,7 @@
       <view
         class="box-border flex w-full flex-col gap-4 rounded-xl bg-white p-4 shadow-md">
         <!-- Header -->
-        <view class="py-2">目标清单</view>
+        <view class="py-2">今日摄入量</view>
 
         <!-- 分割线 -->
         <view class="border opacity-10"></view>
@@ -16,7 +16,7 @@
             :key="key">
             <!-- 目标清单 -->
             <view class="flex items-center justify-between">
-              <span>{{ key }}</span>
+              <span>{{ name[index] }}</span>
               <span class="text-sm opacity-60">{{todayData[key]}}/{{ item }} {{danwei[index]}}</span>
             </view>
             <view>
@@ -27,8 +27,6 @@
                 color="#d07c6c" />
             </view>
           </view>
-
-
 
         </view>
       </view>
@@ -63,6 +61,7 @@ getPlanTableData({
 const todayData = ref()
 let todayArr:arr[]=[]
 let  danwei:arr2[]=["千卡","克","克","克","克","微克","微克","毫克","毫克","毫克","毫克","微克","毫克","毫克","毫克","微克","毫克","毫克","毫克","毫克","毫克"]
+let name:arr3[] = ["热量","蛋白","脂肪","碳水","纤维","维生素A","胡罗卜素","盐酸","维生素C","维生素E","胆固醇","钾","钠","钙","镁","铁","锰","锌","铜","磷","锡"]
 function getTodayData(params: any) {
   uni.request({
     url: import.meta.env.VITE_BASE_API + params.url,
