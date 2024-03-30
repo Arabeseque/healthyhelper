@@ -1,7 +1,7 @@
 <template>
   <div class="registration-container container">
     <h1 class="py-6 text-3xl">登录</h1>
-    <form @submit="register" class="flex flex-col gap-6">
+    <form class="flex flex-col gap-6">
       <label for="username">用户名:</label>
 
       <view class="py-2"></view>
@@ -9,7 +9,7 @@
       <fui-input
         borderTop
         placeholder="请输入用户名"
-        :model="loginData.username"></fui-input>
+        v-model="loginData.username"></fui-input>
 
       <view class="py-2"></view>
       <label for="password">密码:</label>
@@ -18,7 +18,7 @@
       <fui-input
         borderTop
         placeholder="请输入密码"
-        :model="loginData.password"></fui-input>
+        v-model="loginData.password"></fui-input>
 
       <view class="py-2"></view>
 
@@ -31,10 +31,14 @@
 </template>
 
 <script setup lang="ts">
+import { useUserStore } from '@/stores/user'
 const loginData = reactive({
   username: '',
   password: ''
 })
+
+const userStore = useUserStore()
+
 function handleLogin() {
   console.log('Login button clicked')
   uni.request({
@@ -46,8 +50,10 @@ function handleLogin() {
     },
     success: (res) => {
       if (res.data.code === 200) {
-        console.log(res, 'loginRes')
-        uni.setStorageSync('token', 'tokenMock')
+        // console.log(res.data, 'loginRes')
+        userStore.userid = res.data.data.id
+        // console.log(userStore.userid, 'userStore.userid')
+        uni.setStorageSync('token', res.data.data.token)
         uni.switchTab({
           url: '/pages/index/index'
         })

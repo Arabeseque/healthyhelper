@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import uIcons from '@dcloudio/uni-ui/lib/uni-icons/uni-icons.vue'
 import Line from '@/components/notebook/Line.vue'
+import { useUserStore } from '@/stores/user'
+
+const userStore = useUserStore()
+const userId = userStore.userid
 
 function chooseMedia() {
   uni.chooseMedia({
@@ -95,7 +99,6 @@ async function getRecommodData() {
   })
 }
 
-const userId = 1
 const recommandInfo = ref({
   danbai: 0,
   danguchun: 0,
@@ -159,7 +162,7 @@ function commonUploadFoodInfo(foodId: any, type: string) {
       // Assuming 'recommandData' is an array and 'formattedDate' is a string
       [
         {
-          userId: 1,
+          userId,
           foodId,
           recordTime: formattedTime
         }
@@ -342,7 +345,7 @@ function handleRecord() {
             method: 'POST',
             data: [
               {
-                userId: 1,
+                userId,
                 foodId: item.id,
                 recordTime: formatTime(new Date()),
                 danbai: item.danbai * percent,
@@ -473,7 +476,7 @@ function handleUpload() {
       method: 'POST',
       data: [
         {
-          userId: 1,
+          userId,
           foodId: item.id,
           recordTime: formatTime(new Date()),
           danbai: item.danbai * percent,
@@ -650,7 +653,7 @@ function navigateToAdvice() {
                 <view>
                   <a
                     href="#"
-                    class="inline-flex items-center rounded-lg bg-orange-400 px-3 py-2 text-center text-sm font-bold text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"> 
+                    class="inline-flex items-center rounded-lg bg-orange-400 px-3 py-2 text-center text-sm font-bold text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                     换一个!
                   </a>
                 </view>

@@ -12,7 +12,7 @@ onLaunch(() => {
   // }
   // 未找到 token，跳转到登录页
   uni.redirectTo({
-    url: '/pages/profile/index'
+    url: '/pages/login/index'
   })
 
   // uni.login({
