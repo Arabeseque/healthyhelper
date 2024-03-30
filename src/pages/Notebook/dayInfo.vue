@@ -2,6 +2,7 @@
   <view>
     <view class="bg-[#9dc9b6] px-3 py-2 shadow-xl">
       <view>{{ breakfast.value }}</view>
+      <view class="py-2"></view>
       <view>
         <!-- 三餐情况 -->
         <view
