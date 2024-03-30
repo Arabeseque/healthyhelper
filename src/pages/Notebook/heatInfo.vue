@@ -1,16 +1,37 @@
 <template>
   <view>
     <view class="bg-[#9dc9b6] px-3 py-6 shadow-xl">
-      <view class="flex justify-center p-10 text-2xl" v-if="judge == 2">
-        今天热量的摄入量为 {{ this.todayHeat }} 千卡,离推荐摄入量还有
-        {{ this.result }} 千卡
+      <view class="p-10" v-if="this.judge == 2">
+        <view class="" style="font-size: 22px; line-height: 28px">
+          今天热量摄入量
+          <span class="font-semibold">{{ this.todayHeat }}</span>
+          千卡,
+        </view>
+        <view
+          class="py-1"
+          style="float: right; font-size: 21px; line-height: 28px">
+          离推荐摄入量还有
+          <span class="font-semibold">{{ this.result }}</span>
+          千卡
+        </view>
       </view>
-      <view class="flex justify-center p-10 text-2xl" v-if="judge == 1">
+
+      <view class="flex justify-center p-10 text-2xl" v-if="this.judge == 1">
         今天热量的摄入量为推荐摄入量
       </view>
-      <view class=" p-10" v-if="judge == 0">
-        <view class="" style="font-size: 22px;line-height:28px;">今天热量摄入量 <span class="font-semibold">{{ this.todayHeat }}</span> 千卡,</view>
-        <view class="py-1" style=" float:right;font-size: 21px;line-height:28px;">已超出推荐摄入量 <span class="font-semibold">{{ this.result }}</span> 千卡</view>
+      <view class="p-10" v-if="this.judge == 0">
+        <view class="" style="font-size: 22px; line-height: 28px">
+          今天热量摄入量
+          <span class="font-semibold">{{ this.todayHeat }}</span>
+          千卡,
+        </view>
+        <view
+          class="py-1"
+          style="float: right; font-size: 21px; line-height: 28px">
+          已超出推荐摄入量
+          <span class="font-semibold">{{ this.result }}</span>
+          千卡
+        </view>
       </view>
 
       <view class="py-6"></view>
@@ -82,12 +103,13 @@ export default {
         method: 'GET',
         header: {},
         success: (res) => {
+          let data = res.data.data
           let heat =
-            res.data.data.lunch +
-            res.data.data.midnightSnack +
-            res.data.data.breakfast +
-            res.data.data.snacks +
-            res.data.data.dinner
+            data.lunch +
+            data.midnightSnack +
+            data.breakfast +
+            data.snacks +
+            data.dinner
 
           this.todayHeat = heat
 
@@ -95,7 +117,7 @@ export default {
             this.judge = 0
           } else if (this.todayHeat == this.bestHeat) {
             this.judge = 1
-          } else {
+          } else if (this.todayHeat < this.bestHeat) {
             this.judge = 2
           }
 

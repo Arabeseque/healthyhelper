@@ -3,7 +3,7 @@
   <view
     class="header flex w-full flex-col items-center bg-[#9dc9b6] p-4 text-sm text-white backdrop-blur-3xl">
     <view class="flex w-full items-center justify-between">
-      <view class="flex items-end justify-center gap-2">
+      <view class="flex items-end justify-center gap-2" @click="toPersonalPage()">
         <text class="i-mdi-account text-2xl">496</text>
         <span>Shane H</span>
       </view>
@@ -120,6 +120,12 @@ function toTargetInfo(){
   })
 }
 
+function toPersonalPage(){
+  uni.navigateTo({
+    url:`../../pages/personalPage/personalPage`
+  })
+}
+
 // sum of remommendData
 // const planTotal = computed(() => {
 //   return Object.values(planData.value).reduce((acc, cur) => acc + cur, 0)
@@ -134,6 +140,7 @@ getPlanTableData({
   url: '/user/plan/1',
   method: 'GET'
 })
+
 </script>
 
 <style scoped>
