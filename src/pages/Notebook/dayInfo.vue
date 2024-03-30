@@ -25,7 +25,7 @@
                 <span
                   class="text-sm opacity-60"
                   v-if="todayInfo[0] == 1"
-                  style="color: aquamarine">
+                >
                   已吃
                 </span>
               </view>

@@ -6,8 +6,7 @@ import NotebookHeader from './NotebookHeader.vue'
 //体重曲线
 import Line from '@/components/notebook/Line.vue'
 // 热量曲线
-import heatLine from '@/components/notebook/heatLine.vue';
-
+import heatLine from '@/components/notebook/heatLine.vue'
 
 const todayRecord = ref()
 // 今日营养元素各类总和
@@ -41,26 +40,25 @@ const progressSnacks = computed(() => {
 })
 
 // 前往体重详情
-function toWeightInfo(){
+function toWeightInfo() {
   uni.navigateTo({
-    url:`../../pages/Notebook/weightInfo`
+    url: `../../pages/Notebook/weightInfo`
   })
 }
 
 //前往热量详情
-function toHeatInfo(){
+function toHeatInfo() {
   uni.navigateTo({
-    url:`../../pages/Notebook/heatInfo`
+    url: `../../pages/Notebook/heatInfo`
   })
 }
 
 // 前往一日三餐详情
-function toDayInfo(){
+function toDayInfo() {
   uni.navigateTo({
-    url:`../../pages/Notebook/dayInfo`
+    url: `../../pages/Notebook/dayInfo`
   })
 }
-
 
 function init() {
   getTodayRecord(1)
@@ -75,7 +73,8 @@ init()
 
     <view class="bg-[#9dc9b6] px-3 py-2 shadow-xl">
       <view
-        class="box-border flex w-full flex-col gap-4 rounded-xl bg-white p-4 shadow-md" @click="toDayInfo">
+        class="box-border flex w-full flex-col gap-4 rounded-xl bg-white p-4 shadow-md"
+        @click="toDayInfo">
         <!-- Header -->
         <view class="py-2">🍐 一日三餐</view>
 
@@ -161,18 +160,17 @@ init()
             :autoplay="autoplay"
             :interval="interval"
             :duration="duration">
-            <swiper-item @click="toWeightInfo">
-              <Line class="justify-center flex" />
-            </swiper-item>
             <swiper-item @click="toHeatInfo">
-            <heatLine class="justify-center flex" />
+              <heatLine class="flex justify-center" />
+            </swiper-item>
+            <swiper-item @click="toWeightInfo">
+              <Line class="flex justify-center" />
             </swiper-item>
             <!-- <swiper-item>
               <Line />
             </swiper-item> -->
           </swiper>
         </view>
-
       </view>
     </view>
   </view>

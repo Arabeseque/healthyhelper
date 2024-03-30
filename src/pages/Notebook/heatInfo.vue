@@ -1,21 +1,22 @@
 <template>
   <view>
-    <view class="bg-[#9dc9b6] px-3 py-2 shadow-xl">
+    <view class="bg-[#9dc9b6] px-3 py-6 shadow-xl">
       <view class="flex justify-center p-10 text-2xl" v-if="judge == 2">
-        你今天热量的摄入量为 {{ this.todayHeat }} 千卡,离推荐摄入量还有
+        今天热量的摄入量为 {{ this.todayHeat }} 千卡,离推荐摄入量还有
         {{ this.result }} 千卡
       </view>
       <view class="flex justify-center p-10 text-2xl" v-if="judge == 1">
-        你今天热量的摄入量为推荐摄入量
+        今天热量的摄入量为推荐摄入量
       </view>
-      <view class="flex justify-center p-10 text-2xl" v-if="judge == 0">
-        你今天热量的摄入量为 {{ this.todayHeat }} 千卡,离推荐摄入量已经超出
-        {{ this.result }} 千卡
+      <view class=" p-10" v-if="judge == 0">
+        <view class="" style="font-size: 22px;line-height:28px;">今天热量摄入量 <span class="font-semibold">{{ this.todayHeat }}</span> 千卡,</view>
+        <view class="py-1" style=" float:right;font-size: 21px;line-height:28px;">已超出推荐摄入量 <span class="font-semibold">{{ this.result }}</span> 千卡</view>
       </view>
+
+      <view class="py-6"></view>
+
       <view class="text-lg">关于热量</view>
-
       <view class="py-2"></view>
-
       <view
         class="box-border flex w-full flex-col gap-4 rounded-xl bg-white p-4 shadow-md">
         <view class="" style="font-size: 20px">正常</view>
@@ -89,10 +90,6 @@ export default {
             res.data.data.dinner
 
           this.todayHeat = heat
-
-          console.log(this.todayHeat, 'todayHeat')
-
-          console.log(this.bestHeat, 'bestHeat')
 
           if (this.todayHeat > this.bestHeat) {
             this.judge = 0
