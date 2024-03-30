@@ -37,6 +37,92 @@
       }
     },
     {
+      "path": "pages/register/index",
+      "style": {
+        "navigationBarTitleText": "注册"
+      }
+    },
+    {
+      "path": "pages/tools/index",
+      "style": {
+        "navigationBarTitleText": "工具"
+      }
+    },
+    {
+      "path": "pages/tools/food",
+      "style": {
+        "navigationBarTitleText": "食物查询"
+      }
+    },
+    {
+      "path": "pages/tools/foodDetail",
+      "style": {
+        "navigationBarTitleText": "食物详情"
+      }
+    },
+    {
+      "path": "pages/tools/foodList",
+      "style": {
+        "navigationBarTitleText": "食物列表"
+      }
+    },
+    {
+      "path": "pages/tools/foodSearch",
+      "style": {
+        "navigationBarTitleText": "食物搜索"
+      }
+    },
+    {
+      "path": "pages/tools/foodType",
+      "style": {
+        "navigationBarTitleText": "食物分类"
+      }
+    },
+    {
+      "path": "pages/tools/foodTypeList",
+      "style": {
+        "navigationBarTitleText": "食物分类列表"
+      }
+    },
+    {
+      "path": "pages/tools/foodTypeSearch",
+      "style": {
+        "navigationBarTitleText": "食物分类搜索"
+      }
+    },
+    {
+      "path": "pages/tools/foodTypeDetail",
+      "style": {
+        "navigationBarTitleText": "食物分类详情"
+      }
+    },
+    {
+      "path": "pages/tools/foodTypeDetailList",
+      "style": {
+        "navigationBarTitleText": "食物分类详情列表"
+      }
+    },
+    {
+      "path": "pages/tools/foodTypeDetailSearch",
+      "style": {
+        "navigationBarTitleText": "食物分类详情搜索"
+      }
+    },
+    {
+      "path": "pages/tools/foodTypeDetailType",
+      "style": {
+        "navigationBarTitleText": "食物分类详情分类"
+      }
+    },
+    {
+      "path": "pages/tools/foodTypeDetailTypeList",
+      "style": {
+        "navigationBarTitleText": "食物分类详情分类列表"
+      }
+    },
+    {
+      "path": "pages/tools
+    {
       "path": "pages/tools/chat",
       "style": {
         "navigationBarTitleText": "ChatWithAI"
