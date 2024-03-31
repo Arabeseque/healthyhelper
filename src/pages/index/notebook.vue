@@ -3,7 +3,7 @@ import NotebookHeader from './NotebookHeader.vue'
 // import { getTableDataApi } from '@/api/table'
 // import RoundArea from '@/components/notebook/RoundArea.vue'
 
-//体重曲线
+// 体重曲线
 import Line from '@/components/notebook/Line.vue'
 // 热量曲线
 import heatLine from '@/components/notebook/heatLine.vue'
@@ -13,9 +13,14 @@ import { useUserStore } from '@/stores/user'
 const userStore = useUserStore()
 const userId = userStore.userid
 
+import { useUserStore } from '@/stores/user'
+
+const userStore = useUserStore()
+const userId = userStore.userid
+
 const todayRecord = ref()
 // 今日营养元素各类总和
-function getTodayRecord(userId: number) {
+function getTodayRecord(userId: string) {
   uni.request({
     url: import.meta.env.VITE_BASE_API + '/record/energy/today/' + userId,
     method: 'GET',
@@ -51,7 +56,7 @@ function toWeightInfo() {
   })
 }
 
-//前往热量详情
+// 前往热量详情
 function toHeatInfo() {
   uni.navigateTo({
     url: `../../pages/Notebook/heatInfo`

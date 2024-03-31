@@ -4,7 +4,9 @@ import Line from '@/components/notebook/Line.vue'
 import { useUserStore } from '@/stores/user'
 
 const userStore = useUserStore()
-const userId = userStore.userid
+// const userId = userStore.userid
+const userId = 1
+const toast = ref()
 
 function chooseMedia() {
   uni.chooseMedia({
@@ -16,7 +18,7 @@ function chooseMedia() {
     success(res: any) {
       // getPicData(res.tempFiles[0])
       const tempFilePaths = res.tempFiles
-      uploadImage(tempFilePaths)
+      uploadAiImage(tempFilePaths)
     }
   })
 }
@@ -29,44 +31,111 @@ function takePhoto() {
     success(res: any) {
       // getPicData(res.tempFiles[0])
       const tempFilePaths = res.tempFiles
-      uploadImage(tempFilePaths)
+      uploadAiImage(tempFilePaths)
     }
   })
 }
 
-// function getPicData(file: any) {
-//   const tempFilePaths = chooseImageRes.tempFilePaths
-// }
+// 存储变量
+const recommandData = ref()
+const recommandInfo = ref()
 
-// TODO: 手动记录表单
-const recommandData = ref({
-  danbai: 0,
-  danguchun: 0,
-  foodId: 0,
-  gai: 0,
-  huluobosu: 0,
-  id: 0,
-  jia: 0,
-  lin: 0,
-  mei: 0,
-  meng: 0,
-  na: 0,
-  name: '',
-  recordTime: '',
-  reliang: 0,
-  tanshui: 0,
-  tie: 0,
-  tong: 0,
-  userId: 0,
-  va: 0,
-  vc: 0,
-  ve: 0,
-  xi: 0,
-  xianwei: 0,
-  xin: 0,
-  yansuan: 0
+const renderData = ref() // 当前推荐
+const curPage = ref(0) // 当前页数
+
+const uploadImageSrc = ref()
+const analyseImageRes = ref()
+
+// 手动添加
+const foodInputValue = ref({
+  foodName: '',
+  foodWeight: ''
 })
-const renderData = ref()
+
+const adviceModalStyles = ref({
+  // width
+  width: '100%',
+  // height
+  height: '350px'
+})
+
+const showAdvice = ref(true) // advice animation config
+const styles = ref({})
+const mode = ref(['fade'])
+
+const styleInput = ref() // input animation config
+const modeInput = ref(['fade'])
+const showInput = ref(false)
+
+const showImage = ref(false)
+const styleImage = ref({
+  width: '100%'
+})
+const modelImage = ref(['fade'])
+const renderDataFruit = ref()
+const showAdviceFruit = ref(true)
+const adviceModalStylesFruit = ref({
+  // width
+  width: '100%',
+  // height
+  height: '350px'
+})
+
+const recommandDataFruit = ref()
+
+const progressZhifangFruit = computed(() => {
+  if (!recommandInfo.value.zhifang || !renderDataFruit.value.zhifang) {
+    return 0
+  }
+  return (renderDataFruit.value.zhifang / recommandInfo.value.zhifang) * 100
+})
+const progressDanbaiFruit = computed(() => {
+  if (!recommandInfo.value.danbai || !renderDataFruit.value.danbai) {
+    return 0
+  }
+  return (renderDataFruit.value.danbai / recommandInfo.value.danbai) * 100
+})
+const progressTanshuiFruit = computed(() => {
+  if (!recommandInfo.value.tanshui || !renderDataFruit.value.tanshui) {
+    return 0
+  }
+  return (renderDataFruit.value.tanshui / recommandInfo.value.tanshui) * 100
+})
+
+const progressZhifang = computed(() => {
+  if (!recommandInfo.value.zhifang || !renderData.value.zhifang) {
+    return 0
+  }
+  return (renderData.value.zhifang / recommandInfo.value.zhifang) * 100
+})
+
+const progressDanbai = computed(() => {
+  if (!recommandInfo.value.danbai || !renderData.value.danbai) {
+    return 0
+  }
+  return (renderData.value.danbai / recommandInfo.value.danbai) * 100
+})
+
+const progressTanshui = computed(() => {
+  if (!recommandInfo.value.tanshui || !renderData.value.tanshui) {
+    return 0
+  }
+  return (renderData.value.tanshui / recommandInfo.value.tanshui) * 100
+})
+
+// tools
+function formatTime(date: Date) {
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+  const hours = String(date.getHours()).padStart(2, '0')
+  const minutes = String(date.getMinutes()).padStart(2, '0')
+  const seconds = String(date.getSeconds()).padStart(2, '0')
+
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
+}
+
+// get Function
 async function getRecommodData() {
   // analyse/recommand/1/2023-05-10
   // const date = new Date().toLocaleDateString()
@@ -98,30 +167,37 @@ async function getRecommodData() {
     }
   })
 }
+async function getRecommodDataFruit() {
+  // analyse/recommand/1/2023-05-10
+  // const date = new Date().toLocaleDateString()
+  // 获取当前日期
+  const date = new Date()
 
-const recommandInfo = ref({
-  danbai: 0,
-  danguchun: 0,
-  gai: 0,
-  huluobosu: 0,
-  jia: 0,
-  lin: 0,
-  mei: 0,
-  meng: 0,
-  na: 0,
-  reliang: 0,
-  tanshui: 0,
-  tie: 0,
-  tong: 0,
-  va: 0,
-  vc: 0,
-  ve: 0,
-  xi: 0,
-  xianwei: 0,
-  xin: 0,
-  yansuan: 0
-})
-async function getRecommodInfo() {
+  // 获取年、月、日
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+
+  // 格式化日期
+  const formattedDate = `${year}-${month}-${day}`
+  const testFormattedDate = '2024-03-21'
+  uni.request({
+    url:
+      import.meta.env.VITE_BASE_API +
+      `/analyse/recommand/fruit/1/${testFormattedDate}`,
+    method: 'GET',
+    success: (res: any) => {
+      // console.log(res.data.data)
+      recommandDataFruit.value = res.data.data
+      if (!recommandData.value) {
+        return
+      }
+      renderDataFruit.value = recommandDataFruit.value[0]
+      // console.log(renderData.value, 'renderData')
+    }
+  })
+}
+async function getStandard() {
   uni.request({
     url: import.meta.env.VITE_BASE_API + `/user/bestNutrition/${userId}`,
     method: 'GET',
@@ -132,184 +208,7 @@ async function getRecommodInfo() {
   })
 }
 
-function init() {
-  getRecommodData()
-
-  getRecommodDataFruit()
-  getRecommodInfo()
-  // console.log(renderData.value, 'renderData')
-}
-
-function formatTime(date: Date) {
-  const year = date.getFullYear()
-  const month = String(date.getMonth() + 1).padStart(2, '0')
-  const day = String(date.getDate()).padStart(2, '0')
-  const hours = String(date.getHours()).padStart(2, '0')
-  const minutes = String(date.getMinutes()).padStart(2, '0')
-  const seconds = String(date.getSeconds()).padStart(2, '0')
-
-  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
-}
-
-const curPage = ref(0) // 当前页面
-function commonUploadFoodInfo(foodId: any, type: string) {
-  const now = new Date()
-  const formattedTime = formatTime(now)
-  uni.request({
-    url: import.meta.env.VITE_BASE_API + '/record/foods',
-    method: 'POST',
-    data:
-      // Assuming 'recommandData' is an array and 'formattedDate' is a string
-      [
-        {
-          userId,
-          foodId,
-          recordTime: formattedTime
-        }
-      ],
-    success: (res: any) => {
-      // console.log(res)
-      showToast()
-
-      if (type === 'food') {
-        ani(['fade'], true)
-
-        setTimeout(() => {
-          if (curPage.value < recommandData.value.length - 1) {
-            curPage.value++
-            renderData.value = recommandData.value[curPage.value]
-          } else {
-            curPage.value = 0
-            renderData.value = recommandData.value[curPage.value]
-          }
-          showAdvice.value = !showAdvice.value
-        }, 300)
-      } else {
-        aniFruit(['fade'], true)
-        setTimeout(() => {
-          if (curPage.value < recommandDataFruit.value.length - 1) {
-            curPage.value++
-            renderDataFruit.value = recommandDataFruit.value[curPage.value]
-          } else {
-            curPage.value = 0
-            renderDataFruit.value = recommandDataFruit.value[curPage.value]
-          }
-          showAdviceFruit.value = !showAdviceFruit.value
-        }, 300)
-      }
-    }
-  })
-}
-
-function aniFruit(mode: any, mask: any) {
-  // if (mask) {
-  //   adviceModalStylesFruit.value.backgroundColor = 'rgba(0,0,0,0.6)'
-  // } else {
-  //   adviceModalStylesFruit.value.backgroundColor = 'rgba(0,0,0,0)'
-  // }
-  setTimeout(() => {
-    mode.value = mode
-    showAdviceFruit.value = !showAdviceFruit.value
-  }, 80)
-
-  setTimeout(() => {
-    // if (cur < total) {
-    // }
-  }, 300)
-}
-
-function handleEating() {
-  commonUploadFoodInfo(recommandData.value[curPage.value].foodId, 'food')
-}
-
-function handleEatingFruit() {
-  commonUploadFoodInfo(recommandDataFruit.value[curPage.value].foodId, 'fruit')
-}
-
-const toast = ref()
-function showToast() {
-  toast.value.show({
-    type: 'text',
-    // position: 'top',
-    duration: 2000,
-    text: '已添加到今日食谱',
-    size: 50,
-    width: 100
-  })
-}
-
-const showAdvice = ref(true)
-const styles = ref({})
-const mode = ref(['fade'])
-
-function ani(mode: any, mask: any) {
-  if (mask) {
-    styles.value.backgroundColor = 'rgba(0,0,0,0.6)'
-  } else {
-    styles.value.backgroundColor = 'rgba(0,0,0,0)'
-  }
-  setTimeout(() => {
-    mode.value = mode
-    showAdvice.value = !showAdvice.value
-  }, 80)
-
-  setTimeout(() => {
-    // if (cur < total) {
-    // }
-  }, 300)
-}
-
-const progressZhifang = computed(() => {
-  if (!recommandInfo.value.zhifang || !renderData.value.zhifang) {
-    return 0
-  }
-  return (renderData.value.zhifang / recommandInfo.value.zhifang) * 100
-})
-
-const progressDanbai = computed(() => {
-  if (!recommandInfo.value.danbai || !renderData.value.danbai) {
-    return 0
-  }
-  return (renderData.value.danbai / recommandInfo.value.danbai) * 100
-})
-
-const progressTanshui = computed(() => {
-  if (!recommandInfo.value.tanshui || !renderData.value.tanshui) {
-    return 0
-  }
-  return (renderData.value.tanshui / recommandInfo.value.tanshui) * 100
-})
-
-const adviceModalStyles = ref({
-  // width
-  width: '100%',
-  // height
-  height: '350px'
-})
-
-init()
-
-const styleInput = ref({
-  width: '100%',
-  height: '80px',
-  marginTop: '75vh'
-})
-
-const modeInput = ref(['fade'])
-
-const showInput = ref(false)
-function aniInput(mode: any, mask: any) {
-  setTimeout(() => {
-    modeInput.value = mode
-    showInput.value = !showInput.value
-  }, 80)
-}
-
-const foodInputValue = ref({
-  foodName: '',
-  foodWeight: ''
-})
-function handleRecord() {
+function handleRecordMyself() {
   const percent = foodInputValue.value.foodWeight / 100
   // nutrition/search
   uni.request({
@@ -388,21 +287,7 @@ function handleRecord() {
     }
   })
 }
-
-const showImage = ref(false)
-const styleImage = ref({
-  width: '100%'
-})
-const modelImage = ref(['fade'])
-function aniImage(mode: any, mask: any) {
-  modelImage.value = mode
-  showImage.value = !showImage.value
-}
-
-const uploadImageSrc = ref()
-const analyseImageRes = ref()
-
-function uploadImage(tempFilePaths) {
+function uploadAiImage(tempFilePaths) {
   uploadImageSrc.value = tempFilePaths[0].tempFilePath
   console.log(uploadImageSrc.value, 'image')
 
@@ -445,29 +330,7 @@ function uploadImage(tempFilePaths) {
     }
   })
 }
-
-function handleCountAdd(item: any) {
-  // console.log(item, 'Add')
-  analyseImageRes.value.forEach((element) => {
-    if (element.id === item.id) {
-      element.count += 5
-      // console.log(analyseImageRes.value, 'analyseImageRes')
-    }
-  })
-}
-
-function handleCountDown(item: any) {
-  analyseImageRes.value.forEach((element) => {
-    if (element.id === item.id) {
-      element.count -= 5
-    }
-  })
-}
-
-function handleUpload() {
-  // console.log('upload')
-  // console.log(analyseImageRes.value, 'analyseImageRes')
-
+function handlePostAnalyseData() {
   analyseImageRes.value.forEach((item) => {
     const percent = item.count / 100
 
@@ -522,99 +385,154 @@ function handleUpload() {
   }, 800)
 }
 
-// TODO: renderDataFruit
-const renderDataFruit = ref()
-const showAdviceFruit = ref(true)
-const progressZhifangFruit = computed(() => {
-  if (!recommandInfo.value.zhifang || !renderDataFruit.value.zhifang) {
-    return 0
-  }
-  return (renderDataFruit.value.zhifang / recommandInfo.value.zhifang) * 100
-})
-const progressDanbaiFruit = computed(() => {
-  if (!recommandInfo.value.danbai || !renderDataFruit.value.danbai) {
-    return 0
-  }
-  return (renderDataFruit.value.danbai / recommandInfo.value.danbai) * 100
-})
-const progressTanshuiFruit = computed(() => {
-  if (!recommandInfo.value.tanshui || !renderDataFruit.value.tanshui) {
-    return 0
-  }
-  return (renderDataFruit.value.tanshui / recommandInfo.value.tanshui) * 100
-})
+// get 封装
+function handleEating() {
+  commonPostFoodData(recommandData.value[curPage.value].foodId, 'food')
+}
+function handleEatingFruit() {
+  commonPostFoodData(recommandDataFruit.value[curPage.value].foodId, 'fruit')
+}
 
-const adviceModalStylesFruit = ref({
-  // width
-  width: '100%',
-  // height
-  height: '350px'
-})
+function init() {
+  // 获取推荐数据
+  getRecommodData()
+  getRecommodDataFruit()
+  getStandard()
+  // console.log(renderData.value, 'renderData')
+}
 
-const recommandDataFruit = ref({
-  danbai: 0,
-  danguchun: 0,
-  foodId: 0,
-  gai: 0,
-  huluobosu: 0,
-  id: 0,
-  jia: 0,
-  lin: 0,
-  mei: 0,
-  meng: 0,
-  na: 0,
-  name: '',
-  recordTime: '',
-  reliang: 0,
-  tanshui: 0,
-  tie: 0,
-  tong: 0,
-  userId: 0,
-  va: 0,
-  vc: 0,
-  ve: 0,
-  xi: 0,
-  xianwei: 0,
-  xin: 0,
-  yansuan: 0
-})
-
-async function getRecommodDataFruit() {
-  // analyse/recommand/1/2023-05-10
-  // const date = new Date().toLocaleDateString()
-  // 获取当前日期
-  const date = new Date()
-
-  // 获取年、月、日
-  const year = date.getFullYear()
-  const month = date.getMonth() + 1
-  const day = date.getDate()
-
-  // 格式化日期
-  const formattedDate = `${year}-${month}-${day}`
-  const testFormattedDate = '2024-03-21'
+// Post Function
+function commonPostFoodData(foodId: any, type: string) {
+  const now = new Date()
+  const formattedTime = formatTime(now)
   uni.request({
-    url:
-      import.meta.env.VITE_BASE_API +
-      `/analyse/recommand/fruit/1/${testFormattedDate}`,
-    method: 'GET',
+    url: import.meta.env.VITE_BASE_API + '/record/foods',
+    method: 'POST',
+    data:
+      // Assuming 'recommandData' is an array and 'formattedDate' is a string
+      [
+        {
+          userId,
+          foodId,
+          recordTime: formattedTime
+        }
+      ],
     success: (res: any) => {
-      // console.log(res.data.data)
-      recommandDataFruit.value = res.data.data
-      if (!recommandData.value) {
-        return
+      // console.log(res)
+      showToast()
+
+      if (type === 'food') {
+        ani(['fade'], true)
+
+        setTimeout(() => {
+          if (curPage.value < recommandData.value.length - 1) {
+            curPage.value++
+            renderData.value = recommandData.value[curPage.value]
+          } else {
+            curPage.value = 0
+            renderData.value = recommandData.value[curPage.value]
+          }
+          showAdvice.value = !showAdvice.value
+        }, 300)
+      } else {
+        aniFruit(['fade'], true)
+        setTimeout(() => {
+          if (curPage.value < recommandDataFruit.value.length - 1) {
+            curPage.value++
+            renderDataFruit.value = recommandDataFruit.value[curPage.value]
+          } else {
+            curPage.value = 0
+            renderDataFruit.value = recommandDataFruit.value[curPage.value]
+          }
+          showAdviceFruit.value = !showAdviceFruit.value
+        }, 300)
       }
-      renderDataFruit.value = recommandDataFruit.value[0]
-      // console.log(renderData.value, 'renderData')
     }
   })
 }
 
+// Animation
+function ani(mode: any, mask: any) {
+  if (mask) {
+    styles.value.backgroundColor = 'rgba(0,0,0,0.6)'
+  } else {
+    styles.value.backgroundColor = 'rgba(0,0,0,0)'
+  }
+  setTimeout(() => {
+    mode.value = mode
+    showAdvice.value = !showAdvice.value
+  }, 80)
+
+  setTimeout(() => {
+    // if (cur < total) {
+    // }
+  }, 300)
+}
+
+function aniFruit(mode: any, mask: any) {
+  // if (mask) {
+  //   adviceModalStylesFruit.value.backgroundColor = 'rgba(0,0,0,0.6)'
+  // } else {
+  //   adviceModalStylesFruit.value.backgroundColor = 'rgba(0,0,0,0)'
+  // }
+  setTimeout(() => {
+    mode.value = mode
+    showAdviceFruit.value = !showAdviceFruit.value
+  }, 80)
+
+  setTimeout(() => {
+    // if (cur < total) {
+    // }
+  }, 300)
+}
+
+function aniInput(mode: any, mask: any) {
+  setTimeout(() => {
+    modeInput.value = mode
+    showInput.value = !showInput.value
+  }, 80)
+}
+
+function aniImage(mode: any, mask: any) {
+  modelImage.value = mode
+  showImage.value = !showImage.value
+}
+
+// logic Function
+function handleCountAdd(item: any) {
+  // console.log(item, 'Add')
+  analyseImageRes.value.forEach((element) => {
+    if (element.id === item.id) {
+      element.count += 5
+      // console.log(analyseImageRes.value, 'analyseImageRes')
+    }
+  })
+}
+function handleCountDown(item: any) {
+  analyseImageRes.value.forEach((element) => {
+    if (element.id === item.id) {
+      element.count -= 5
+    }
+  })
+}
 function navigateToAdvice() {
   uni.navigateTo({
     url: '/pages/advice/index'
   })
 }
+// v-show Fuction
+function showToast() {
+  toast.value.show({
+    type: 'text',
+    // position: 'top',
+    duration: 2000,
+    text: '已添加到今日食谱',
+    size: 50,
+    width: 100
+  })
+}
+
+init()
 </script>
 
 <template>
@@ -899,7 +817,10 @@ function navigateToAdvice() {
             borderTop
             v-model="foodInputValue.foodWeight"
             placeholder="输入食品的重量"></fui-input>
-          <fui-button width="60px" background="#f9a647" @click="handleRecord">
+          <fui-button
+            width="60px"
+            background="#f9a647"
+            @click="handleRecordMyself">
             添加
           </fui-button>
         </view>
@@ -945,7 +866,7 @@ function navigateToAdvice() {
 
         <!-- TODO: 拍照 -->
         <button
-          @click="handleUpload"
+          @click="handlePostAnalyseData"
           class="photo mr-14 mt-5 flex w-[150px] items-center justify-center gap-2 rounded-3xl bg-[#f9a647] text-white">
           <view>提交</view>
         </button>

@@ -2,7 +2,6 @@
 import { setToken } from '@/utils/auth'
 
 onLaunch(() => {
-  // 查找 token
   // const token = uni.getStorageSync('token')
   // if (!token || token === 'null') {
   //   // 未找到 token，跳转到登录页
@@ -10,14 +9,13 @@ onLaunch(() => {
   //     url: '/pages/login/index'
   //   })
   // }
-  // 未找到 token，跳转到登录页
   uni.redirectTo({
     url: '/pages/login/index'
   })
 
   // uni.login({
   //   provider: 'weixin',
-  //   success: function (loginRes) {
+  //   success: function (loginRes) {W
   //     console.log(loginRes.authResult)
   //     // 获取用户信息
   //     uni.getUserInfo({
