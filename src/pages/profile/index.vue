@@ -1,4 +1,9 @@
 <script setup lang="ts">
+import { useUserStore } from '@/stores/user'
+
+const userStore = useUserStore()
+const userId = userStore.userid
+
 interface CheckboxItem {
   name: string
   value: string
@@ -13,15 +18,31 @@ const formData = ref({
 })
 
 const checkboxItems = ref([
-  { name: '高血压', value: '0', checked: false },
-  { name: '糖尿病', value: '1', checked: false },
-  { name: '高血脂', value: '2', checked: false },
-  { name: '高尿酸', value: '3', checked: false },
-  { name: '肥胖', value: '4', checked: false },
-  { name: '其他', value: '5', checked: false }
+  { name: '高血压', value: 'hypertension', checked: false },
+  { name: '糖尿病', value: 'hyperlipemia', checked: false },
+  { name: '高血脂', value: 'hyperglycemia', checked: false },
+  { name: '高尿酸', value: 'hypercholesterol', checked: false },
+  { name: '肥胖', value: 'pregnant', checked: false }
 ])
 
 const currentPage = ref(0)
+
+function getFormData(checkboxItems: any) {
+  const formData = {
+    id: null,
+    userId
+  }
+
+  checkboxItems.value.forEach((item: any) => {
+    if (item.checked) {
+      formData[item.value] = 1
+    } else {
+      formData[item.value] = 0
+    }
+  })
+
+  return formData
+}
 
 function handleToDetail() {
   console.log('Next button clicked')
@@ -43,10 +64,81 @@ function handleToDetail() {
 }
 
 function handleToFinish() {
-  console.log('Finish button clicked')
-  console.log('formData', formData.value)
-  console.log('checkboxItems', checkboxItems.value)
+  putUserInfo().then(() => {
+    putDisInfo().then(() => {
+      uni.showToast({
+        title: '注册成功',
+        icon: 'success'
+      })
+      uni.switchTab({
+        url: '/pages/index/index'
+      })
+    })
+  })
+
   // currentPage.value += 1
+}
+
+async function putUserInfo() {
+  formData.value.bmi = (
+    formData.value.weight /
+    (formData.value.height / 100) ** 2
+  ).toFixed(2)
+  // promise
+  return new Promise((resolve, reject) => {
+    uni.request({
+      url: import.meta.env.VITE_BASE_API + '/user/update',
+      method: 'PUT',
+      data: {
+        id: userId,
+        ...formData.value
+      },
+      success: (res) => {
+        if (res.data.code === 200) {
+          console.log(res.data.message, 'putUserInfo')
+          uni.showToast({
+            title: '用户信息更新成功',
+            icon: 'none'
+          })
+          resolve(res)
+        } else {
+          uni.showToast({
+            title: '用户信息更新失败',
+            icon: 'none'
+          })
+          reject(res)
+        }
+      }
+    })
+  })
+}
+
+async function putDisInfo() {
+  // promise
+  return new Promise((resolve, reject) => {
+    const data = getFormData(checkboxItems)
+    uni.request({
+      url: import.meta.env.VITE_BASE_API + '/disease',
+      method: 'POST',
+      data,
+      success: (res) => {
+        if (res.data.code === 200) {
+          console.log(res, 'putDisInfo')
+
+          resolve(res)
+        } else {
+          uni.showToast({
+            title: '疾病信息更新失败',
+            icon: 'none'
+          })
+          reject(res)
+        }
+      },
+      fail: (err) => {
+        console.log(err, 'putDisInfo')
+      }
+    })
+  })
 }
 
 function handleCheckChange(e: any) {

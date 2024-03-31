@@ -13,11 +13,6 @@ import { useUserStore } from '@/stores/user'
 const userStore = useUserStore()
 const userId = userStore.userid
 
-import { useUserStore } from '@/stores/user'
-
-const userStore = useUserStore()
-const userId = userStore.userid
-
 const todayRecord = ref()
 // 今日营养元素各类总和
 function getTodayRecord(userId: string) {
