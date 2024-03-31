@@ -54,7 +54,9 @@
     </view>
 
     <!-- 提交按钮 -->
-    <button class="confirm m-3 mt-6" type="primary" @click="postData">确定修改</button>
+    <button class="confirm m-3 mt-6" type="primary" @click="postData">
+      确定修改
+    </button>
 
     <!-- -------------------底部弹窗------------------------- -->
     <!-- 年龄 -->
@@ -314,7 +316,7 @@ export default {
           this.userData.gender = this.user.gender
           this.userData.bmi = this.user.bmi
 
-        //   post表单信息
+          //   post表单信息
           this.postForm.name = this.user.name
           this.postForm.age = this.user.age
           this.postForm.height = this.user.height
@@ -357,8 +359,8 @@ export default {
       // console.log(this.postForm.age,"age")
     },
     changeHeight(e) {
-      this.postForm.height = e.detail.value[0]/100
-      console.log(this.postForm.height,"height")
+      this.postForm.height = e.detail.value[0] / 100
+      console.log(this.postForm.height, 'height')
     },
     changeWeight(e) {
       var zhengshu = e.detail.value[0]
@@ -400,7 +402,7 @@ export default {
     confirmHeight() {
       this.userData.height = this.postForm.height
       this.height.value.length = 0
-      this.height.value.push(this.postForm.height*100)
+      this.height.value.push(this.postForm.height * 100)
       var caculator =
         this.userData.weight / this.userData.height / this.userData.height
       this.postForm.bmi = caculator.toFixed(2)
@@ -421,7 +423,7 @@ export default {
       this.weight.value.push(change.split('.')[0] - 10)
       this.weight.value.push(change.split('.')[1])
       var caculator =
-    this.userData.weight / this.userData.height / this.userData.height
+        this.userData.weight / this.userData.height / this.userData.height
       this.postForm.bmi = caculator.toFixed(2)
       this.userData.bmi = this.postForm.bmi
       this.$refs.popupWeight.close()
@@ -443,15 +445,18 @@ export default {
     },
     // 上传修改信息
     postData() {
-        console.log(this.postForm,"postForm")
+      console.log(this.postForm, 'postForm')
       uni.request({
         url: import.meta.env.VITE_BASE_API + '/user/update',
         method: 'PUT',
         data: this.postForm,
         success: (res) => {
           if (res.data.code === 200) {
-            uni.navigateTo({
-              url: '../../pages/personalPage/personalPage'
+            uni.navigateBack({
+              delta: 1,
+              success() {
+                prePage.$vm.goCurrent() // 当返回成功的时候调用上一级页面的回调
+              }
             })
           }
         }

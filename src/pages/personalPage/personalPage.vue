@@ -110,7 +110,7 @@
 
       <!-- 下方功能 -->
       <view class="m-3 box-border rounded-xl bg-white p-3">
-        <view class="flex justify-between">
+        <view class="flex justify-between" @click="toDiseasePage()">
           <view>身体状态</view>
           <view>></view>
         </view>
@@ -139,6 +139,14 @@ const userId = userStore.userid
 
 export default {
   name: '个人页面',
+  onLoad() {
+    // 监听自定义事件
+    this.eventChannel = this.getOpenerEventChannel()
+    this.eventChannel.on('refreshData', () => {
+      // 执行刷新操作
+      this.refreshData()
+    })
+  },
   mounted() {
     this.getUserData()
     this.getStatus()
@@ -175,8 +183,16 @@ export default {
     // 跳转用户详情
     toPersonalInfo() {
       uni.navigateTo({
-        url:`../../pages/personalPage/personalInfo`
+        url: `../../pages/personalPage/personalInfo`
       })
+    },
+    toDiseasePage() {
+      uni.navigateTo({
+        url: `../../pages/personalPage/disease`
+      })
+    },
+    refreshData() {
+      this.getStatus()
     }
   }
 }
