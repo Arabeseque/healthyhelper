@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import uIcons from '@dcloudio/uni-ui/lib/uni-icons/uni-icons.vue'
-import Line from '@/components/notebook/Line.vue'
 import { useUserStore } from '@/stores/user'
 
 const userStore = useUserStore()
-// const userId = userStore.userid
-const userId = 1
+const userId = userStore.userid
 const toast = ref()
 
 function chooseMedia() {
@@ -39,7 +37,6 @@ function takePhoto() {
 // 存储变量
 const recommandData = ref()
 const recommandInfo = ref()
-
 const renderData = ref() // 当前推荐
 const curPage = ref(0) // 当前页数
 
@@ -149,11 +146,10 @@ async function getRecommodData() {
 
   // 格式化日期
   const formattedDate = `${year}-${month}-${day}`
-  const testFormattedDate = '2024-03-21'
   uni.request({
     url:
       import.meta.env.VITE_BASE_API +
-      `/analyse/recommand/food/1/${testFormattedDate}`,
+      `/analyse/recommand/food/${userId}/${formattedDate}`,
     method: 'GET',
     success: (res: any) => {
       // console.log(res.data.data)
@@ -180,11 +176,10 @@ async function getRecommodDataFruit() {
 
   // 格式化日期
   const formattedDate = `${year}-${month}-${day}`
-  const testFormattedDate = '2024-03-21'
   uni.request({
     url:
       import.meta.env.VITE_BASE_API +
-      `/analyse/recommand/fruit/1/${testFormattedDate}`,
+      `/analyse/recommand/fruit/${userId}/${formattedDate}`,
     method: 'GET',
     success: (res: any) => {
       // console.log(res.data.data)
@@ -540,14 +535,12 @@ init()
     <fui-toast ref="toast"></fui-toast>
     <view>
       <view
-        class="flex items-center justify-center pt-20 text-3xl font-bold"
-        style="color: rgba(0, 0, 0, 0.7)">
+        class="color-black flex items-center justify-center pt-20 text-3xl font-bold">
         零卡生活
       </view>
       <!-- subtitle -->
       <view
-        class="flex items-center justify-center pt-2 text-xl font-bold"
-        style="color: rgba(0, 0, 0, 0.7)">
+        class="color-black flex items-center justify-center pt-2 text-xl font-bold">
         为您提供健康饮食建议
       </view>
     </view>
@@ -567,9 +560,7 @@ init()
               class="foodContainer m-4 box-border flex w-full flex-col gap-4 rounded-xl p-4 opacity-90 shadow-md">
               <!-- Header -->
               <view class="flex justify-between">
-                <view
-                  class="py-2 text-xl font-bold"
-                  style="color: rgb(0, 0, 0, 0.8)">
+                <view class="py-2 text-xl font-bold">
                   {{ renderData.name }}
                 </view>
                 <view>
@@ -662,12 +653,10 @@ init()
             :styles="adviceModalStylesFruit">
             <view
               v-if="renderDataFruit"
-              class="fruitContainer m-4 box-border flex w-full flex-col gap-4 rounded-xl p-4 opacity-90 shadow-md">
+              class="fruitContainer m-4 box-border flex w-full flex-col gap-4 rounded-xl p-4 shadow-md">
               <!-- Header -->
               <view class="flex justify-between">
-                <view
-                  class="py-2 text-xl font-bold"
-                  style="color: rgba(0, 0, 0, 0.8)">
+                <view class="py-2 text-xl font-bold">
                   {{ renderDataFruit.name }}
                 </view>
 
@@ -754,16 +743,6 @@ init()
               </view>
             </view>
           </fui-animation>
-        </swiper-item>
-        <swiper-item>
-          <view
-            class="m-4 box-border flex w-[90%] flex-col gap-4 rounded-xl bg-white p-4 opacity-90 shadow-md">
-            <!-- Header -->
-            <view class="flex justify-between">
-              <view class="py-2 text-xl font-bold">图表</view>
-            </view>
-            <Line></Line>
-          </view>
         </swiper-item>
       </swiper>
     </view>
@@ -886,8 +865,7 @@ init()
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  /* background-image: url('https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=400'); */
-  background-image: url('http://129.204.224.187:8080/background.png');
+  background-image: url('https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=400');
 }
 
 video {
@@ -903,20 +881,18 @@ video {
 }
 
 .fruitContainer {
-  /* background-image: url('https://images.pexels.com/photos/1028598/pexels-photo-1028598.jpeg?auto=compress&cs=tinysrgb&w=600'); */
+  background-image: url('https://images.pexels.com/photos/1028598/pexels-photo-1028598.jpeg?auto=compress&cs=tinysrgb&w=600');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-color: rgb(255, 255, 255);
-  /* opacity: 0.9; */
+  opacity: 0.9;
 }
 
 .foodContainer {
-  /* background-image: url('https://images.pexels.com/photos/616401/pexels-photo-616401.jpeg?auto=compress&cs=tinysrgb&w=400'); */
+  background-image: url('https://images.pexels.com/photos/616401/pexels-photo-616401.jpeg?auto=compress&cs=tinysrgb&w=400');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-color: rgb(255, 255, 255);
-  /* opacity: 0.9; */
+  opacity: 0.9;
 }
 </style>
