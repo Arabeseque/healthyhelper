@@ -35,6 +35,12 @@
 </template>
 
 <script setup lang="ts">
+import { useUserStore } from '@/stores/user'
+
+// 用户数据
+const userStore = useUserStore()
+const userId = userStore.userid
+
 
 //获取计划数据
 const planData = ref()
@@ -76,13 +82,13 @@ function getTodayData(params: any) {
         for(var temp in todayData.value){
            todayArr.push((todayData.value[temp] / planData.value[temp])*100)
         }
-        // console.log(todayArr)
+        console.log(todayArr)
     }
   })
 }
 
 getTodayData({
-    url:'/record/summary/today/1',
+    url:'/record/summary/today/' + userId,
     method:'GET'
 })
 

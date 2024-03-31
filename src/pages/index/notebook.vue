@@ -7,6 +7,11 @@ import NotebookHeader from './NotebookHeader.vue'
 import Line from '@/components/notebook/Line.vue'
 // 热量曲线
 import heatLine from '@/components/notebook/heatLine.vue'
+import { useUserStore } from '@/stores/user'
+
+// 用户数据
+const userStore = useUserStore()
+const userId = userStore.userid
 
 const todayRecord = ref()
 // 今日营养元素各类总和
@@ -61,7 +66,7 @@ function toDayInfo() {
 }
 
 function init() {
-  getTodayRecord(1)
+  getTodayRecord(userId)
 }
 
 init()

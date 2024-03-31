@@ -47,6 +47,12 @@
   </view>
 </template>
 <script setup lang="ts">
+import { useUserStore } from '@/stores/user'
+
+// 用户数据
+const userStore = useUserStore()
+const userId = userStore.userid
+
 const Bmi = ref()
 const result = ref()
 // 计算BMI
@@ -67,7 +73,7 @@ function caculateBMI(params: any) {
 }
 
 caculateBMI({
-  url: '/user/1',
+  url: '/user/' + userId,
   method: 'GET'
 })
 </script>

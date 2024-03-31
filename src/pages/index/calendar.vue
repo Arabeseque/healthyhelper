@@ -8,7 +8,7 @@
         @click="toPersonalPage()">
         <view class="flex items-end justify-center gap-2">
           <text class="i-mdi-account text-2xl">496</text>
-          <span>张秀荣</span>
+          <span>{{this.userData.name}}</span>
         </view>
       </view>
     </view>
@@ -121,6 +121,12 @@
 </template>
 
 <script>
+import { useUserStore } from '@/stores/user'
+
+// 用户数据
+const userStore = useUserStore()
+const userId = userStore.userid
+
 export default {
   name: 'ren-calendar',
   props: {
@@ -155,6 +161,8 @@ export default {
   },
   data() {
     return {
+      userData: '',
+      // -------------日历---------------
       weektext: ['日', '一', '二', '三', '四', '五', '六'],
       y: new Date().getFullYear(), // 年
       m: new Date().getMonth() + 1, // 月
@@ -182,7 +190,7 @@ export default {
       // 柱状图计划量数据
       pillarPlan: [],
       //柱状图当天数据
-      pillarTodayData:[],
+      pillarTodayData: [],
 
       // ------------------------柱状图----------------------------
       chartData: {},
@@ -232,6 +240,7 @@ export default {
     // !this.open && this.toggle()
   },
   mounted() {
+    this.getUserData()
     this.choose = this.getToday().date
     this.daySearch = this.getToday().date
     this.getDateData()
@@ -250,6 +259,17 @@ export default {
     }
   },
   methods: {
+    // 获取用户信息
+    getUserData() {
+      uni.request({
+        url: import.meta.env.VITE_BASE_API + '/user/' + userId,
+        method: 'GET',
+        header: {},
+        success: (res) => {
+          this.userData = res.data.data
+        }
+      })
+    },
     // -------------------------------日历上-------------------------------------
     toPersonalPage() {
       uni.navigateTo({
@@ -444,7 +464,7 @@ export default {
     // 获取日期数据
     getDateData() {
       uni.request({
-        url: import.meta.env.VITE_BASE_API + '/record/dates/1',
+        url: import.meta.env.VITE_BASE_API + '/record/dates/' + userId,
         method: 'GET',
         header: {},
         success: (res) => {
@@ -461,7 +481,9 @@ export default {
       uni.request({
         url:
           import.meta.env.VITE_BASE_API +
-          `/record/nutrition/1/` +
+          `/record/nutrition/` +
+          userId +
+          `/` +
           this.daySearch,
         method: 'GET',
         header: {},
@@ -474,7 +496,7 @@ export default {
           else {
             this.flag = 1
 
-             //计算当天三种值
+            //计算当天三种值
             for (var i in this.todayData) {
               danbai += this.todayData[i].danbai
               zhifang += this.todayData[i].zhifang
@@ -485,15 +507,13 @@ export default {
           this.pillarTodayData.push(danbai)
           this.pillarTodayData.push(zhifang)
           this.pillarTodayData.push(tanshui)
-
-
         }
       })
     },
     // 获取计划量
     getPlanData() {
       uni.request({
-        url: import.meta.env.VITE_BASE_API + `/user/plan/1`,
+        url: import.meta.env.VITE_BASE_API + `/user/plan/` + userId,
         method: 'GET',
         header: {},
         success: (res) => {

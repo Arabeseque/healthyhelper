@@ -131,6 +131,12 @@
   </view>
 </template>
 <script>
+import { useUserStore } from '@/stores/user'
+
+// 用户数据
+const userStore = useUserStore()
+const userId = userStore.userid
+
 export default {
   name: '个人页面',
   mounted() {
@@ -147,7 +153,7 @@ export default {
     // 获取用户信息
     getUserData() {
       uni.request({
-        url: import.meta.env.VITE_BASE_API + `/user/1`,
+        url: import.meta.env.VITE_BASE_API + `/user/` + userId,
         method: 'GET',
         header: {},
         success: (res) => {
@@ -158,7 +164,7 @@ export default {
     // 获取用户小状态
     getStatus() {
       uni.request({
-        url: import.meta.env.VITE_BASE_API + `/user/status/1`,
+        url: import.meta.env.VITE_BASE_API + `/user/status/` + userId,
         method: 'GET',
         header: {},
         success: (res) => {

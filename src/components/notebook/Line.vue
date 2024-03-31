@@ -5,6 +5,13 @@
 </template>
 
 <script setup>
+import { useUserStore } from '@/stores/user'
+
+// 用户数据
+const userStore = useUserStore()
+const userId = userStore.userid
+
+// 折线图
 const opts = ref({
   color: [
     '#1890FF',
@@ -72,7 +79,7 @@ function getTableData(params) {
 }
 
 getTableData({
-  url: '/user/weights/1',
+  url: '/user/weights/' + userId,
   method: 'GET'
 })
 </script>

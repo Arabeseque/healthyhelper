@@ -164,6 +164,12 @@
   </view>
 </template>
 <script setup lang="ts">
+import { useUserStore } from '@/stores/user'
+
+// 用户数据
+const userStore = useUserStore()
+const userId = userStore.userid
+
 const todayRecord = ref()
 const todayInfo: infoArr[] = []
 const breakfast = ref()
@@ -210,7 +216,7 @@ function getTodayRecord(params: any) {
 }
 
 getTodayRecord({
-  url: '/record/energy/today/1',
+  url: '/record/energy/today/' + userId,
   method: 'GET'
 })
 </script>

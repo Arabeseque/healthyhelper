@@ -70,7 +70,7 @@
     {
       "path": "pages/Notebook/targetInfo",
       "style": {
-        "navigationBarTitleText": "目标清单"
+        "navigationBarTitleText": "今日摄入量"
       }
     },
     {
@@ -95,6 +95,12 @@
       "path": "pages/personalPage/personalPage",
       "style": {
         "navigationBarTitleText": "个人中心"
+      }
+    },
+    {
+      "path": "pages/personalPage/personalInfo",
+      "style": {
+        "navigationBarTitleText": "详情信息"
       }
     }
   ],

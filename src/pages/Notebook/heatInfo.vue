@@ -11,7 +11,7 @@
           class="py-1"
           style="float: right; font-size: 21px; line-height: 28px">
           离推荐摄入量还有
-          <span class="font-semibold">{{ this.result }}</span>
+          <span class="font-semibold">{{ this.bestHeat - this.todayHeat }}</span>
           千卡
         </view>
       </view>
@@ -29,7 +29,7 @@
           class="py-1"
           style="float: right; font-size: 21px; line-height: 28px">
           已超出推荐摄入量
-          <span class="font-semibold">{{ this.result }}</span>
+          <span class="font-semibold">{{ this.todayHeat - this.bestHeat }}</span>
           千卡
         </view>
       </view>
@@ -72,6 +72,13 @@
 </template>
 
 <script>
+
+import { useUserStore } from '@/stores/user'
+
+// 用户数据
+const userStore = useUserStore()
+const userId = userStore.userid
+
 export default {
   mounted() {
     this.getBestHeat()
@@ -82,14 +89,14 @@ export default {
       bestHeat: '',
       todayHeat: '',
       judge: '', //过重:0 正常:1 过轻:2
-      result: '' //差值
+      //result: '' //差值
     }
   },
   methods: {
     // 获取推荐热量
     getBestHeat() {
       uni.request({
-        url: import.meta.env.VITE_BASE_API + '/user/bestNutrition/1',
+        url: import.meta.env.VITE_BASE_API + '/user/bestNutrition/' + userId,
         method: 'GET',
         header: {},
         success: (res) => {
@@ -100,7 +107,7 @@ export default {
 
     getTodayHeat() {
       uni.request({
-        url: import.meta.env.VITE_BASE_API + '/record/energy/today/1',
+        url: import.meta.env.VITE_BASE_API + '/record/energy/today/' + userId,
         method: 'GET',
         header: {},
         success: (res) => {
@@ -122,7 +129,7 @@ export default {
             this.judge = 2
           }
 
-          this.result = Math.abs(this.todayHeat - this.bestHeat)
+          //this.result = Math.abs(this.todayHeat - this.bestHeat)
         }
       })
     }
