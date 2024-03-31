@@ -540,12 +540,14 @@ init()
     <fui-toast ref="toast"></fui-toast>
     <view>
       <view
-        class="color-black flex items-center justify-center pt-20 text-3xl font-bold">
+        class="flex items-center justify-center pt-20 text-3xl font-bold"
+        style="color: rgba(0, 0, 0, 0.7)">
         零卡生活
       </view>
       <!-- subtitle -->
       <view
-        class="color-black flex items-center justify-center pt-2 text-xl font-bold">
+        class="flex items-center justify-center pt-2 text-xl font-bold"
+        style="color: rgba(0, 0, 0, 0.7)">
         为您提供健康饮食建议
       </view>
     </view>
@@ -565,7 +567,9 @@ init()
               class="foodContainer m-4 box-border flex w-full flex-col gap-4 rounded-xl p-4 opacity-90 shadow-md">
               <!-- Header -->
               <view class="flex justify-between">
-                <view class="py-2 text-xl font-bold">
+                <view
+                  class="py-2 text-xl font-bold"
+                  style="color: rgb(0, 0, 0, 0.8)">
                   {{ renderData.name }}
                 </view>
                 <view>
@@ -658,10 +662,12 @@ init()
             :styles="adviceModalStylesFruit">
             <view
               v-if="renderDataFruit"
-              class="fruitContainer m-4 box-border flex w-full flex-col gap-4 rounded-xl p-4 shadow-md">
+              class="fruitContainer m-4 box-border flex w-full flex-col gap-4 rounded-xl p-4 opacity-90 shadow-md">
               <!-- Header -->
               <view class="flex justify-between">
-                <view class="py-2 text-xl font-bold">
+                <view
+                  class="py-2 text-xl font-bold"
+                  style="color: rgba(0, 0, 0, 0.8)">
                   {{ renderDataFruit.name }}
                 </view>
 
@@ -880,7 +886,8 @@ init()
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-image: url('https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=400');
+  /* background-image: url('https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=400'); */
+  background-image: url('http://129.204.224.187:8080/background.png');
 }
 
 video {
@@ -896,18 +903,20 @@ video {
 }
 
 .fruitContainer {
-  background-image: url('https://images.pexels.com/photos/1028598/pexels-photo-1028598.jpeg?auto=compress&cs=tinysrgb&w=600');
+  /* background-image: url('https://images.pexels.com/photos/1028598/pexels-photo-1028598.jpeg?auto=compress&cs=tinysrgb&w=600'); */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 0.9;
+  background-color: rgb(255, 255, 255);
+  /* opacity: 0.9; */
 }
 
 .foodContainer {
-  background-image: url('https://images.pexels.com/photos/616401/pexels-photo-616401.jpeg?auto=compress&cs=tinysrgb&w=400');
+  /* background-image: url('https://images.pexels.com/photos/616401/pexels-photo-616401.jpeg?auto=compress&cs=tinysrgb&w=400'); */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 0.9;
+  background-color: rgb(255, 255, 255);
+  /* opacity: 0.9; */
 }
 </style>
