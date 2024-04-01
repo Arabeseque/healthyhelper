@@ -177,6 +177,7 @@ async function getRecommodDataFruit() {
   const year = date.getFullYear()
   const month = date.getMonth() + 1
   const day = date.getDate()
+  const hour = date.getHours()
 
   // 格式化日期
   const formattedDate = `${year}-${month}-${day}`
@@ -318,6 +319,14 @@ function uploadAiImage(tempFilePaths) {
   })
 }
 function handlePostAnalyseData() {
+  // 计算foodType
+  const now = new Date()
+  const hour = now.getHours()
+  if (hour >= 5 && hour <= 10) var foodType = 'breakfast'
+  else if (hour >= 11 && hour <= 16) var foodType = 'lunch'
+  else  var foodType = 'dinner'
+
+  // 发送
   analyseImageRes.value.forEach((item) => {
     uni.request({
       url: import.meta.env.VITE_BASE_API + '/record/foods',
@@ -329,7 +338,8 @@ function handlePostAnalyseData() {
           foodId: item.id,
           recordTime: formatTime(new Date()),
           foodWeight: item.count,
-          foodType: 'breakfast'
+          // foodType: 'breakfast'
+          foodType: foodType
         }
       ],
       success: (res: any) => {
