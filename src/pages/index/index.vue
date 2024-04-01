@@ -887,7 +887,7 @@ init()
   background-position: center;
   background-repeat: no-repeat;
   /* background-image: url('https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=400'); */
-  background-image: url('http://129.204.224.187:8080/background.png');
+  background-image: url('http://129.204.224.187:8080/back3.png');
 }
 
 video {

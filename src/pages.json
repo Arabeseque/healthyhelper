@@ -102,6 +102,12 @@
       "style": {
         "navigationBarTitleText": "详情信息"
       }
+    },
+    {
+      "path": "pages/personalPage/disease",
+      "style": {
+        "navigationBarTitleText": "疾病信息"
+      }
     }
   ],
   "globalStyle": {

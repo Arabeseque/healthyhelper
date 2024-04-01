@@ -452,16 +452,18 @@ export default {
         data: this.postForm,
         success: (res) => {
           if (res.data.code === 200) {
-            uni.navigateBack({
-              delta: 1,
-              success() {
-                prePage.$vm.goCurrent() // 当返回成功的时候调用上一级页面的回调
-              }
-            })
+           this.back()
           }
         }
       })
-    }
+    },
+    // 返回上一个页面
+    back() {
+		uni.$emit('refreshData');
+		uni.navigateBack({
+			delta: 1
+		})
+	},
   }
 }
 </script>

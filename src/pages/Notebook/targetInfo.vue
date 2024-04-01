@@ -12,89 +12,131 @@
         <view>
           <view
             class="flex flex-col gap-2 pt-3"
-            v-for="(item, key,index) in planData"
+            v-for="(item, key, index) in planData"
             :key="key">
             <!-- 目标清单 -->
             <view class="flex items-center justify-between">
               <span>{{ name[index] }}</span>
-              <span class="text-sm opacity-60">{{todayData[key]}}/{{ item }} {{danwei[index]}}</span>
+              <span class="text-sm opacity-60">
+                {{ todayData[key] }}/{{ item }} {{ danwei[index] }}
+              </span>
             </view>
             <view>
               <progress
-                :percent= todayArr[index]
+                :percent="todayArr[index]"
                 stroke-width="15"
                 border-radius="6"
                 color="#d07c6c" />
             </view>
           </view>
-
         </view>
       </view>
     </view>
   </view>
 </template>
 
-<script setup lang="ts">
+<script >
 import { useUserStore } from '@/stores/user'
 
 // 用户数据
 const userStore = useUserStore()
 const userId = userStore.userid
 
-
-//获取计划数据
-const planData = ref()
-function getPlanTableData(params: any) {
-  uni.request({
-    url: import.meta.env.VITE_BASE_API + params.url,
-    method: params.method,
-    data: params.params ? params.params : {},
-    header: {
-      token:
-        'eyJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_6tWKi5NUrJScgwN8dANDXYNUtJRSq0oULIyNDc0Mjc0Mzc21FEqLU4t8kwBqjJUgnDyEnNTgVxjI6VaAGZDjc1BAAAA.YSX3JxTTNMAV8tub28sOB_TIZsNxx6pVVN7EmQVB-OXTk-kHmTZ_hqH0Ph--V7FLVhVOT2wrGdZp6QgTOcdK6A' // 自定义请求头信息
-    },
-    success: (res) => {
-        planData.value = res.data.data
+export default {
+  data() {
+    return {
+      planData: '',
+      todayData: '',
+      todayArr: [],
+      danwei: [
+        '千卡',
+        '克',
+        '克',
+        '克',
+        '克',
+        '微克',
+        '微克',
+        '毫克',
+        '毫克',
+        '毫克',
+        '毫克',
+        '微克',
+        '毫克',
+        '毫克',
+        '毫克',
+        '微克',
+        '毫克',
+        '毫克',
+        '毫克',
+        '毫克',
+        '毫克'
+      ],
+      name: [
+        '热量',
+        '蛋白',
+        '脂肪',
+        '碳水',
+        '纤维',
+        '维生素A',
+        '胡罗卜素',
+        '盐酸',
+        '维生素C',
+        '维生素E',
+        '胆固醇',
+        '钾',
+        '钠',
+        '钙',
+        '镁',
+        '铁',
+        '锰',
+        '锌',
+        '铜',
+        '磷',
+        '锡'
+      ]
     }
-  })
-}
-getPlanTableData({
-  url: '/user/plan/1',
-  method: 'GET'
-})
-
-//获取今日数据
-const todayData = ref()
-let todayArr:arr[]=[]
-let  danwei:arr2[]=["千卡","克","克","克","克","微克","微克","毫克","毫克","毫克","毫克","微克","毫克","毫克","毫克","微克","毫克","毫克","毫克","毫克","毫克"]
-let name:arr3[] = ["热量","蛋白","脂肪","碳水","纤维","维生素A","胡罗卜素","盐酸","维生素C","维生素E","胆固醇","钾","钠","钙","镁","铁","锰","锌","铜","磷","锡"]
-function getTodayData(params: any) {
-  uni.request({
-    url: import.meta.env.VITE_BASE_API + params.url,
-    method: params.method,
-    data: params.params ? params.params : {},
-    header: {
-      token:
-        'eyJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_6tWKi5NUrJScgwN8dANDXYNUtJRSq0oULIyNDc0Mjc0Mzc21FEqLU4t8kwBqjJUgnDyEnNTgVxjI6VaAGZDjc1BAAAA.YSX3JxTTNMAV8tub28sOB_TIZsNxx6pVVN7EmQVB-OXTk-kHmTZ_hqH0Ph--V7FLVhVOT2wrGdZp6QgTOcdK6A' // 自定义请求头信息
-    },
-    success: (res) => {
-        todayData.value = res.data.data
-        for(var temp in todayData.value){
-           todayArr.push((todayData.value[temp] / planData.value[temp])*100)
+  },
+  onLoad() {
+    this.getPlanTableData()
+    this.getTodayData()
+    setTimeout(() => {
+      this.rating()
+    }, 100);
+  },
+  methods: {
+    // 获取计划数据
+    getPlanTableData() {
+      uni.request({
+        url: import.meta.env.VITE_BASE_API + '/user/plan/' + userId,
+        method: 'GET',
+        header: {},
+        success: (res) => {
+          this.planData = res.data.data
+          // console.log(this.planData,"pladnData")
         }
-        console.log(todayArr)
+      })
+    },
+    // 获取今日数据
+    getTodayData() {
+      // console.log(222222)
+      uni.request({
+        url: import.meta.env.VITE_BASE_API + '/record/summary/today/' + userId,
+        method: 'GET',
+        header: {},
+        success: (res) => {
+          // console.log(1111111)
+          this.todayData = res.data.data
+        }
+      })
+    },
+    // 插入比例数据
+    rating(){
+      for (var temp in this.todayData) {
+            this.todayArr.push((this.todayData[temp] / this.planData[temp]) * 100)
+          }
+          // console.log(this.todayArr,"todayArr")
     }
-  })
+  }
 }
 
-getTodayData({
-    url:'/record/summary/today/' + userId,
-    method:'GET'
-})
-
-//计算
-
-// const progressBreakfast = computed(() => {
-//   return (todayRecord.value.breakfast / 300) * 100
-// })
 </script>

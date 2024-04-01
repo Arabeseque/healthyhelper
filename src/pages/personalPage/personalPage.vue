@@ -146,11 +146,18 @@ export default {
       // 执行刷新操作
       this.refreshData()
     })
-  },
-  mounted() {
+
+    //获取数据
     this.getUserData()
     this.getStatus()
+
+    // 跳转回来刷新
+    uni.$on('refreshData', () => {
+      this.getUserData()
+      this.getStatus()
+    })
   },
+  mounted() {},
   data() {
     return {
       userData: '',
