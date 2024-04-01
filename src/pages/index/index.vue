@@ -3,7 +3,8 @@ import uIcons from '@dcloudio/uni-ui/lib/uni-icons/uni-icons.vue'
 import { useUserStore } from '@/stores/user'
 
 const userStore = useUserStore()
-const userId = userStore.userid
+// const userId = userStore.userid
+const userId = 1
 const toast = ref()
 
 function chooseMedia() {
@@ -146,10 +147,12 @@ async function getRecommodData() {
 
   // 格式化日期
   const formattedDate = `${year}-${month}-${day}`
+  const tempDate = '2024-03-21'
+
   uni.request({
     url:
       import.meta.env.VITE_BASE_API +
-      `/analyse/recommand/food/${userId}/${formattedDate}`,
+      `/analyse/recommand/food/${userId}/${tempDate}`,
     method: 'GET',
     success: (res: any) => {
       // console.log(res.data.data)
@@ -163,6 +166,7 @@ async function getRecommodData() {
     }
   })
 }
+
 async function getRecommodDataFruit() {
   // analyse/recommand/1/2023-05-10
   // const date = new Date().toLocaleDateString()
@@ -192,6 +196,7 @@ async function getRecommodDataFruit() {
     }
   })
 }
+
 async function getStandard() {
   uni.request({
     url: import.meta.env.VITE_BASE_API + `/user/bestNutrition/${userId}`,
@@ -327,36 +332,17 @@ function uploadAiImage(tempFilePaths) {
 }
 function handlePostAnalyseData() {
   analyseImageRes.value.forEach((item) => {
-    const percent = item.count / 100
-
     uni.request({
       url: import.meta.env.VITE_BASE_API + '/record/foods',
       method: 'POST',
       data: [
         {
+          id: null,
           userId,
           foodId: item.id,
           recordTime: formatTime(new Date()),
-          danbai: item.danbai * percent,
-          danguchun: item.danguchun * percent,
-          gai: item.gai * percent,
-          huluobosu: item.huluobosu * percent,
-          jia: item.jia * percent,
-          lin: item.lin * percent,
-          mei: item.mei * percent,
-          meng: item.meng * percent,
-          na: item.na * percent,
-          reliang: item.reliang * percent,
-          tanshui: item.tanshui * percent,
-          tie: item.tie * percent,
-          tong: item.tong * percent,
-          va: item.va * percent,
-          vc: item.vc * percent,
-          ve: item.ve * percent,
-          xi: item.xi * percent,
-          xianwei: item.xianwei * percent,
-          xin: item.xin * percent,
-          yansuan: item.yansuan * percent
+          foodWeight: item.count,
+          foodType: 'breakfast'
         }
       ],
       success: (res: any) => {}
@@ -515,6 +501,25 @@ function navigateToAdvice() {
     url: '/pages/advice/index'
   })
 }
+
+function handleClickRecordMyself() {
+  if (showAdvice.value) {
+    ani(['fade'], true)
+  }
+  setTimeout(() => {
+    aniInput(['fade'], true)
+  }, 400)
+}
+
+function handleCancelInput() {
+  aniInput(['fade'], true)
+  setTimeout(() => {
+    if (!showAdvice.value) {
+      ani(['fade'], true)
+    }
+  }, 800)
+}
+
 // v-show Fuction
 function showToast() {
   toast.value.show({
@@ -567,7 +572,7 @@ init()
                   <a
                     href="#"
                     class="inline-flex items-center rounded-lg bg-orange-400 px-3 py-2 text-center text-sm font-bold text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    换一个!
+                    查看详情
                   </a>
                 </view>
               </view>
@@ -771,7 +776,7 @@ init()
 
         <!-- TODO: 手动记录 -->
         <button
-          @click="aniInput(['fade'], true)"
+          @click="handleClickRecordMyself"
           class="border-[#185864 flex w-[150px] items-center justify-center gap-2 rounded-3xl border font-bold text-[#6fb23a]">
           <view
             class="flex h-[22px] w-[25px] items-center justify-center overflow-hidden">
@@ -802,6 +807,7 @@ init()
             borderTop
             v-model="foodInputValue.foodWeight"
             placeholder="输入食品的重量"></fui-input>
+          <fui-button width="60px" @click="handleCancelInput">取消</fui-button>
           <fui-button
             width="60px"
             background="#f9a647"

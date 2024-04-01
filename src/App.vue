@@ -9,10 +9,9 @@ onLaunch(() => {
   //     url: '/pages/login/index'
   //   })
   // }
-  uni.redirectTo({
-    url: '/pages/login/index'
-  })
-
+  // uni.redirectTo({
+  //   url: '/pages/login/index'
+  // })
   // uni.login({
   //   provider: 'weixin',
   //   success: function (loginRes) {W
