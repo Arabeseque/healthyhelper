@@ -101,7 +101,7 @@ export default {
     this.getTodayData()
     setTimeout(() => {
       this.rating()
-    }, 100);
+    }, 200);
   },
   methods: {
     // 获取计划数据

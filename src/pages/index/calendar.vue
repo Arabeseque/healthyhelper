@@ -8,7 +8,7 @@
         @click="toPersonalPage()">
         <view class="flex items-end justify-center gap-2">
           <text class="i-mdi-account text-2xl">496</text>
-          <span>{{this.userData.name}}</span>
+          <span>{{ this.userData.name }}</span>
         </view>
       </view>
     </view>
@@ -231,9 +231,28 @@ export default {
       }
     }
   },
+  // watch:{
+  //   'userStore.shouldRefesh':{
+  //     hander(){
+  //       this.getTodayData()
+  //       this.getPlanData()
+  //       console.log(11111111)
+  //     },
+  //     deep: true
+  //   }
+  // },
   onReady() {
     // 柱状图
     this.getServerData()
+  },
+  onLoad() {
+    // 监听自定义事件
+    // this.eventChannel = this.getOpenerEventChannel()
+    // this.eventChannel.on('refreshCalendar', () => {
+    //   // 执行刷新操作
+    //   this.getPlanData()
+    //   this.getTodayData()
+    // })
   },
   created() {
     this.dates = this.monthDay(this.y, this.m)
@@ -246,6 +265,14 @@ export default {
     this.getDateData()
     this.getTodayData()
     this.getPlanData()
+
+    // 拍照过来刷新
+    uni.$on('refreshCalendar', () => {
+      this.getDateData()
+      this.getTodayData()
+      this.getPlanData()
+      // console.log(222222)
+    })
   },
   computed: {
     // 顶部星期栏

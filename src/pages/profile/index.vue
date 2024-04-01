@@ -20,10 +20,10 @@ const formData = ref({
 
 const checkboxItems = ref([
   { name: '高血压', value: 'hypertension', checked: false },
-  { name: '糖尿病', value: 'hyperlipemia', checked: false },
-  { name: '高血脂', value: 'hyperglycemia', checked: false },
-  { name: '高尿酸', value: 'hypercholesterol', checked: false },
-  { name: '肥胖', value: 'pregnant', checked: false }
+  { name: '高血脂', value: 'hyperlipemia', checked: false },
+  { name: '高血糖', value: 'hyperglycemia', checked: false },
+  { name: '高胆固醇', value: 'hypercholesterol', checked: false },
+  { name: '怀孕', value: 'pregnant', checked: false }
 ])
 
 const currentPage = ref(0)

@@ -5,6 +5,8 @@ export const useUserStore = defineStore('user', () => {
   const userInfo = ref({})
   const isLogin = ref(false)
 
+  const shouldRefesh = ref(false)
+
   function login(userInfo) {
     userInfo.value = userInfo
     isLogin.value = true
@@ -18,6 +20,7 @@ export const useUserStore = defineStore('user', () => {
   const getUserName = computed(() => userInfo.value.name)
 
   return {
+    shouldRefesh,
     userid,
     userInfo,
     isLogin,

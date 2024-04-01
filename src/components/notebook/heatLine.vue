@@ -39,6 +39,12 @@ const opts = ref({
       type: 'curve',
       width: 2,
       activeType: 'hollow'
+    },
+    // 标记线
+    markLine: {
+      type: 'solid',
+      dashLength: 4,
+      data: []
     }
   }
 })
@@ -74,13 +80,13 @@ function getTableData(params) {
           }
         ]
       }
-      console.log(res.data.data[item].reliang,"热量")
+      console.log(res.data.data[item].reliang, '热量')
     }
   })
 }
 
 getTableData({
-  url: '/record/energys/'+userId,
+  url: '/record/energys/' + userId,
   method: 'GET'
 })
 </script>

@@ -5,9 +5,9 @@ onLaunch(() => {
   // const token = uni.getStorageSync('token')
   // if (!token || token === 'null') {
   //   // 未找到 token，跳转到登录页
-  //   uni.redirectTo({
-  //     url: '/pages/login/index'
-  //   })
+    uni.redirectTo({
+      url: '/pages/login/index'
+    })
   // }
   // uni.redirectTo({
   //   url: '/pages/login/index'

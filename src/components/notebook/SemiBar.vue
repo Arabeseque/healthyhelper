@@ -5,22 +5,14 @@
 </template>
 
 <script setup lang="ts">
-const chartData = ref({
-  // series: [
-  //   {
-  //     name: 'danbai',
-  //     data: 0.5
-  //   },
-  //   {
-  //     name: 'zhifang',
-  //     data: 0
-  //   },
-  //   {
-  //     name: 'tanshui',
-  //     data: 0
-  //   }
-  // ]
-})
+import { useUserStore } from '@/stores/user'
+
+// 用户数据
+const userStore = useUserStore()
+const userId = userStore.userid
+
+
+const chartData = ref({})
 
 const opts = {
   color: ['#185864', '#f9a647', '#73C0DE'],
@@ -49,8 +41,9 @@ const opts = {
 
 // TODO: summary data
 const summaryData = ref({})
-function getTableData(params: any) {
-  setTimeout(function () {
+
+function getSummaryData(params: any) {
+  return new Promise(() => {
     uni.request({
       url: import.meta.env.VITE_BASE_API + params.url,
       method: params.method,
@@ -69,6 +62,7 @@ function getTableData(params: any) {
         if (summaryData.value.tanshui >= planData.value.tanshui)
           summaryData.value.tanshui = planData.value.tanshui
 
+        // console.log(summaryData.value, planData.value, "chartTest")
         chartData.value.series = [
           {
             name: 'danbai',
@@ -87,13 +81,11 @@ function getTableData(params: any) {
         // console.log(chartData.value, 'success Data')
       }
     })
-  }, 100)
+  })
 }
 
-// 获取用户目标
-const planData = ref({})
-function getPlanTableData(params: any) {
-  setTimeout(function () {
+function getPlanData(params: any) {
+  return new Promise((resolve) => {
     uni.request({
       url: import.meta.env.VITE_BASE_API + params.url,
       method: params.method,
@@ -103,22 +95,40 @@ function getPlanTableData(params: any) {
           'eyJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_6tWKi5NUrJScgwN8dANDXYNUtJRSq0oULIyNDc0Mjc0Mzc21FEqLU4t8kwBqjJUgnDyEnNTgVxjI6VaAGZDjc1BAAAA.YSX3JxTTNMAV8tub28sOB_TIZsNxx6pVVN7EmQVB-OXTk-kHmTZ_hqH0Ph--V7FLVhVOT2wrGdZp6QgTOcdK6A' // 自定义请求头信息
       },
       success: (res) => {
-        planData.value = res.data.data
-        console.log(planData.value, 'planData')
+        const tempPlanData = res.data.data
+        resolve(tempPlanData)
+        // console.log(planData.value, 'planData')
       }
     })
-  }, 100)
+  })
 }
 
-getTableData({
-  url: '/record/summary/today/1',
-  method: 'GET'
-})
+// 获取用户目标
+const planData = ref({})
 
-getPlanTableData({
-  url: '/user/plan/1',
+async function init() {
+  getPlanData({
+  url: '/user/plan/' + userId,
+  method: 'GET'
+}).then((tempPlanData) => {
+  planData.value = tempPlanData
+  getSummaryData({
+  url: '/record/summary/today/' + userId,
   method: 'GET'
 })
+  })
+}
+
+init()
+// getTableData({
+//   url: '/record/summary/today/1',
+//   method: 'GET'
+// })
+
+// getPlanTableData({
+//   url: '/user/plan/1',
+//   method: 'GET'
+// })
 </script>
 
 <style scoped>

@@ -54,6 +54,7 @@ function handleLogin() {
         userStore.userid = res.data.data.id
         console.log(userStore.userid, 'userStore.userid')
         uni.setStorageSync('token', res.data.data.token)
+        
         // uni.switchTab({
         //   url: '/pages/index/index'
         // })
