@@ -44,10 +44,9 @@
                 {{ item.alert }}
               </view>
             </view>
-            <view
-              class="flex items-center justify-center gap-1 rounded-xl shadow-xl">
+            <view class="flex items-center justify-center gap-1 rounded-xl">
               <view
-                class="border-1 rounded-l-xl bg-white p-2 shadow-xl"
+                class="border-1 rounded-l-xl bg-white p-2"
                 @click="handleCountDown(item)">
                 <u-icons type="left" size="20"></u-icons>
               </view>
@@ -55,7 +54,7 @@
                 {{ item.count }}
               </view>
               <view
-                class="border-1 rounded-r-xl bg-white p-2 shadow-xl"
+                class="border-1 rounded-r-xl bg-white p-2"
                 @click="handleCountAdd(item)">
                 <u-icons type="right" size="20"></u-icons>
               </view>
@@ -78,7 +77,7 @@
     </view>
 
     <view
-      class="charts-box box-border flex flex-col gap-4 rounded-xl bg-white p-4 shadow-md">
+      class="charts-box box-border flex flex-col gap-4 rounded-xl bg-white p-4">
       <checkbox-group @change="handleCheckChange">
         <label
           class="uni-list-cell uni-list-cell-pd"
@@ -93,8 +92,7 @@
                 {{ item.alert }}
               </view>
             </view>
-            <view
-              class="flex items-center justify-center gap-1 rounded-xl shadow-xl">
+            <view class="flex items-center justify-center gap-1 rounded-xl">
               <view
                 class="border-1 rounded-l-xl bg-white p-2 shadow-xl"
                 @click="handleCountDownFruit(item)">

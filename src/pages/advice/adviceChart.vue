@@ -40,26 +40,27 @@ const bestData = ref<ChartData>({
 function getBestData() {
   // @ts-ignore
   uni.request({
-    // @ts-ignore
-    url: import.meta.env.VITE_BASE_API + `/user/bestNutrition/${userId}`,
-    method: 'GET',
-    success: (res) => {
-      console.log(res.data.data, 'bestData')
-      const danbai = res.data.data.danbai
-      const tanshui = res.data.data.tanshui
-      const zhifang = res.data.data.zhifang
-      bestData.value = {
-        categories: ['蛋白质', '碳水化合物', '脂肪'],
-        series: [
-          {
-            name: '目标值',
-            data: [30, 40, 50]
-          }
-        ]
-      }
+    url: import.meta.env.VITE_BASE_API + '/user/index/getBestData',
+    method: 'POST',
+    data: {
+      userId
     },
-    fail: (err) => {
-      console.log(err, 'err')
+    success: (res) => {
+      if (res.data.code === 200) {
+        bestData.value = {
+          categories: Object.keys(res.data.data.slice(0, 7)).map((item) => {
+            return item
+          }),
+          series: [
+            {
+              name: '热量',
+              data: Object.values(res.data.data.slice(0, 7)).map((item) => {
+                return item
+              })
+            }
+          ]
+        }
+      }
     }
   })
 }
