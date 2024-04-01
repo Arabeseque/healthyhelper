@@ -1,15 +1,62 @@
 <template>
-  <view>
-    <view class="flex items-center justify-center p-4 text-2xl font-bold">
-      智能推荐
+  <view class="flex flex-col items-center justify-center bg-[#9dc9b6]">
+    <view class="flex items-center justify-center p-8 text-2xl font-bold">
+      饮食配置助手
     </view>
-    <adviceChart :chartData="chartData" />
+
+    <view
+      class="charts-box box-border flex flex-col gap-4 rounded-xl bg-white p-4 shadow-md">
+      <qiun-data-charts
+        type="column"
+        :opts="opts"
+        :chartData="chartData"
+        :canvas2d="true"
+        canvasId="ypYdoAedYKLsyuSLkGGFJfUrcpvBImQV" />
+    </view>
+
+    <view class="border opacity-10"></view>
+
+    <view class="py-2"></view>
+
+    <view
+      class="color-white flex w-full items-center justify-start px-6 py-2 text-xl font-semibold">
+      主食
+    </view>
+
+    <view
+      class="charts-box box-border flex flex-col gap-4 rounded-xl bg-white p-4 shadow-md">
+      <checkbox-group @change="handleCheckChange">
+        <label
+          class="uni-list-cell uni-list-cell-pd"
+          v-for="item in recommandData"
+          :key="item.foodId">
+          <view class="flex items-center justify-between p-2">
+            <view>{{ item.name }}</view>
+            <view>
+              <checkbox :value="item.foodId" />
+            </view>
+          </view>
+        </label>
+      </checkbox-group>
+    </view>
+
+    <view class="flex items-center justify-center gap-8 pt-10">
+      <button
+        class="mt-4 w-[120px] rounded-lg bg-orange-400 py-2 text-white"
+        @click="handleUpdateChart">
+        选择
+      </button>
+      <button
+        class="mt-4 w-[120px] rounded-lg bg-[#e2dbd0] py-2 text-white"
+        @click="handleToDetail">
+        重置
+      </button>
+    </view>
   </view>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import adviceChart from './adviceChart.vue'
 
 interface ChartData {
   categories: string[]
@@ -23,67 +70,173 @@ interface ChartData {
 const userId = 1
 
 // TODO: chart Fuction
-const chartData = ref({})
-const bestData = ref<ChartData>({
+const chartData = ref<ChartData>({
   categories: [],
   series: []
 })
 
-// function getChartData() {
-//   chartData.value = {
-//     categories: ['2012', '2013', '2014', '2015', '2016', '2017', '2018'],
-//     series: [
-//       {
-//         name: '当前添加量',
-//         data: [70, 40, 65, 100, 34, 18, 30]
-//       },
-//       {
-//         name: '目标值',
-//         data: [15, 30, 45, 20, 34, 70, 30]
-//       }
-//     ]
-//   }
-// }
+const currentDataFoodId = ref()
+const recommandData = ref([])
+const recommandDataFruit = ref([])
+
+const checkboxItems = ref([
+  { name: '高血压', value: 'hypertension', checked: false },
+  { name: '糖尿病', value: 'hyperlipemia', checked: false },
+  { name: '高血脂', value: 'hyperglycemia', checked: false },
+  { name: '高尿酸', value: 'hypercholesterol', checked: false },
+  { name: '肥胖', value: 'pregnant', checked: false }
+])
+const opts = {
+  color: [
+    '#1890FF',
+    '#91CB74',
+    '#FAC858',
+    '#EE6666',
+    '#73C0DE',
+    '#3CA272',
+    '#FC8452',
+    '#9A60B4',
+    '#ea7ccc'
+  ],
+  padding: [15, 15, 0, 5],
+  enableScroll: false,
+  legend: {},
+  xAxis: {
+    disableGrid: true
+  },
+  yAxis: {
+    data: [
+      {
+        min: 0
+      }
+    ]
+  },
+  extra: {
+    column: {
+      type: 'group',
+      width: 30,
+      activeBgColor: '#000000',
+      activeBgOpacity: 0.08
+    }
+  }
+}
 
 // 获取目标值
 function getBestData() {
-  // @ts-ignore
-  uni.request({
-    // @ts-ignore
-    url: import.meta.env.VITE_BASE_API + `/user/bestNutrition/${userId}`,
-    method: 'GET',
-    success: (res) => {
-      console.log(res.data.data, 'bestData')
-      const danbai = res.data.data.danbai
-      const tanshui = res.data.data.tanshui
-      const zhifang = res.data.data.zhifang
-      bestData.value = {
-        categories: ['蛋白质', '碳水化合物', '脂肪'],
-        series: [
-          {
-            name: '目标值',
-            data: [30, 40, 50]
+  return new Promise((resolve) => {
+    uni.request({
+      url: import.meta.env.VITE_BASE_API + `/user/bestNutrition/${userId}`,
+      method: 'GET',
+
+      success: (res) => {
+        console.log(res.data.data, 'bestData')
+        if (res.data.code === 200) {
+          chartData.value = {
+            categories: ['蛋白', '碳水', '热量'],
+            series: [
+              {
+                name: '推荐值',
+                data: [
+                  res.data.data.danbai,
+                  res.data.data.tanshui,
+                  res.data.data.zhifang
+                ]
+              }
+            ]
           }
-        ]
+          console.log(bestData.value, 'bestData')
+        }
       }
-    },
-    fail: (err) => {
-      console.log(err, 'err')
+    })
+  })
+}
+
+function getRecommodData() {
+  // analyse/recommand/1/2023-05-10
+  // const date = new Date().toLocaleDateString()
+  // 获取当前日期
+  const date = new Date()
+
+  // 获取年、月、日
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+
+  // 格式化日期
+  const formattedDate = `${year}-${month}-${day}`
+  const tempDate = '2024-03-21'
+
+  uni.request({
+    url:
+      import.meta.env.VITE_BASE_API +
+      `/analyse/recommand/food/${userId}/${tempDate}`,
+    method: 'GET',
+    success: (res: any) => {
+      // console.log(res.data.data)
+      recommandData.value = res.data.data
+      console.log(res.data.data, 'recommondData')
     }
   })
 }
 
-function init() {
-  // getChartData()
-  getBestData()
+function getRecommodDataFruit() {
+  // analyse/recommand/1/2023-05-10
+  // const date = new Date().toLocaleDateString()
+  // 获取当前日期
+  const date = new Date()
+
+  // 获取年、月、日
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+
+  // 格式化日期
+  const formattedDate = `${year}-${month}-${day}`
+  uni.request({
+    url:
+      import.meta.env.VITE_BASE_API +
+      `/analyse/recommand/fruit/${userId}/${formattedDate}`,
+    method: 'GET',
+    success: (res: any) => {
+      // console.log(res.data.data)
+      recommandDataFruit.value = res.data.data
+    }
+  })
 }
+
+// 场景函数
+function handleCheckChange(e: any) {
+  console.log('checkbox change', e.detail.value)
+  const checkedValue = e.detail.value
+  currentDataFoodId.value = checkedValue
+}
+
+function handleUpdateChart() {
+  if (chartData.value.series.length > 1) {
+    chartData.value.series.pop()
+  }
+
+  chartData.value.series.push({
+    name: '当前添加量',
+    data: [70, 40, 65]
+  })
+}
+function init() {
+  // 获取推荐数据
+  getRecommodData()
+  getRecommodDataFruit()
+  // 图标渲染
+  getBestData().then(() => {
+    // chartData.value = bestData.value
+  })
+}
+
 init()
 </script>
 
 <style scoped>
 /* 请根据实际需求修改父元素尺寸，组件自动识别宽高 */
 .charts-box {
-  width: 100%;
-  height: 300px;
+  width: 90%;
 }
 </style>
