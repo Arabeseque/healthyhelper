@@ -11,7 +11,6 @@ import { useUserStore } from '@/stores/user'
 const userStore = useUserStore()
 const userId = userStore.userid
 
-
 const chartData = ref({})
 
 const opts = {
@@ -108,27 +107,30 @@ const planData = ref({})
 
 async function init() {
   getPlanData({
-  url: '/user/plan/' + userId,
-  method: 'GET'
-}).then((tempPlanData) => {
-  planData.value = tempPlanData
-  getSummaryData({
-  url: '/record/summary/today/' + userId,
-  method: 'GET'
-})
+    url: '/user/plan/' + userId,
+    method: 'GET'
+  }).then((tempPlanData) => {
+    planData.value = tempPlanData
+    getSummaryData({
+      url: '/record/summary/today/' + userId,
+      method: 'GET'
+    })
   })
 }
 
 init()
-// getTableData({
-//   url: '/record/summary/today/1',
-//   method: 'GET'
-// })
 
-// getPlanTableData({
-//   url: '/user/plan/1',
-//   method: 'GET'
-// })
+function mounted() {
+  // 拍照过来刷新
+  uni.$on('refreshCalendar', () => {
+    uni.redirectTo({
+      url: '../../pages/index/notebook'
+    })
+  })
+
+}
+
+mounted()
 </script>
 
 <style scoped>

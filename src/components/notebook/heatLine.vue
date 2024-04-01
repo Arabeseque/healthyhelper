@@ -89,6 +89,19 @@ getTableData({
   url: '/record/energys/' + userId,
   method: 'GET'
 })
+
+function mounted() {
+  uni.$on('refreshCalendar', () => {
+//     uni.redirectTo({
+//     url: '../../pages/index/notebook' 
+
+window.location.reload();
+
+// });
+  })
+}
+
+mounted()
 </script>
 
 <style scoped>

@@ -87,6 +87,7 @@ async function putUserInfo() {
     formData.value.weight /
     (formData.value.height / 100) ** 2
   ).toFixed(2)
+  formData.value.height = formData.value.height/100
   // promise
   return new Promise((resolve, reject) => {
     uni.request({
@@ -151,7 +152,7 @@ function handleCheckChange(e: any) {
 }
 </script>
 <template>
-  <view class="bg-[#eee]" style="height: 100vh">
+  <view class="bg-[#eee]">
     <view class="bg-[#9dc9b6]" style="height: 25vh">
       <view class="flex items-center justify-center">
         <swiper class="swiper w-full" :current="currentPage">
@@ -188,7 +189,18 @@ function handleCheckChange(e: any) {
                 v-model="formData.name"></fui-input>
               <view class="py-1"></view>
 
-              <label for="username">当前体重:</label>
+              <label for="username">年龄(岁):</label>
+
+              <view class="py-1"></view>
+
+              <fui-input
+                borderTop
+                placeholder="请输入年龄"
+                v-model="formData.age"></fui-input>
+
+              <view class="py-1"></view>
+
+              <label for="username">当前体重(kg):</label>
 
               <view class="py-2"></view>
 
@@ -198,7 +210,7 @@ function handleCheckChange(e: any) {
                 v-model="formData.weight"></fui-input>
               <view class="py-1"></view>
 
-              <label for="username">当前身高:</label>
+              <label for="username">当前身高(cm):</label>
 
               <view class="py-1"></view>
 
@@ -209,7 +221,7 @@ function handleCheckChange(e: any) {
 
               <view class="py-1"></view>
 
-              <label for="username">目标体重:</label>
+              <label for="username">目标体重(kg):</label>
 
               <view class="py-1"></view>
 
@@ -218,19 +230,8 @@ function handleCheckChange(e: any) {
                 placeholder="请输入目标体重"
                 v-model="formData.targetWeight"></fui-input>
 
-              <view class="py-1"></view>
-
-              <label for="username">年龄:</label>
-
-              <view class="py-1"></view>
-
-              <fui-input
-                borderTop
-                placeholder="请输入目标体重"
-                v-model="formData.age"></fui-input>
-
               <button
-                class="mt-4 w-full rounded-lg bg-orange-400 py-2 text-white"
+                class="mt-4 w-full rounded-lg bg-[#9dc9b6] py-2 text-white"
                 @click="handleToDetail">
                 下一步
               </button>
@@ -279,7 +280,7 @@ function handleCheckChange(e: any) {
               </view>
 
               <button
-                class="mt-4 w-full rounded-lg bg-orange-400 py-2 text-white"
+                class="mt-4 w-full rounded-lg bg-[#9dc9b6] py-2 text-white"
                 @click="handleToFinish">
                 完成！
               </button>

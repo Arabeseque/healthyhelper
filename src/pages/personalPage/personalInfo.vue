@@ -308,7 +308,7 @@ export default {
         header: {},
         success: (res) => {
           this.user = res.data.data
-          this.userData.name = this.user.username
+          this.userData.name = this.user.name
           this.userData.age = this.user.age
           this.userData.height = this.user.height
           this.userData.weight = this.user.weight

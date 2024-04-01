@@ -23,10 +23,7 @@
                 <span class="text-sm opacity-60" v-if="todayInfo[0] == 0">
                   未吃
                 </span>
-                <span
-                  class="text-sm opacity-60"
-                  v-if="todayInfo[0] == 1"
-                >
+                <span class="text-sm opacity-60" v-if="todayInfo[0] == 1">
                   已吃
                 </span>
               </view>
@@ -219,4 +216,16 @@ getTodayRecord({
   url: '/record/energy/today/' + userId,
   method: 'GET'
 })
+
+function mounted() {
+  // 拍照过来刷新
+  uni.$on('refreshCalendar', () => {
+    getTodayRecord({
+      url: '/record/energy/today/' + userId,
+      method: 'GET'
+    })
+  })
+}
+
+mounted()
 </script>

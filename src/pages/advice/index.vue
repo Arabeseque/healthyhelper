@@ -94,7 +94,7 @@
             </view>
             <view class="flex items-center justify-center gap-1 rounded-xl">
               <view
-                class="border-1 rounded-l-xl bg-white p-2 shadow-xl"
+                class="border-1 rounded-l-xl bg-white p-2"
                 @click="handleCountDownFruit(item)">
                 <u-icons type="left" size="20"></u-icons>
               </view>
@@ -102,7 +102,7 @@
                 {{ item.count }}
               </view>
               <view
-                class="border-1 rounded-r-xl bg-white p-2 shadow-xl"
+                class="border-1 rounded-r-xl bg-white p-2"
                 @click="handleCountAddFruit(item)">
                 <u-icons type="right" size="20"></u-icons>
               </view>
@@ -204,9 +204,9 @@ function getBestData() {
               {
                 name: '推荐值',
                 data: [
-                  res.data.data.danbai * 3,
-                  res.data.data.tanshui * 3,
-                  res.data.data.reliang * 3
+                  res.data.data.danbai ,
+                  res.data.data.tanshui ,
+                  res.data.data.reliang
                 ]
               }
             ]
@@ -330,6 +330,8 @@ function handleToDetail() {
   recommandDataFruit.value.forEach((element: any) => {
     element.count = 0
   })
+  
+  handleUpdateChart()
 }
 
 function handleUpdateChart() {

@@ -334,7 +334,10 @@ function handlePostAnalyseData() {
       ],
       success: (res: any) => {
         userStore.shouldRefesh = true
-        uni.$emit('refreshCalendar');
+        // uni.$emit('refreshCalendar')
+        uni.reLaunch({
+          url: '../../pages/index/index'
+        })
       }
     })
   })
@@ -534,7 +537,7 @@ init()
 <template>
   <view class="container flex h-[100vh] flex-col" blurEffect="light">
     <fui-toast ref="toast"></fui-toast>
-    <view>
+    <view v-show="!showImage">
       <view
         class="flex items-center justify-center pt-20 text-3xl font-bold"
         style="color: rgba(0, 0, 0, 0.7)">
@@ -831,26 +834,28 @@ init()
         <image
           lazy-load="true"
           :src="uploadImageSrc"
-          class="h-60 w-60 rounded-xl shadow-md"></image>
+          class="h-45 w-80 rounded-xl shadow-md"></image>
 
         <view class="flex flex-col gap-2 pt-4">
           <view
             class="flex items-center justify-end gap-4 pr-4 opacity-90"
             :key="item.id"
             v-for="item in analyseImageRes">
-            <view>{{ item.name }}</view>
+            <view class="text-xl font-semibold" style="color: white">
+              {{ item.name }}
+            </view>
             <view
-              class="flex items-center justify-center gap-1 rounded-xl shadow-xl">
+              class="flex items-center justify-center gap-1 rounded-xl bg-white shadow-xl">
               <view
-                class="border-1 rounded-l-xl bg-white p-2 shadow-xl"
+                class="border-1 rounded-l-xl bg-white p-1"
                 @click="handleCountDown(item)">
                 <u-icons type="left" size="25"></u-icons>
               </view>
-              <view class="border-1 bg-white p-2 text-xl">
+              <view class="border-1 p-1 text-xl">
                 {{ item.count }}
               </view>
               <view
-                class="border-1 rounded-r-xl bg-white p-2 shadow-xl"
+                class="border-1 rounded-r-xl bg-white p-1"
                 @click="handleCountAdd(item)">
                 <u-icons type="right" size="25"></u-icons>
               </view>
@@ -865,9 +870,14 @@ init()
             class="photo flex w-[150px] items-center justify-center gap-2 rounded-3xl bg-[#f9a647] text-white">
             <view>提交</view>
           </button>
-          <fui-button width="60px" @click="handleCancelUploadImage">
+          <!-- <fui-button width="60px" @click="handleCancelUploadImage">
             取消
-          </fui-button>
+          </fui-button> -->
+          <button
+            @click="handleCancelUploadImage"
+            class="photo flex w-[150px] items-center justify-center gap-2 rounded-3xl bg-[#f9a647] text-white">
+            取消
+          </button>
         </view>
       </view>
     </fui-animation>

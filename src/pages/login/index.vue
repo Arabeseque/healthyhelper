@@ -1,33 +1,4 @@
 <template>
-  <!-- <div class="registration-container container">
-      <h1 class="py-6 text-3xl">登录</h1>
-      <form class="flex flex-col gap-6">
-        <label for="username">用户名:</label>
-
-        <view class="py-2"></view>
-
-        <fui-input
-          borderTop
-          placeholder="请输入用户名"
-          v-model="loginData.username"></fui-input>
-
-        <view class="py-2"></view>
-        <label for="password">密码:</label>
-        <view class="py-2"></view>
-
-        <fui-input
-          borderTop
-          placeholder="请输入密码"
-          v-model="loginData.password"></fui-input>
-
-        <view class="py-2"></view>
-
-        <button type="submit" @click="handleLogin">登录</button>
-        <view class="py-2"></view>
-
-        <button type="submit" @click="handleRegister">注册</button>
-      </form>
-  </div> -->
   <view style="height: 100vh; background: #fff">
     <view class="img-a">
       <view class="t-b">

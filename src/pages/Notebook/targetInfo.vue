@@ -103,6 +103,13 @@ export default {
       this.rating()
     }, 200);
   },
+  mounted(){
+    uni.$on('refreshCalendar', () => {
+      this.getPlanTableData()
+      this.getTodayData()
+      this.rating()
+    })
+  },
   methods: {
     // 获取计划数据
     getPlanTableData() {
@@ -135,7 +142,8 @@ export default {
             this.todayArr.push((this.todayData[temp] / this.planData[temp]) * 100)
           }
           // console.log(this.todayArr,"todayArr")
-    }
+    },
+    
   }
 }
 
