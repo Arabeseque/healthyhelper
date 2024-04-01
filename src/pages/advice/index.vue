@@ -32,8 +32,21 @@
           :key="item.foodId">
           <view class="flex items-center justify-between p-2">
             <view>{{ item.name }}</view>
-            <view>
-              <checkbox :value="item.foodId" />
+            <view
+              class="flex items-center justify-center gap-1 rounded-xl shadow-xl">
+              <view
+                class="border-1 rounded-l-xl bg-white p-2 shadow-xl"
+                @click="handleCountDown(item)">
+                <u-icons type="left" size="20"></u-icons>
+              </view>
+              <view class="border-1 bg-white p-2 text-xl">
+                {{ item.count }}
+              </view>
+              <view
+                class="border-1 rounded-r-xl bg-white p-2 shadow-xl"
+                @click="handleCountAdd(item)">
+                <u-icons type="right" size="20"></u-icons>
+              </view>
             </view>
           </view>
         </label>
@@ -56,6 +69,7 @@
 </template>
 
 <script setup lang="ts">
+import uIcons from '@dcloudio/uni-ui/lib/uni-icons/uni-icons.vue'
 import { ref } from 'vue'
 
 interface ChartData {
@@ -165,6 +179,9 @@ function getRecommodData() {
     method: 'GET',
     success: (res: any) => {
       // console.log(res.data.data)
+      res.data.data.forEach((item: any) => {
+        item.count = 0
+      })
       recommandData.value = res.data.data
       console.log(res.data.data, 'recommondData')
     }
@@ -203,34 +220,49 @@ function handleCheckChange(e: any) {
   currentDataFoodId.value = checkedValue
 }
 
+function handleCountAdd(item: any) {
+  // console.log(item, 'Add')
+  recommandData.value.forEach((element: any) => {
+    if (element.id === item.id) {
+      element.count += 50
+    }
+  })
+}
+function handleCountDown(item: any) {
+  recommandData.value.forEach((element: any) => {
+    if (element.id === item.id) {
+      element.count -= 50
+    }
+  })
+}
+
 function handleUpdateChart() {
   if (chartData.value.series.length > 1) {
     chartData.value.series.pop()
   }
 
   const tempUsedRecommandData = recommandData.value.filter((item: any) => {
-    console.log(item.foodId)
-    console.log(currentDataFoodId.value, 'currentDataFoodId')
-    return currentDataFoodId.value.includes(String(item.foodId))
+    return item.count !== 0
   })
 
-  console.log(tempUsedRecommandData, 'tempRecommendData')
+  console.log(tempUsedRecommandData.value, 'tempRecommendData')
 
   chartData.value.series.push({
     name: '当前添加量',
     data: [
       tempUsedRecommandData.reduce((acc, cur: any) => {
-        return acc + cur.danbai
+        return acc + cur.danbai * (cur.count / 100)
       }, 0),
       tempUsedRecommandData.reduce((acc, cur: any) => {
-        return acc + cur.tanshui
+        return acc + cur.tanshui * (cur.count / 100)
       }, 0),
       tempUsedRecommandData.reduce((acc, cur: any) => {
-        return acc + cur.zhifang
+        return acc + cur.zhifang * (cur.count / 100)
       }, 0)
     ]
   })
 }
+
 function init() {
   // 获取推荐数据
   getRecommodData()
