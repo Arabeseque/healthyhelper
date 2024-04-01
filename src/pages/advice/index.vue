@@ -130,6 +130,7 @@
 </template>
 
 <script setup lang="ts">
+import { useUserStore } from '@/stores/user'
 import uIcons from '@dcloudio/uni-ui/lib/uni-icons/uni-icons.vue'
 import { ref } from 'vue'
 
@@ -142,7 +143,8 @@ interface ChartData {
 }
 
 // union Data
-const userId = 1
+
+const userId = useUserStore().userid
 
 // TODO: chart Fuction
 const chartData = ref<ChartData>({
@@ -230,12 +232,12 @@ function getRecommodData() {
 
   // 格式化日期
   const formattedDate = `${year}-${month}-${day}`
-  const tempDate = '2024-03-21'
+  // const tempDate = '2024-03-21'
 
   uni.request({
     url:
       import.meta.env.VITE_BASE_API +
-      `/analyse/recommand/food/${userId}/${tempDate}`,
+      `/analyse/recommand/food/${userId}/${formattedDate}`,
     method: 'GET',
     success: (res: any) => {
       // console.log(res.data.data)
@@ -266,7 +268,7 @@ function getRecommodDataFruit() {
   uni.request({
     url:
       import.meta.env.VITE_BASE_API +
-      `/analyse/recommand/fruit/${userId}/${tempDate}`,
+      `/analyse/recommand/fruit/${userId}/${formattedDate}`,
     method: 'GET',
     success: (res: any) => {
       res.data.data.forEach((item: any) => {
