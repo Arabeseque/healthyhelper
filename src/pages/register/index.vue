@@ -22,16 +22,6 @@
 
       <view class="py-2"></view>
 
-      <!-- 年龄 -->
-      <label for="age">年龄:</label>
-      <view class="py-2"></view>
-
-      <fui-input
-        borderTop
-        placeholder="请输入年龄"
-        v-model="registerData.age"></fui-input>
-      <view class="py-2"></view>
-
       <button type="submit" @click="handleRegister">注册</button>
     </form>
   </div>
@@ -55,8 +45,8 @@ function handleRegister() {
     method: 'POST',
     data: {
       username: registerData.value.username,
-      password: registerData.value.password,
-      age: registerData.value.age
+      password: registerData.value.password
+      // age: registerData.value.age
     },
     success: (res) => {
       if (res.data.code === 200) {

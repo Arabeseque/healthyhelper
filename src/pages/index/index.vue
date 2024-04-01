@@ -61,7 +61,7 @@ const showAdvice = ref(true) // advice animation config
 const styles = ref({})
 const mode = ref(['fade'])
 
-const styleInput = ref() // input animation config
+const styleInput = ref({}) // input animation config
 const modeInput = ref(['fade'])
 const showInput = ref(false)
 
@@ -147,12 +147,12 @@ async function getRecommodData() {
 
   // 格式化日期
   const formattedDate = `${year}-${month}-${day}`
-  const tempDate = '2024-03-21'
+  // const tempDate = '2024-03-21'
 
   uni.request({
     url:
       import.meta.env.VITE_BASE_API +
-      `/analyse/recommand/food/${userId}/${tempDate}`,
+      `/analyse/recommand/food/${userId}/${formattedDate}`,
     method: 'GET',
     success: (res: any) => {
       // console.log(res.data.data)
@@ -262,7 +262,6 @@ function handleRecordMyself() {
               userStore.shouldRefesh = true
               console.log(userStore.shouldRefesh, 'refresh')
 
-
               setTimeout(() => {
                 if (!showAdvice.value) {
                   ani(['fade'], true)
@@ -335,7 +334,7 @@ function handlePostAnalyseData() {
       ],
       success: (res: any) => {
         userStore.shouldRefesh = true
-        uni.$emit('refreshCalendar');
+        uni.$emit('refreshCalendar')
         console.log(11111)
       }
     })
@@ -356,14 +355,6 @@ function handlePostAnalyseData() {
       ani(['fade'], true)
     }
   }, 800)
-}
-
-// get 封装
-function handleEating() {
-  commonPostFoodData(recommandData.value[curPage.value].foodId, 'food')
-}
-function handleEatingFruit() {
-  commonPostFoodData(recommandDataFruit.value[curPage.value].foodId, 'fruit')
 }
 
 function init() {
@@ -427,7 +418,7 @@ function commonPostFoodData(foodId: any, type: string) {
 // Animation
 function ani(mode: any, mask: any) {
   if (mask) {
-    styles.value.backgroundColor = 'rgba(0,0,0,0.6)'
+    styles.value.backgroundColor = 'rgba(0,0,0,0.3)'
   } else {
     styles.value.backgroundColor = 'rgba(0,0,0,0)'
   }
@@ -443,11 +434,11 @@ function ani(mode: any, mask: any) {
 }
 
 function aniFruit(mode: any, mask: any) {
-  // if (mask) {
-  //   adviceModalStylesFruit.value.backgroundColor = 'rgba(0,0,0,0.6)'
-  // } else {
-  //   adviceModalStylesFruit.value.backgroundColor = 'rgba(0,0,0,0)'
-  // }
+  if (mask) {
+    adviceModalStylesFruit.value.backgroundColor = 'rgba(0,0,0,0.3)'
+  } else {
+    adviceModalStylesFruit.value.backgroundColor = 'rgba(0,0,0,0)'
+  }
   setTimeout(() => {
     mode.value = mode
     showAdviceFruit.value = !showAdviceFruit.value
@@ -460,6 +451,11 @@ function aniFruit(mode: any, mask: any) {
 }
 
 function aniInput(mode: any, mask: any) {
+  if (mask) {
+    styleInput.value.backgroundColor = 'rgba(0,0,0,0.3)'
+  } else {
+    styleInput.value.backgroundColor = 'rgba(0,0,0,0)'
+  }
   setTimeout(() => {
     modeInput.value = mode
     showInput.value = !showInput.value
@@ -542,13 +538,13 @@ init()
     <view>
       <view
         class="flex items-center justify-center pt-20 text-3xl font-bold"
-        style="color: rgba(0, 0, 0, 0.7);">
+        style="color: rgba(0, 0, 0, 0.7)">
         零卡生活
       </view>
       <!-- subtitle -->
       <view
         class="flex items-center justify-center pt-2 text-xl font-bold"
-        style="color:rgba(0, 0, 0, 0.7)">
+        style="color: rgba(0, 0, 0, 0.7)">
         为您提供健康饮食建议
       </view>
     </view>
@@ -568,8 +564,9 @@ init()
               class="foodContainer m-4 box-border flex w-full flex-col gap-4 rounded-xl p-4 opacity-90 shadow-md">
               <!-- Header -->
               <view class="flex justify-between">
-                <view class="py-2 text-xl font-bold"
-                style="color:rgba(0,0,0,0.8)">
+                <view
+                  class="py-2 text-xl font-bold"
+                  style="color: rgba(0, 0, 0, 0.8)">
                   {{ renderData.name }}
                 </view>
                 <view>
@@ -665,7 +662,9 @@ init()
               class="fruitContainer m-4 box-border flex w-full flex-col gap-4 rounded-xl p-4 opacity-90 shadow-md">
               <!-- Header -->
               <view class="flex justify-between">
-                <view class="py-2 text-xl font-bold" style="color:rgba(0, 0, 0, 0.8)">
+                <view
+                  class="py-2 text-xl font-bold"
+                  style="color: rgba(0, 0, 0, 0.8)">
                   {{ renderDataFruit.name }}
                 </view>
 
@@ -673,7 +672,7 @@ init()
                   <a
                     href="#"
                     class="inline-flex items-center rounded-lg bg-[#ffaf2d] px-3 py-2 text-center text-sm font-bold text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    换一个!
+                    智能推荐
                   </a>
                 </view>
               </view>
@@ -815,6 +814,7 @@ init()
           <fui-button
             width="60px"
             background="#f9a647"
+            class="pt-1"
             @click="handleRecordMyself">
             添加
           </fui-button>
@@ -910,7 +910,7 @@ video {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-color: rgb(255,255,255);
+  background-color: rgb(255, 255, 255);
   /* opacity: 0.9; */
 }
 </style>

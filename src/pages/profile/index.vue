@@ -15,7 +15,8 @@ const formData = ref({
   height: 0,
   weight: 0,
   targetWeight: 0,
-  bmi: 0
+  bmi: 0,
+  age: 0
 })
 
 const checkboxItems = ref([
@@ -53,7 +54,8 @@ function handleToDetail() {
   if (
     !formData.value.height ||
     !formData.value.weight ||
-    !formData.value.targetWeight
+    !formData.value.targetWeight ||
+    !formData.value.age
   ) {
     uni.showToast({
       title: '请填写完整信息',
@@ -127,12 +129,6 @@ async function putDisInfo() {
           console.log(res, 'putDisInfo')
 
           resolve(res)
-        } else {
-          uni.showToast({
-            title: '疾病信息更新失败',
-            icon: 'none'
-          })
-          reject(res)
         }
       },
       fail: (err) => {
@@ -221,6 +217,17 @@ function handleCheckChange(e: any) {
                 borderTop
                 placeholder="请输入目标体重"
                 v-model="formData.targetWeight"></fui-input>
+
+              <view class="py-1"></view>
+
+              <label for="username">年龄:</label>
+
+              <view class="py-1"></view>
+
+              <fui-input
+                borderTop
+                placeholder="请输入目标体重"
+                v-model="formData.age"></fui-input>
 
               <button
                 class="mt-4 w-full rounded-lg bg-orange-400 py-2 text-white"
