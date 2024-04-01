@@ -24,6 +24,11 @@
     </view>
 
     <view
+      class="color-white text-md flex w-full items-center justify-start px-6 pb-2">
+      推荐食品单位 (g)
+    </view>
+
+    <view
       class="charts-box box-border flex flex-col gap-4 rounded-xl bg-white p-4 shadow-md">
       <checkbox-group @change="handleCheckChange">
         <label
@@ -31,7 +36,14 @@
           v-for="item in recommandData"
           :key="item.foodId">
           <view class="flex items-center justify-between p-2">
-            <view>{{ item.name }}</view>
+            <view class="flex flex-col gap-1">
+              <view>
+                {{ item.name }}
+              </view>
+              <view v-if="item.alert" class="text-sm italic text-red-400">
+                {{ item.alert }}
+              </view>
+            </view>
             <view
               class="flex items-center justify-center gap-1 rounded-xl shadow-xl">
               <view
@@ -45,6 +57,55 @@
               <view
                 class="border-1 rounded-r-xl bg-white p-2 shadow-xl"
                 @click="handleCountAdd(item)">
+                <u-icons type="right" size="20"></u-icons>
+              </view>
+            </view>
+          </view>
+        </label>
+      </checkbox-group>
+    </view>
+
+    <view class="py-2"></view>
+
+    <view
+      class="color-white flex w-full items-center justify-start px-6 py-2 text-xl font-semibold">
+      水果
+    </view>
+
+    <view
+      class="color-white text-md flex w-full items-center justify-start px-6 pb-2">
+      推荐食品单位 (g)
+    </view>
+
+    <view
+      class="charts-box box-border flex flex-col gap-4 rounded-xl bg-white p-4 shadow-md">
+      <checkbox-group @change="handleCheckChange">
+        <label
+          class="uni-list-cell uni-list-cell-pd"
+          v-for="item in recommandDataFruit"
+          :key="item.foodId">
+          <view class="flex items-center justify-between p-2">
+            <view class="flex flex-col gap-1">
+              <view>
+                {{ item.name }}
+              </view>
+              <view v-if="item.alert" class="text-sm italic text-red-400">
+                {{ item.alert }}
+              </view>
+            </view>
+            <view
+              class="flex items-center justify-center gap-1 rounded-xl shadow-xl">
+              <view
+                class="border-1 rounded-l-xl bg-white p-2 shadow-xl"
+                @click="handleCountDownFruit(item)">
+                <u-icons type="left" size="20"></u-icons>
+              </view>
+              <view class="border-1 bg-white p-2 text-xl">
+                {{ item.count }}
+              </view>
+              <view
+                class="border-1 rounded-r-xl bg-white p-2 shadow-xl"
+                @click="handleCountAddFruit(item)">
                 <u-icons type="right" size="20"></u-icons>
               </view>
             </view>
@@ -136,7 +197,6 @@ function getBestData() {
       method: 'GET',
 
       success: (res: any) => {
-        console.log(res.data.data, 'bestData')
         if (res.data.code === 200) {
           chartData.value = {
             categories: ['蛋白', '碳水', '热量'],
@@ -144,9 +204,9 @@ function getBestData() {
               {
                 name: '推荐值',
                 data: [
-                  res.data.data.danbai,
-                  res.data.data.tanshui,
-                  res.data.data.zhifang
+                  res.data.data.danbai * 3,
+                  res.data.data.tanshui * 3,
+                  res.data.data.reliang * 3
                 ]
               }
             ]
@@ -201,12 +261,17 @@ function getRecommodDataFruit() {
 
   // 格式化日期
   const formattedDate = `${year}-${month}-${day}`
+  const tempDate = '2024-03-21'
+
   uni.request({
     url:
       import.meta.env.VITE_BASE_API +
-      `/analyse/recommand/fruit/${userId}/${formattedDate}`,
+      `/analyse/recommand/fruit/${userId}/${tempDate}`,
     method: 'GET',
     success: (res: any) => {
+      res.data.data.forEach((item: any) => {
+        item.count = 0
+      })
       // console.log(res.data.data)
       recommandDataFruit.value = res.data.data
     }
@@ -231,8 +296,39 @@ function handleCountAdd(item: any) {
 function handleCountDown(item: any) {
   recommandData.value.forEach((element: any) => {
     if (element.id === item.id) {
+      if (element.count === 0) {
+        return
+      }
       element.count -= 50
     }
+  })
+}
+
+function handleCountAddFruit(item: any) {
+  // console.log(item, 'Add')
+  recommandDataFruit.value.forEach((element: any) => {
+    if (element.id === item.id) {
+      element.count += 50
+    }
+  })
+}
+function handleCountDownFruit(item: any) {
+  recommandDataFruit.value.forEach((element: any) => {
+    if (element.id === item.id) {
+      if (element.count === 0) {
+        return
+      }
+      element.count -= 50
+    }
+  })
+}
+
+function handleToDetail() {
+  recommandData.value.forEach((element: any) => {
+    element.count = 0
+  })
+  recommandDataFruit.value.forEach((element: any) => {
+    element.count = 0
   })
 }
 
@@ -247,18 +343,33 @@ function handleUpdateChart() {
 
   console.log(tempUsedRecommandData.value, 'tempRecommendData')
 
+  const tempUsedRecommandDataFruit = recommandDataFruit.value.filter(
+    (item: any) => {
+      return item.count !== 0
+    }
+  )
+
   chartData.value.series.push({
     name: '当前添加量',
     data: [
       tempUsedRecommandData.reduce((acc, cur: any) => {
         return acc + cur.danbai * (cur.count / 100)
-      }, 0),
+      }, 0) +
+        tempUsedRecommandDataFruit.reduce((acc, cur: any) => {
+          return acc + cur.danbai * (cur.count / 100)
+        }, 0),
       tempUsedRecommandData.reduce((acc, cur: any) => {
         return acc + cur.tanshui * (cur.count / 100)
-      }, 0),
+      }, 0) +
+        tempUsedRecommandDataFruit.reduce((acc, cur: any) => {
+          return acc + cur.tanshui * (cur.count / 100)
+        }, 0),
       tempUsedRecommandData.reduce((acc, cur: any) => {
-        return acc + cur.zhifang * (cur.count / 100)
-      }, 0)
+        return acc + cur.reliang * (cur.count / 100)
+      }, 0) +
+        tempUsedRecommandDataFruit.reduce((acc, cur: any) => {
+          return acc + cur.reliang * (cur.count / 100)
+        }, 0)
     ]
   })
 }
