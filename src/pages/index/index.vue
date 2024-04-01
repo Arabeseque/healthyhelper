@@ -209,7 +209,6 @@ async function getStandard() {
 }
 
 function handleRecordMyself() {
-  const percent = foodInputValue.value.foodWeight / 100
   // nutrition/search
   uni.request({
     url: import.meta.env.VITE_BASE_API + '/nutrition/search',
@@ -238,6 +237,7 @@ function handleRecordMyself() {
         success: (res: any) => {
           const item = res.data.data
           console.log(item, 'item')
+          const tempDate = formatTime(new Date())
 
           uni.request({
             url: import.meta.env.VITE_BASE_API + '/record/foods',
@@ -246,27 +246,10 @@ function handleRecordMyself() {
               {
                 userId,
                 foodId: item.id,
-                recordTime: formatTime(new Date()),
-                danbai: item.danbai * percent,
-                danguchun: item.danguchun * percent,
-                gai: item.gai * percent,
-                huluobosu: item.huluobosu * percent,
-                jia: item.jia * percent,
-                lin: item.lin * percent,
-                mei: item.mei * percent,
-                meng: item.meng * percent,
-                na: item.na * percent,
-                reliang: item.reliang * percent,
-                tanshui: item.tanshui * percent,
-                tie: item.tie * percent,
-                tong: item.tong * percent,
-                va: item.va * percent,
-                vc: item.vc * percent,
-                ve: item.ve * percent,
-                xi: item.xi * percent,
-                xianwei: item.xianwei * percent,
-                xin: item.xin * percent,
-                yansuan: item.yansuan * percent
+                recordTime: tempDate,
+                id: null,
+                foodWeight: foodInputValue.value.foodWeight,
+                footType: 'breakfast'
               }
             ],
             success: (res: any) => {
@@ -513,6 +496,15 @@ function handleClickRecordMyself() {
 
 function handleCancelInput() {
   aniInput(['fade'], true)
+  setTimeout(() => {
+    if (!showAdvice.value) {
+      ani(['fade'], true)
+    }
+  }, 800)
+}
+
+function handleCancelUploadImage() {
+  aniImage(['fade'], true)
   setTimeout(() => {
     if (!showAdvice.value) {
       ani(['fade'], true)
@@ -856,11 +848,16 @@ init()
         </view>
 
         <!-- TODO: 拍照 -->
-        <button
-          @click="handlePostAnalyseData"
-          class="photo mr-14 mt-5 flex w-[150px] items-center justify-center gap-2 rounded-3xl bg-[#f9a647] text-white">
-          <view>提交</view>
-        </button>
+        <view class="mt-5 flex items-center justify-center gap-2">
+          <button
+            @click="handlePostAnalyseData"
+            class="photo flex w-[150px] items-center justify-center gap-2 rounded-3xl bg-[#f9a647] text-white">
+            <view>提交</view>
+          </button>
+          <fui-button width="60px" @click="handleCancelUploadImage">
+            取消
+          </fui-button>
+        </view>
       </view>
     </fui-animation>
   </view>
