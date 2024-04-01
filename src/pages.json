@@ -48,12 +48,6 @@
         "navigationBarTitleText": "注册"
       }
     },
-    {
-      "path": "pages/tools/index",
-      "style": {
-        "navigationBarTitleText": "工具"
-      }
-    },
 
     {
       "path": "pages/tools/chat",

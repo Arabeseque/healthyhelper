@@ -308,7 +308,7 @@ export default {
         header: {},
         success: (res) => {
           this.user = res.data.data
-          this.userData.name = this.user.name
+          this.userData.name = this.user.username
           this.userData.age = this.user.age
           this.userData.height = this.user.height
           this.userData.weight = this.user.weight
@@ -363,25 +363,25 @@ export default {
       console.log(this.postForm.height, 'height')
     },
     changeWeight(e) {
-      var zhengshu = e.detail.value[0]
-      var xiaoshu = e.detail.value[1]
-      var string = zhengshu + 10 + '.' + xiaoshu
-      var num = parseFloat(string)
+      const zhengshu = e.detail.value[0]
+      const xiaoshu = e.detail.value[1]
+      const string = zhengshu + 10 + '.' + xiaoshu
+      const num = parseFloat(string)
       this.postForm.weight = num
       // console.log(this.postForm.weight,"weight")
     },
     changeTargetWeight(e) {
-      var zhengshu = e.detail.value[0]
-      var xiaoshu = e.detail.value[1]
-      var string = zhengshu + 10 + '.' + xiaoshu
-      var num = parseFloat(string)
+      const zhengshu = e.detail.value[0]
+      const xiaoshu = e.detail.value[1]
+      const string = zhengshu + 10 + '.' + xiaoshu
+      const num = parseFloat(string)
       this.postForm.targetWeight = num
       // console.log(this.postForm.targetWeight,"targetWeight")
     },
     // ------------------------------底部窗口操作---------------------------------
     // age操作
     open() {
-      this.$refs.popup.open('bottom') //底部弹出
+      this.$refs.popup.open('bottom') // 底部弹出
     },
     close() {
       this.$refs.popup.close()
@@ -394,16 +394,16 @@ export default {
     },
     // height操作
     openHeight() {
-      this.$refs.popupHeight.open('bottom') //底部弹出
+      this.$refs.popupHeight.open('bottom') // 底部弹出
     },
     closeHeight() {
-      this.$refs.popupHeight.close() //关弹窗
+      this.$refs.popupHeight.close() // 关弹窗
     },
     confirmHeight() {
       this.userData.height = this.postForm.height
       this.height.value.length = 0
       this.height.value.push(this.postForm.height * 100)
-      var caculator =
+      const caculator =
         this.userData.weight / this.userData.height / this.userData.height
       this.postForm.bmi = caculator.toFixed(2)
       this.userData.bmi = this.postForm.bmi
@@ -419,10 +419,10 @@ export default {
     confirmWeight() {
       this.userData.weight = this.postForm.weight
       this.weight.value.length = 0
-      var change = this.postForm.weight.toString()
+      const change = this.postForm.weight.toString()
       this.weight.value.push(change.split('.')[0] - 10)
       this.weight.value.push(change.split('.')[1])
-      var caculator =
+      const caculator =
         this.userData.weight / this.userData.height / this.userData.height
       this.postForm.bmi = caculator.toFixed(2)
       this.userData.bmi = this.postForm.bmi
@@ -438,7 +438,7 @@ export default {
     confirmTargetWeight() {
       this.userData.targetWeight = this.postForm.targetWeight
       this.targetWeight.value.length = 0
-      var change = this.postForm.targetWeight.toString()
+      const change = this.postForm.targetWeight.toString()
       this.targetWeight.value.push(change.split('.')[0] - 10)
       this.targetWeight.value.push(change.split('.')[1])
       this.$refs.popupTargetWeight.close()

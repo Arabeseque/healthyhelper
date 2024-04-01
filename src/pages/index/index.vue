@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import uIcons from '@dcloudio/uni-ui/lib/uni-icons/uni-icons.vue'
-import Line from '@/components/notebook/Line.vue'
 import { useUserStore } from '@/stores/user'
 
 const userStore = useUserStore()
@@ -39,7 +38,6 @@ function takePhoto() {
 // 存储变量
 const recommandData = ref()
 const recommandInfo = ref()
-
 const renderData = ref() // 当前推荐
 const curPage = ref(0) // 当前页数
 
@@ -149,11 +147,12 @@ async function getRecommodData() {
 
   // 格式化日期
   const formattedDate = `${year}-${month}-${day}`
-  const testFormattedDate = '2024-03-21'
+  const tempDate = '2024-03-21'
+
   uni.request({
     url:
       import.meta.env.VITE_BASE_API +
-      `/analyse/recommand/food/1/${testFormattedDate}`,
+      `/analyse/recommand/food/${userId}/${tempDate}`,
     method: 'GET',
     success: (res: any) => {
       // console.log(res.data.data)
@@ -167,6 +166,7 @@ async function getRecommodData() {
     }
   })
 }
+
 async function getRecommodDataFruit() {
   // analyse/recommand/1/2023-05-10
   // const date = new Date().toLocaleDateString()
@@ -180,11 +180,10 @@ async function getRecommodDataFruit() {
 
   // 格式化日期
   const formattedDate = `${year}-${month}-${day}`
-  const testFormattedDate = '2024-03-21'
   uni.request({
     url:
       import.meta.env.VITE_BASE_API +
-      `/analyse/recommand/fruit/1/${testFormattedDate}`,
+      `/analyse/recommand/fruit/${userId}/${formattedDate}`,
     method: 'GET',
     success: (res: any) => {
       // console.log(res.data.data)
@@ -197,6 +196,7 @@ async function getRecommodDataFruit() {
     }
   })
 }
+
 async function getStandard() {
   uni.request({
     url: import.meta.env.VITE_BASE_API + `/user/bestNutrition/${userId}`,
@@ -209,7 +209,6 @@ async function getStandard() {
 }
 
 function handleRecordMyself() {
-  const percent = foodInputValue.value.foodWeight / 100
   // nutrition/search
   uni.request({
     url: import.meta.env.VITE_BASE_API + '/nutrition/search',
@@ -238,6 +237,7 @@ function handleRecordMyself() {
         success: (res: any) => {
           const item = res.data.data
           console.log(item, 'item')
+          const tempDate = formatTime(new Date())
 
           uni.request({
             url: import.meta.env.VITE_BASE_API + '/record/foods',
@@ -246,27 +246,10 @@ function handleRecordMyself() {
               {
                 userId,
                 foodId: item.id,
-                recordTime: formatTime(new Date()),
-                danbai: item.danbai * percent,
-                danguchun: item.danguchun * percent,
-                gai: item.gai * percent,
-                huluobosu: item.huluobosu * percent,
-                jia: item.jia * percent,
-                lin: item.lin * percent,
-                mei: item.mei * percent,
-                meng: item.meng * percent,
-                na: item.na * percent,
-                reliang: item.reliang * percent,
-                tanshui: item.tanshui * percent,
-                tie: item.tie * percent,
-                tong: item.tong * percent,
-                va: item.va * percent,
-                vc: item.vc * percent,
-                ve: item.ve * percent,
-                xi: item.xi * percent,
-                xianwei: item.xianwei * percent,
-                xin: item.xin * percent,
-                yansuan: item.yansuan * percent
+                recordTime: tempDate,
+                id: null,
+                foodWeight: foodInputValue.value.foodWeight,
+                footType: 'breakfast'
               }
             ],
             success: (res: any) => {
@@ -332,36 +315,17 @@ function uploadAiImage(tempFilePaths) {
 }
 function handlePostAnalyseData() {
   analyseImageRes.value.forEach((item) => {
-    const percent = item.count / 100
-
     uni.request({
       url: import.meta.env.VITE_BASE_API + '/record/foods',
       method: 'POST',
       data: [
         {
+          id: null,
           userId,
           foodId: item.id,
           recordTime: formatTime(new Date()),
-          danbai: item.danbai * percent,
-          danguchun: item.danguchun * percent,
-          gai: item.gai * percent,
-          huluobosu: item.huluobosu * percent,
-          jia: item.jia * percent,
-          lin: item.lin * percent,
-          mei: item.mei * percent,
-          meng: item.meng * percent,
-          na: item.na * percent,
-          reliang: item.reliang * percent,
-          tanshui: item.tanshui * percent,
-          tie: item.tie * percent,
-          tong: item.tong * percent,
-          va: item.va * percent,
-          vc: item.vc * percent,
-          ve: item.ve * percent,
-          xi: item.xi * percent,
-          xianwei: item.xianwei * percent,
-          xin: item.xin * percent,
-          yansuan: item.yansuan * percent
+          foodWeight: item.count,
+          foodType: 'breakfast'
         }
       ],
       success: (res: any) => {}
@@ -520,6 +484,34 @@ function navigateToAdvice() {
     url: '/pages/advice/index'
   })
 }
+
+function handleClickRecordMyself() {
+  if (showAdvice.value) {
+    ani(['fade'], true)
+  }
+  setTimeout(() => {
+    aniInput(['fade'], true)
+  }, 400)
+}
+
+function handleCancelInput() {
+  aniInput(['fade'], true)
+  setTimeout(() => {
+    if (!showAdvice.value) {
+      ani(['fade'], true)
+    }
+  }, 800)
+}
+
+function handleCancelUploadImage() {
+  aniImage(['fade'], true)
+  setTimeout(() => {
+    if (!showAdvice.value) {
+      ani(['fade'], true)
+    }
+  }, 800)
+}
+
 // v-show Fuction
 function showToast() {
   toast.value.show({
@@ -540,14 +532,12 @@ init()
     <fui-toast ref="toast"></fui-toast>
     <view>
       <view
-        class="flex items-center justify-center pt-20 text-3xl font-bold"
-        style="color: rgba(0, 0, 0, 0.7)">
+        class="color-black flex items-center justify-center pt-20 text-3xl font-bold">
         零卡生活
       </view>
       <!-- subtitle -->
       <view
-        class="flex items-center justify-center pt-2 text-xl font-bold"
-        style="color: rgba(0, 0, 0, 0.7)">
+        class="color-black flex items-center justify-center pt-2 text-xl font-bold">
         为您提供健康饮食建议
       </view>
     </view>
@@ -567,16 +557,14 @@ init()
               class="foodContainer m-4 box-border flex w-full flex-col gap-4 rounded-xl p-4 opacity-90 shadow-md">
               <!-- Header -->
               <view class="flex justify-between">
-                <view
-                  class="py-2 text-xl font-bold"
-                  style="color: rgb(0, 0, 0, 0.8)">
+                <view class="py-2 text-xl font-bold">
                   {{ renderData.name }}
                 </view>
                 <view>
                   <a
                     href="#"
                     class="inline-flex items-center rounded-lg bg-orange-400 px-3 py-2 text-center text-sm font-bold text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    换一个!
+                    查看详情
                   </a>
                 </view>
               </view>
@@ -662,12 +650,10 @@ init()
             :styles="adviceModalStylesFruit">
             <view
               v-if="renderDataFruit"
-              class="fruitContainer m-4 box-border flex w-full flex-col gap-4 rounded-xl p-4 opacity-90 shadow-md">
+              class="fruitContainer m-4 box-border flex w-full flex-col gap-4 rounded-xl p-4 shadow-md">
               <!-- Header -->
               <view class="flex justify-between">
-                <view
-                  class="py-2 text-xl font-bold"
-                  style="color: rgba(0, 0, 0, 0.8)">
+                <view class="py-2 text-xl font-bold">
                   {{ renderDataFruit.name }}
                 </view>
 
@@ -755,16 +741,6 @@ init()
             </view>
           </fui-animation>
         </swiper-item>
-        <swiper-item>
-          <view
-            class="m-4 box-border flex w-[90%] flex-col gap-4 rounded-xl bg-white p-4 opacity-90 shadow-md">
-            <!-- Header -->
-            <view class="flex justify-between">
-              <view class="py-2 text-xl font-bold">图表</view>
-            </view>
-            <Line></Line>
-          </view>
-        </swiper-item>
       </swiper>
     </view>
 
@@ -792,7 +768,7 @@ init()
 
         <!-- TODO: 手动记录 -->
         <button
-          @click="aniInput(['fade'], true)"
+          @click="handleClickRecordMyself"
           class="border-[#185864 flex w-[150px] items-center justify-center gap-2 rounded-3xl border font-bold text-[#6fb23a]">
           <view
             class="flex h-[22px] w-[25px] items-center justify-center overflow-hidden">
@@ -823,6 +799,7 @@ init()
             borderTop
             v-model="foodInputValue.foodWeight"
             placeholder="输入食品的重量"></fui-input>
+          <fui-button width="60px" @click="handleCancelInput">取消</fui-button>
           <fui-button
             width="60px"
             background="#f9a647"
@@ -871,11 +848,16 @@ init()
         </view>
 
         <!-- TODO: 拍照 -->
-        <button
-          @click="handlePostAnalyseData"
-          class="photo mr-14 mt-5 flex w-[150px] items-center justify-center gap-2 rounded-3xl bg-[#f9a647] text-white">
-          <view>提交</view>
-        </button>
+        <view class="mt-5 flex items-center justify-center gap-2">
+          <button
+            @click="handlePostAnalyseData"
+            class="photo flex w-[150px] items-center justify-center gap-2 rounded-3xl bg-[#f9a647] text-white">
+            <view>提交</view>
+          </button>
+          <fui-button width="60px" @click="handleCancelUploadImage">
+            取消
+          </fui-button>
+        </view>
       </view>
     </fui-animation>
   </view>
@@ -903,20 +885,18 @@ video {
 }
 
 .fruitContainer {
-  /* background-image: url('https://images.pexels.com/photos/1028598/pexels-photo-1028598.jpeg?auto=compress&cs=tinysrgb&w=600'); */
+  background-image: url('https://images.pexels.com/photos/1028598/pexels-photo-1028598.jpeg?auto=compress&cs=tinysrgb&w=600');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-color: rgb(255, 255, 255);
-  /* opacity: 0.9; */
+  opacity: 0.9;
 }
 
 .foodContainer {
-  /* background-image: url('https://images.pexels.com/photos/616401/pexels-photo-616401.jpeg?auto=compress&cs=tinysrgb&w=400'); */
+  background-image: url('https://images.pexels.com/photos/616401/pexels-photo-616401.jpeg?auto=compress&cs=tinysrgb&w=400');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-color: rgb(255, 255, 255);
-  /* opacity: 0.9; */
+  opacity: 0.9;
 }
 </style>

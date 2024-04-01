@@ -38,6 +38,10 @@
 </template>
 
 <script setup lang="ts">
+import { useUserStore } from '@/stores/user'
+
+const userStore = useUserStore()
+
 const registerData = ref({
   username: '',
   password: '',
@@ -58,10 +62,13 @@ function handleRegister() {
       if (res.data.code === 200) {
         console.log(res, 'registerRes')
         uni.setStorageSync('token', 'tokenMock')
-        // 填写个人信息
-        uni.navigateTo({
-          url: '/pages/profile/index'
+
+        postUserLogin().then(() => {
+          uni.navigateTo({
+            url: '/pages/profile/index'
+          })
         })
+
         // uni.switchTab({
         //   url: '/pages/index/index'
         // })
@@ -71,11 +78,37 @@ function handleRegister() {
         })
       } else {
         uni.showToast({
-          title: '注册失败',
+          title: '用户已经存在',
           icon: 'none'
         })
       }
     }
+  })
+}
+
+async function postUserLogin() {
+  return new Promise((resolve) => {
+    uni.request({
+      url: import.meta.env.VITE_BASE_API + '/user/index/login',
+      method: 'POST',
+      data: {
+        username: registerData.value.username,
+        password: registerData.value.password
+      },
+      success: (res) => {
+        if (res.data.code === 200) {
+          userStore.userid = res.data.data.id
+
+          uni.setStorageSync('token', res.data.data.token)
+          resolve(res)
+        } else {
+          uni.showToast({
+            title: '账户或密码错误',
+            icon: 'none'
+          })
+        }
+      }
+    })
   })
 }
 </script>

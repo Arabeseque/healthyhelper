@@ -52,8 +52,12 @@ function handleLogin() {
       if (res.data.code === 200) {
         // console.log(res.data, 'loginRes')
         userStore.userid = res.data.data.id
-        // console.log(userStore.userid, 'userStore.userid')
+        console.log(userStore.userid, 'userStore.userid')
         uni.setStorageSync('token', res.data.data.token)
+        // uni.switchTab({
+        //   url: '/pages/index/index'
+        // })
+
         uni.switchTab({
           url: '/pages/index/index'
         })
