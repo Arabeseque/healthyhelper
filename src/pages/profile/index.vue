@@ -11,6 +11,7 @@ interface CheckboxItem {
 }
 
 const formData = ref({
+  name: '',
   height: 0,
   weight: 0,
   targetWeight: 0,
@@ -181,6 +182,15 @@ function handleCheckChange(e: any) {
               <view class="border-b-2 opacity-10"></view>
 
               <view class="py-2"></view>
+              <label for="username">昵称:</label>
+
+              <view class="py-2"></view>
+
+              <fui-input
+                borderTop
+                placeholder="请输入昵称"
+                v-model="formData.name"></fui-input>
+              <view class="py-1"></view>
 
               <label for="username">当前体重:</label>
 
