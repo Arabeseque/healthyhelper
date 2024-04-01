@@ -271,7 +271,6 @@ export default {
       this.getDateData()
       this.getTodayData()
       this.getPlanData()
-      // console.log(222222)
     })
   },
   computed: {

@@ -127,6 +127,11 @@
           <view>></view>
         </view>
       </view>
+
+      <view class="py-1"></view>
+
+      <!-- 退出登录 -->
+      <button class="logout mx-3" type="warn" @click="logout">退出登录</button>
     </view>
   </view>
 </template>
@@ -200,6 +205,23 @@ export default {
     },
     refreshData() {
       this.getStatus()
+    },
+    // 登出
+    logout() {
+      // 弹窗
+      uni.showModal({
+        title: ' ',
+        content: '是否退出登录',
+        success: function (res) {
+          if (res.confirm) {
+            uni.reLaunch({
+              url: '../../pages/login/index'
+            })
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
     }
   }
 }

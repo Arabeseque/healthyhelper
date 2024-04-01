@@ -336,7 +336,6 @@ function handlePostAnalyseData() {
       success: (res: any) => {
         userStore.shouldRefesh = true
         uni.$emit('refreshCalendar');
-        console.log(11111)
       }
     })
   })

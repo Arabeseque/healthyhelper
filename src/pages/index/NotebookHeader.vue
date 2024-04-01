@@ -26,7 +26,7 @@
         <view class="flex gap-2">
           <view class="flex items-center justify-between">
             <image
-              src="https://api.iconify.design/ph:bowl-food-fill.svg?color=%2373c0de"
+              src="http://129.204.224.187:8080/danbai.png"
               class="h-6 w-6 pr-1"></image>
             <span class="text-sm font-bold opacity-60">
               {{ summaryData.danbai }}
@@ -39,7 +39,7 @@
         <view class="flex gap-2">
           <view class="flex items-center justify-between">
             <image
-              src="https://api.iconify.design/material-symbols:local-fire-department-rounded.svg?color=%23df4242"
+              src="http://129.204.224.187:8080/zhifang.png"
               class="h-6 w-6 pr-1"></image>
             <span class="text-sm font-bold opacity-60">
               {{ summaryData.zhifang }}
@@ -52,7 +52,7 @@
         <view class="flex gap-2">
           <view class="flex items-center justify-between">
             <image
-              src="https://api.iconify.design/fluent:food-24-filled.svg?color=%23fac858"
+              src="http://129.204.224.187:8080/tanshui.png"
               class="h-6 w-6 pr-1"></image>
             <span class="text-sm font-bold opacity-60">
               {{ summaryData.tanshui }}
