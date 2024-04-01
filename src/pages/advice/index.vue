@@ -40,7 +40,7 @@
       </checkbox-group>
     </view>
 
-    <view class="flex items-center justify-center gap-8 pt-10">
+    <view class="flex items-center justify-center gap-8 py-10">
       <button
         class="mt-4 w-[120px] rounded-lg bg-orange-400 py-2 text-white"
         @click="handleUpdateChart">
@@ -75,17 +75,10 @@ const chartData = ref<ChartData>({
   series: []
 })
 
-const currentDataFoodId = ref()
-const recommandData = ref([])
+const currentDataFoodId = ref([])
+const recommandData = ref<any>([])
 const recommandDataFruit = ref([])
 
-const checkboxItems = ref([
-  { name: '高血压', value: 'hypertension', checked: false },
-  { name: '糖尿病', value: 'hyperlipemia', checked: false },
-  { name: '高血脂', value: 'hyperglycemia', checked: false },
-  { name: '高尿酸', value: 'hypercholesterol', checked: false },
-  { name: '肥胖', value: 'pregnant', checked: false }
-])
 const opts = {
   color: [
     '#1890FF',
@@ -123,12 +116,12 @@ const opts = {
 
 // 获取目标值
 function getBestData() {
-  return new Promise((resolve) => {
+  return new Promise(() => {
     uni.request({
       url: import.meta.env.VITE_BASE_API + `/user/bestNutrition/${userId}`,
       method: 'GET',
 
-      success: (res) => {
+      success: (res: any) => {
         console.log(res.data.data, 'bestData')
         if (res.data.code === 200) {
           chartData.value = {
@@ -144,7 +137,6 @@ function getBestData() {
               }
             ]
           }
-          console.log(bestData.value, 'bestData')
         }
       }
     })
@@ -216,9 +208,27 @@ function handleUpdateChart() {
     chartData.value.series.pop()
   }
 
+  const tempUsedRecommandData = recommandData.value.filter((item: any) => {
+    console.log(item.foodId)
+    console.log(currentDataFoodId.value, 'currentDataFoodId')
+    return currentDataFoodId.value.includes(String(item.foodId))
+  })
+
+  console.log(tempUsedRecommandData, 'tempRecommendData')
+
   chartData.value.series.push({
     name: '当前添加量',
-    data: [70, 40, 65]
+    data: [
+      tempUsedRecommandData.reduce((acc, cur: any) => {
+        return acc + cur.danbai
+      }, 0),
+      tempUsedRecommandData.reduce((acc, cur: any) => {
+        return acc + cur.tanshui
+      }, 0),
+      tempUsedRecommandData.reduce((acc, cur: any) => {
+        return acc + cur.zhifang
+      }, 0)
+    ]
   })
 }
 function init() {
