@@ -1,35 +1,36 @@
 <template>
   <view>
     <view class="bg-[#9dc9b6] px-3 py-6 shadow-xl">
-      <view class="p-10" v-if="this.judge == 2">
+      <view class="p-10" v-if="judge == 2">
         <view class="" style="font-size: 22px; line-height: 28px">
           今天热量摄入量
-          <span class="font-semibold">{{ this.todayHeat }}</span>
+          <span class="font-semibold">{{ todayHeat }}</span>
           千卡,
         </view>
         <view
           class="py-1"
           style="float: right; font-size: 21px; line-height: 28px">
           离推荐摄入量还有
-          <span class="font-semibold">{{ this.bestHeat - this.todayHeat }}</span>
+          <span class="font-semibold">{{ result }}</span>
           千卡
         </view>
       </view>
 
-      <view class="flex justify-center p-10 text-2xl" v-if="this.judge == 1">
+      <view class="flex justify-center p-10 text-2xl" v-if="judge == 1">
         今天热量的摄入量为推荐摄入量
       </view>
-      <view class="p-10" v-if="this.judge == 0">
+
+      <view class="p-10" v-if="judge == 0">
         <view class="" style="font-size: 22px; line-height: 28px">
           今天热量摄入量
-          <span class="font-semibold">{{ this.todayHeat }}</span>
+          <span class="font-semibold">{{ todayHeat }}</span>
           千卡,
         </view>
         <view
           class="py-1"
           style="float: right; font-size: 21px; line-height: 28px">
           已超出推荐摄入量
-          <span class="font-semibold">{{ this.todayHeat - this.bestHeat }}</span>
+          <span class="font-semibold">{{ result}}</span>
           千卡
         </view>
       </view>
@@ -72,7 +73,6 @@
 </template>
 
 <script>
-
 import { useUserStore } from '@/stores/user'
 
 // 用户数据
@@ -81,31 +81,39 @@ const userId = userStore.userid
 
 export default {
   mounted() {
-    this.getBestHeat()
-    this.getTodayHeat()
+    // this.getBestHeat()
+    // this.getTodayHeat()
+    // this.getBestHeat().then(this.getTodayHeat())
+    this.init()
   },
   data() {
     return {
       bestHeat: '',
       todayHeat: '',
       judge: '', //过重:0 正常:1 过轻:2
-      //result: '' //差值
+      result: '' //差值
     }
   },
   methods: {
     // 获取推荐热量
     getBestHeat() {
-      uni.request({
-        url: import.meta.env.VITE_BASE_API + '/user/bestNutrition/' + userId,
-        method: 'GET',
-        header: {},
-        success: (res) => {
-          this.bestHeat = res.data.data.reliang
-        }
+      return new Promise((resolve) => {
+        uni.request({
+          url: import.meta.env.VITE_BASE_API + '/user/bestNutrition/' + userId,
+          method: 'GET',
+          header: {},
+          success: (res) => {
+            this.bestHeat = res.data.data.reliang
+            var best = this.bestHeat
+            resolve(best)
+            console.log(best)
+            console.log(22222)
+          }
+        })
       })
     },
 
-    getTodayHeat() {
+    getTodayHeat(temp) {
       uni.request({
         url: import.meta.env.VITE_BASE_API + '/record/energy/today/' + userId,
         method: 'GET',
@@ -121,16 +129,28 @@ export default {
 
           this.todayHeat = heat
 
-          if (this.todayHeat > this.bestHeat) {
+          if (this.todayHeat > temp) {
             this.judge = 0
-          } else if (this.todayHeat == this.bestHeat) {
+          } else if (this.todayHeat == temp) {
             this.judge = 1
-          } else if (this.todayHeat < this.bestHeat) {
+          } else if (this.todayHeat < temp) {
             this.judge = 2
           }
 
-          //this.result = Math.abs(this.todayHeat - this.bestHeat)
+          console.log(this.todayHeat, 'todayHeat')
+          console.log(this.judge, 'judge')
+          console.log(this.bestHeat, 'bestHeat')
+          this.result = Math.abs(this.todayHeat - temp)
+
+          console.log(111111)
         }
+      })
+    },
+
+    init(){
+      console.log(3333)
+      this.getBestHeat().then((temp)=>{
+        this.getTodayHeat(temp)
       })
     }
   }

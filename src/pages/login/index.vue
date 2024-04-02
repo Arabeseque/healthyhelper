@@ -65,6 +65,11 @@ function handleLogin() {
         //   url: '/pages/index/index'
         // })
 
+        
+        // uni.$emit('refreshCalendar')
+
+        // console.log(22222)
+
         uni.switchTab({
           url: '/pages/index/index'
         })

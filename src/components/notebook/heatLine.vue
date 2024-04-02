@@ -85,23 +85,43 @@ function getTableData(params) {
   })
 }
 
+// function getBestData(params) {
+//   uni.request({
+//     url: import.meta.env.VITE_BASE_API + params.url,
+//     method: params.method,
+//     data: params.params ? params.params : {},
+//     header: {
+//       token:
+//         'eyJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_6tWKi5NUrJScgwN8dANDXYNUtJRSq0oULIyNDc0Mjc0Mzc21FEqLU4t8kwBqjJUgnDyEnNTgVxjI6VaAGZDjc1BAAAA.YSX3JxTTNMAV8tub28sOB_TIZsNxx6pVVN7EmQVB-OXTk-kHmTZ_hqH0Ph--V7FLVhVOT2wrGdZp6QgTOcdK6A' // 自定义请求头信息
+//     },
+//     success: (res) => {
+//       if (!res.data.data) return
+      
+//       var recommandHeat = []
+
+//       for(var i=0;i<7;i++){
+//         recommandHeat.push(res.data.data.reliang)
+//       }
+
+//       chartData.value.series.push({
+//         name: '推荐值',
+//         data: recommandHeat,
+//       })
+//     }
+//   })
+// }
+
 getTableData({
   url: '/record/energys/' + userId,
   method: 'GET'
 })
 
-function mounted() {
-  uni.$on('refreshCalendar', () => {
-//     uni.redirectTo({
-//     url: '../../pages/index/notebook' 
+// getBestData({
+//   url: '/user/bestNutrition/' + userId,
+//   method: 'GET'
+// })
 
-window.location.reload();
 
-// });
-  })
-}
-
-mounted()
 </script>
 
 <style scoped>

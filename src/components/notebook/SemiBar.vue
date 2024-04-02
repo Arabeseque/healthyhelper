@@ -120,17 +120,6 @@ async function init() {
 
 init()
 
-function mounted() {
-  // 拍照过来刷新
-  uni.$on('refreshCalendar', () => {
-    uni.redirectTo({
-      url: '../../pages/index/notebook'
-    })
-  })
-
-}
-
-mounted()
 </script>
 
 <style scoped>
