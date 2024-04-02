@@ -48,7 +48,7 @@
               <view
                 class="border-1 rounded-l-xl bg-white p-2"
                 @click="handleCountDown(item)">
-                <u-icons type="left" size="20"></u-icons>
+                <u-icons type="left" size="20" @click="handleUpdateChart"></u-icons>
               </view>
               <view class="border-1 bg-white p-2 text-xl">
                 {{ item.count }}
@@ -56,7 +56,7 @@
               <view
                 class="border-1 rounded-r-xl bg-white p-2"
                 @click="handleCountAdd(item)">
-                <u-icons type="right" size="20"></u-icons>
+                <u-icons type="right" size="20" @click="handleUpdateChart"></u-icons>
               </view>
             </view>
           </view>
@@ -96,7 +96,7 @@
               <view
                 class="border-1 rounded-l-xl bg-white p-2"
                 @click="handleCountDownFruit(item)">
-                <u-icons type="left" size="20"></u-icons>
+                <u-icons type="left" size="20" @click="handleUpdateChart"></u-icons>
               </view>
               <view class="border-1 bg-white p-2 text-xl">
                 {{ item.count }}
@@ -104,7 +104,7 @@
               <view
                 class="border-1 rounded-r-xl bg-white p-2"
                 @click="handleCountAddFruit(item)">
-                <u-icons type="right" size="20"></u-icons>
+                <u-icons type="right" size="20" @click="handleUpdateChart"></u-icons>
               </view>
             </view>
           </view>
@@ -112,7 +112,7 @@
       </checkbox-group>
     </view>
 
-    <view class="flex items-center justify-center gap-8 py-10">
+    <!-- <view class="flex items-center justify-center gap-8 py-10">
       <button
         class="mt-4 w-[120px] rounded-lg bg-orange-400 py-2 text-white"
         @click="handleUpdateChart">
@@ -123,7 +123,18 @@
         @click="handleToDetail">
         重置
       </button>
+    </view> -->
+
+    <view>
+      <button
+        class="mt-4 w-[380px] rounded-lg py-2 text-white bg-orange-400"
+        @click="handleToDetail">
+        重置
+      </button>
     </view>
+
+    <view class="py-2"></view>
+
   </view>
 </template>
 

@@ -44,6 +44,15 @@ const opts = ref({
 })
 
 const chartData = ref()
+const weightData = ref()
+
+setTimeout(() => {
+  getTableData({
+    url: '/user/weights/' + userId,
+    method: 'GET'
+  })
+  console.log('Delayed log after 1000ms')
+}, 100)
 
 function getTableData(params) {
   uni.request({
@@ -55,33 +64,39 @@ function getTableData(params) {
         'eyJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAA_6tWKi5NUrJScgwN8dANDXYNUtJRSq0oULIyNDc0Mjc0Mzc21FEqLU4t8kwBqjJUgnDyEnNTgVxjI6VaAGZDjc1BAAAA.YSX3JxTTNMAV8tub28sOB_TIZsNxx6pVVN7EmQVB-OXTk-kHmTZ_hqH0Ph--V7FLVhVOT2wrGdZp6QgTOcdK6A' // 自定义请求头信息
     },
     success: (res) => {
-      if (!res.data.data) return
+      weightData.value = res.data.data.slice(0, 6).reverse()
+
+      console.log(weightData.value,"data")
+
+      var weightArr = []
+      for (var item in weightData.value) {
+        weightArr.push(
+          weightData.value[item].recordTime.split(' ')[0].split('-')[1] +
+            '-' +
+            weightData.value[item].recordTime.split(' ')[0].split('-')[2]
+        )
+      }
+
+      console.log(weightArr,"weightArr")
+
+      if (!weightData.value) return
 
       chartData.value = {
-        categories: Object.keys(res.data.data.slice(0, 7)).map((item) => {
-          return (
-            res.data.data[item].recordTime.split(' ')[0].split('-')[1] +
-            '-' +
-            res.data.data[item].recordTime.split(' ')[0].split('-')[2]
-          )
-        }),
+        categories: weightArr,
         series: [
           {
             name: '体重',
-            data: Object.keys(res.data.data.slice(0, 7)).map((item) => {
-              return res.data.data[item].recordWeight
+            data: Object.keys(weightData.value).map((item) => {
+              return weightData.value[item].recordWeight
             })
           }
         ]
       }
+
+      console.log(weightArr, 'data')
     }
   })
 }
-
-getTableData({
-  url: '/user/weights/' + userId,
-  method: 'GET'
-})
 </script>
 
 <style scoped>

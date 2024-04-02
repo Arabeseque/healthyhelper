@@ -210,7 +210,6 @@ async function getStandard() {
 }
 
 function handleRecordMyself() {
-  // nutrition/search
   uni.request({
     url: import.meta.env.VITE_BASE_API + '/nutrition/search',
     method: 'GET',
@@ -226,9 +225,7 @@ function handleRecordMyself() {
       const itemKey = Object.keys(res.data.data)[0]
       const itemName = res.data.data[itemKey]
       console.log(itemName, 'itemName')
-      // 根据Id获取 item 信息
 
-      // /nutrition/food
       uni.request({
         url: import.meta.env.VITE_BASE_API + `/nutrition/food`,
         method: 'GET',
@@ -254,7 +251,6 @@ function handleRecordMyself() {
               }
             ],
             success: (res: any) => {
-              // console.log(res)
               showToast()
 
               aniInput(['fade'], true)
@@ -293,7 +289,8 @@ function uploadAiImage(tempFilePaths) {
       const data = JSON.parse(uploadFileRes.data).data
       // 为所有的 data 添加 count 字段为100
       data.forEach((item) => {
-        item.count = 100
+        // item.count = 100
+        item.count = (Math.floor(Math.random() * (15 - 5 + 1)) + 5)*10
       })
 
       analyseImageRes.value = data
@@ -326,9 +323,12 @@ function handlePostAnalyseData() {
   // 计算foodType
   const now = new Date()
   const hour = now.getHours()
-  if (hour >= 5 && hour <= 10) var foodType = 'breakfast'
-  else if (hour >= 11 && hour <= 16) var foodType = 'lunch'
-  else var foodType = 'dinner'
+  if (hour >= 5 && hour <= 9) var foodType = 'breakfast'
+  else if (hour >= 10 && hour <= 14) var foodType = 'lunch'
+  else if (hour >= 16 && hour <= 20) var foodType = 'dinner'
+  else if ((hour >= 21 && hour <= 23) || (hour >= 0 && hour <= 4))
+    var foodType = 'midnightSnack'
+  else var foodType = 'snacks'
 
   // 发送
   analyseImageRes.value.forEach((item) => {
@@ -555,7 +555,7 @@ init()
       <view
         class="flex items-center justify-center pt-20 text-3xl font-bold"
         style="color: rgba(0, 0, 0, 0.7)">
-        零卡生活
+        智膳生活
       </view>
       <!-- subtitle -->
       <view
@@ -853,7 +853,7 @@ init()
       </view>
     </fui-animation>
 
-    <!-- TODO: showImage  -->
+    <!-- TODO: showImage  最后上传-->
     <fui-animation
       :duration="500"
       :animationType="mode"

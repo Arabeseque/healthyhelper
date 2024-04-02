@@ -69,16 +69,8 @@ function init() {
   getTodayRecord(userId)
 }
 
-function mounted() {
-  // 拍照过来刷新
-  uni.$on('refreshCalendar', () => {
-    init()
-  })
-
-}
 
 init()
-mounted()
 </script>
 
 <template>

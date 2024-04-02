@@ -4,7 +4,7 @@
       <view class="t-b">
         您好，
         <br />
-        欢迎使用，零卡生活
+        欢迎使用，智膳生活
       </view>
     </view>
     <view class="login-view" style="">

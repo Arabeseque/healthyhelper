@@ -27,7 +27,7 @@
     {
       "path": "pages/index/calendar",
       "style": {
-        "navigationBarTitleText": "零卡生活"
+        "navigationBarTitleText": "智膳生活"
       }
     },
     {
@@ -100,13 +100,13 @@
     {
       "path": "pages/personalPage/disease",
       "style": {
-        "navigationBarTitleText": "疾病信息"
+        "navigationBarTitleText": "身体状态"
       }
     }
   ],
   "globalStyle": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "零卡生活",
+    "navigationBarTitleText": "智膳生活",
     "navigationBarBackgroundColor": "#F8F8F8",
     "backgroundColor": "#F8F8F8"
   },
