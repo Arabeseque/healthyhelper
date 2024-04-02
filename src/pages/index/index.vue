@@ -324,7 +324,7 @@ function handlePostAnalyseData() {
   const hour = now.getHours()
   if (hour >= 5 && hour <= 10) var foodType = 'breakfast'
   else if (hour >= 11 && hour <= 16) var foodType = 'lunch'
-  else  var foodType = 'dinner'
+  else var foodType = 'dinner'
 
   // 发送
   analyseImageRes.value.forEach((item) => {
@@ -822,14 +822,29 @@ init()
             borderTop
             v-model="foodInputValue.foodWeight"
             placeholder="输入食品的重量"></fui-input>
-          <fui-button width="60px" @click="handleCancelInput">取消</fui-button>
+          <!-- <fui-button width="60px" @click="handleCancelInput">取消</fui-button>
           <fui-button
             width="60px"
             background="#f9a647"
             class="pt-1"
             @click="handleRecordMyself">
             添加
-          </fui-button>
+          </fui-button> -->
+        </view>
+        <view class="flex justify-between">
+          <button
+            @click="handleRecordMyself"
+            class="photo flex w-[150px] items-center justify-center gap-2 rounded-3xl bg-[#f9a647] text-white">
+            <view>添加</view>
+          </button>
+          <!-- <fui-button width="60px" @click="handleCancelUploadImage">
+            取消
+          </fui-button> -->
+          <button
+            @click="handleCancelInput"
+            class="photo flex w-[150px] items-center justify-center gap-2 rounded-3xl bg-[#f9a647] text-white">
+            取消
+          </button>
         </view>
       </view>
     </fui-animation>
