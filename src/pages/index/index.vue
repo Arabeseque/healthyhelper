@@ -268,6 +268,10 @@ function handleRecordMyself() {
                   ani(['fade'], true)
                 }
               }, 800)
+
+              uni.reLaunch({
+                url: '../../pages/index/index'
+              })
             }
           })
         }
