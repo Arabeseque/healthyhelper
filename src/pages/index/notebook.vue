@@ -161,11 +161,7 @@ init()
         <view class="uni-margin-wrap">
           <swiper
             class="swiper"
-            circular
-            :indicator-dots="indicatorDots"
-            :autoplay="autoplay"
-            :interval="interval"
-            :duration="duration">
+            circular>
             <swiper-item @click="toHeatInfo">
               <heatLine class="flex justify-center" />
             </swiper-item>
@@ -185,5 +181,8 @@ init()
 <style scoped>
 .swiper {
   height: 300px;
+}
+.swiper-item{
+  height:300px;
 }
 </style>

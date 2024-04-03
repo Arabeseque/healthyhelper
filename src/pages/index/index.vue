@@ -290,7 +290,7 @@ function uploadAiImage(tempFilePaths) {
       // 为所有的 data 添加 count 字段为100
       data.forEach((item) => {
         // item.count = 100
-        item.count = (Math.floor(Math.random() * (15 - 5 + 1)) + 5)*10
+        item.count = (Math.floor(Math.random() * (15 - 5 + 1)) + 5) * 10
       })
 
       analyseImageRes.value = data
@@ -324,7 +324,7 @@ function handlePostAnalyseData() {
   const now = new Date()
   const hour = now.getHours()
   if (hour >= 5 && hour <= 9) var foodType = 'breakfast'
-  else if (hour >= 10 && hour <= 14) var foodType = 'lunch'
+  else if (hour >= 10 && hour <= 15) var foodType = 'lunch'
   else if (hour >= 16 && hour <= 20) var foodType = 'dinner'
   else if ((hour >= 21 && hour <= 23) || (hour >= 0 && hour <= 4))
     var foodType = 'midnightSnack'
@@ -584,6 +584,7 @@ init()
                   class="py-2 text-xl font-bold"
                   style="color: rgba(0, 0, 0, 0.8)">
                   {{ renderData.name }}
+                  <view style="font-size: 14px">(每百克)</view>
                 </view>
                 <view>
                   <a
@@ -607,14 +608,7 @@ init()
                   <view class="flex items-center justify-between">
                     <span>脂肪</span>
                     <span class="text-sm opacity-60">
-                      <span v-if="renderData.zhifang">
-                        {{ renderData.zhifang }}
-                      </span>
-                      /
-                      <span v-if="recommandInfo.zhifang">
-                        {{ recommandInfo.zhifang }}
-                      </span>
-                      千卡
+                      {{ renderData.zhifang }}/{{ recommandInfo.zhifang }}克
                     </span>
                   </view>
                   <view class="pt-2">
@@ -632,7 +626,7 @@ init()
                     <span>蛋白</span>
                     <span class="text-sm opacity-60">
                       <span class="text-sm opacity-60">
-                        {{ renderData.danbai }}/{{ recommandInfo.danbai }}千卡
+                        {{ renderData.danbai }}/{{ recommandInfo.danbai }}克
                       </span>
                     </span>
                   </view>
@@ -650,7 +644,7 @@ init()
                   <view class="flex items-center justify-between">
                     <span>碳水</span>
                     <span class="text-sm opacity-60">
-                      {{ renderData.tanshui }}/{{ recommandInfo.tanshui }}千卡
+                      {{ renderData.tanshui }}/{{ recommandInfo.tanshui }}克
                     </span>
                   </view>
                   <view class="pt-2">

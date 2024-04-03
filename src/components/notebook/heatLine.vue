@@ -88,7 +88,7 @@ function getTableData(params) {
         series: [
           {
             name: '热量',
-            data: Object.keys(data.value.slice(0, 6)).map((item) => {
+            data: Object.keys(data.value).map((item) => {
               return data.value[item].reliang
             })
           }
