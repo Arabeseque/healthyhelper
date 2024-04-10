@@ -211,70 +211,60 @@ async function getStandard() {
 
 function handleRecordMyself() {
   uni.request({
-    url: import.meta.env.VITE_BASE_API + '/nutrition/search',
+    url: import.meta.env.VITE_BASE_API + '/nutrition/food',
     method: 'GET',
     data: {
-      query: foodInputValue.value.foodName
+      foodName: foodInputValue.value.foodName
     },
     success: (res: any) => {
-      console.log(res.data.data)
-      if (res.data.data.length === 0) {
+      if (res.data.code === 400) {
+        uni.showToast({
+          title: '未找到该食品',
+          icon: 'none'
+        })
         return
       }
 
-      const itemKey = Object.keys(res.data.data)[0]
-      const itemName = res.data.data[itemKey]
-      console.log(itemName, 'itemName')
-
+      console.log(res.data.data)
+      const item = res.data.data
+      const tempDate = formatTime(new Date())
       uni.request({
-        url: import.meta.env.VITE_BASE_API + `/nutrition/food`,
-        method: 'GET',
-        data: {
-          foodName: itemName
-        },
+        url: import.meta.env.VITE_BASE_API + '/record/foods',
+        method: 'POST',
+        data: [
+          {
+            userId,
+            foodId: item.id,
+            recordTime: tempDate,
+            id: null,
+            foodWeight: foodInputValue.value.foodWeight,
+            footType: 'breakfast'
+          }
+        ],
         success: (res: any) => {
-          const item = res.data.data
-          console.log(item, 'item')
-          const tempDate = formatTime(new Date())
+          showToast()
 
-          uni.request({
-            url: import.meta.env.VITE_BASE_API + '/record/foods',
-            method: 'POST',
-            data: [
-              {
-                userId,
-                foodId: item.id,
-                recordTime: tempDate,
-                id: null,
-                foodWeight: foodInputValue.value.foodWeight,
-                footType: 'breakfast'
-              }
-            ],
-            success: (res: any) => {
-              showToast()
+          aniInput(['fade'], true)
+          console.log(userStore.shouldRefesh, 'refresh')
 
-              aniInput(['fade'], true)
-              console.log(userStore.shouldRefesh, 'refresh')
+          userStore.shouldRefesh = true
+          console.log(userStore.shouldRefesh, 'refresh')
 
-              userStore.shouldRefesh = true
-              console.log(userStore.shouldRefesh, 'refresh')
-
-              setTimeout(() => {
-                if (!showAdvice.value) {
-                  ani(['fade'], true)
-                }
-              }, 800)
-
-              uni.reLaunch({
-                url: '../../pages/index/index'
-              })
+          setTimeout(() => {
+            if (!showAdvice.value) {
+              ani(['fade'], true)
             }
+          }, 800)
+
+          uni.reLaunch({
+            url: '../../pages/index/index'
           })
         }
       })
     }
   })
 }
+
 function uploadAiImage(tempFilePaths) {
   uploadImageSrc.value = tempFilePaths[0].tempFilePath
   console.log(uploadImageSrc.value, 'image')
@@ -343,7 +333,7 @@ function handlePostAnalyseData() {
           recordTime: formatTime(new Date()),
           foodWeight: item.count,
           // foodType: 'breakfast'
-          foodType: foodType
+          foodType
         }
       ],
       success: (res: any) => {
