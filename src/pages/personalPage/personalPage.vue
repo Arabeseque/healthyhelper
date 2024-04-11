@@ -73,7 +73,9 @@
         <view class="m3 p-3 px-5 text-base">我的数据</view>
         <!-- <view class="py-1"></view> -->
         <view class="flex">
-          <view class="m-3 box-border w-1/4 flex-1 rounded-xl bg-white p-3">
+          <view
+            class="m-3 box-border w-1/4 flex-1 rounded-xl bg-white p-3"
+            @click="toRecordWeight()">
             <view class="icon h-8 w-8">
               <img
                 class="h-8 w-8"
@@ -118,7 +120,7 @@
           <view>添加饮水</view>
           <view>></view>
         </view>
-        <view class="flex justify-between pt-4">
+        <view class="flex justify-between pt-4" @click="toNutritionPlan()">
           <view>自定义营养计划</view>
           <view>></view>
         </view>
@@ -162,6 +164,11 @@ export default {
       this.getStatus()
     })
   },
+  onShow() {
+    //获取数据
+    this.getUserData()
+    this.getStatus()
+  },
   mounted() {},
   data() {
     return {
@@ -203,9 +210,19 @@ export default {
         url: `../../pages/personalPage/disease`
       })
     },
+    toNutritionPlan() {
+      uni.navigateTo({
+        url: `../../pages/personalPage/nutritionPlan`
+      })
+    },
+    toRecordWeight() {
+      uni.navigateTo({
+        url: `../../pages/personalPage/recordWeight`
+      })
+    },
     refreshData() {
       this.getStatus()
-    },
+    }
     // 登出
     // logout() {
     //   uni.showModal({

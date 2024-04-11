@@ -103,6 +103,11 @@ export default {
       this.rating()
     }, 200);
   },
+  onShow(){
+    this.getPlanTableData()
+    this.getTodayData()
+    this.rating()
+  },
   mounted(){
     uni.$on('refreshCalendar', () => {
       this.getPlanTableData()
@@ -119,7 +124,9 @@ export default {
         header: {},
         success: (res) => {
           this.planData = res.data.data
+          delete this.planData.id
           // console.log(this.planData,"pladnData")
+          // console.log(11111)
         }
       })
     },
@@ -133,6 +140,7 @@ export default {
         success: (res) => {
           // console.log(1111111)
           this.todayData = res.data.data
+          // console.log(2222)
         }
       })
     },
@@ -142,6 +150,7 @@ export default {
             this.todayArr.push((this.todayData[temp] / this.planData[temp]) * 100)
           }
           // console.log(this.todayArr,"todayArr")
+          // console.log(33333)
     },
     
   }

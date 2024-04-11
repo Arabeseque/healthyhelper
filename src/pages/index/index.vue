@@ -348,10 +348,10 @@ function handlePostAnalyseData() {
       ],
       success: (res: any) => {
         userStore.shouldRefesh = true
-        // uni.$emit('refreshCalendar')
-        uni.reLaunch({
-          url: '../../pages/index/index'
-        })
+        uni.$emit('refreshCalendar')
+        // uni.reLaunch({
+        //   url: '../../pages/index/index'
+        // })
       }
     })
   })
@@ -883,6 +883,8 @@ init()
                 <u-icons type="right" size="25"></u-icons>
               </view>
             </view>
+            <span class="text-xl font-semibold" style="color: white">克</span>
+
           </view>
         </view>
 

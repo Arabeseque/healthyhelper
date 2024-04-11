@@ -1,6 +1,6 @@
 <template>
   <view class="charts-box">
-    <qiun-data-charts type="line" :opts="opts" :chartData="chartData" />
+    <qiun-data-charts  type="line" :opts="opts" :chartData="chartData" />
   </view>
 </template>
 
@@ -45,6 +45,13 @@ const opts = ref({
 
 const chartData = ref()
 const weightData = ref()
+
+onShow(()=>{
+  getTableData({
+    url: '/user/weights/' + userId,
+    method: 'GET'
+  })
+})
 
 setTimeout(() => {
   getTableData({
@@ -93,7 +100,8 @@ function getTableData(params) {
         ]
       }
 
-      console.log(weightArr, 'data')
+      // console.log(weightArr, 'data')
+      // console.log(2222)
     }
   })
 }

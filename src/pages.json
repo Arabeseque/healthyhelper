@@ -102,6 +102,18 @@
       "style": {
         "navigationBarTitleText": "身体状态"
       }
+    },
+    {
+      "path": "pages/personalPage/nutritionPlan",
+      "style": {
+        "navigationBarTitleText": "自定义营养计划"
+      }
+    },
+    {
+      "path": "pages/personalPage/recordWeight",
+      "style": {
+        "navigationBarTitleText": "记录体重"
+      }
     }
   ],
   "globalStyle": {
@@ -122,7 +134,10 @@
         "pagePath": "pages/index/notebook",
         "iconPath": "./static/LucideNotebookText.png",
         "selectedIconPath": "./static/LucideNotebookTextColor.png",
-        "text": "每日记录"
+        "text": "每日记录",
+        "meta":{
+          "keepAlive":"false"
+        }
       },
       {
         "pagePath": "pages/index/index",

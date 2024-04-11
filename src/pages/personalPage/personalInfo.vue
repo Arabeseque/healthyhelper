@@ -299,6 +299,9 @@ export default {
   mounted() {
     this.getUserData()
   },
+  onShow(){
+    this.getUserData()
+  },
   methods: {
     // 获取用户数据
     getUserData() {

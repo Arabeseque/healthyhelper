@@ -254,6 +254,9 @@ export default {
     //   this.getTodayData()
     // })
   },
+  onShow(){
+    this.getServerData()
+  },
   created() {
     this.dates = this.monthDay(this.y, this.m)
     // !this.open && this.toggle()
@@ -267,15 +270,12 @@ export default {
     this.getPlanData()
 
     // 登录过来刷新
-    // uni.$on('refreshCalendar', () => {
-    //   this.getDateData()
-    //   this.getTodayData()
-    //   this.getPlanData()
-    //   // console.log(111111)
-    //   uni.reLaunch({
-    //       url: '/pages/index/index'
-    //     })
-    // })
+    uni.$on('refreshCalendar', () => {
+      this.getDateData()
+      this.getTodayData()
+      this.getPlanData()
+      // this.getServerData()
+    })
   },
   computed: {
     // 顶部星期栏

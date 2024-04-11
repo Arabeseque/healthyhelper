@@ -49,6 +49,14 @@ const opts = ref({
   }
 })
 
+// onShow
+onShow(()=>{
+  getTableData({
+    url: '/record/energys/' + userId,
+    method: 'GET'
+  })
+})
+
 const chartData = ref()
 
 const data = ref()
@@ -96,6 +104,7 @@ function getTableData(params) {
       }
       // console.log(data.value, '热量')
       // console.log(data.value.reverse(),'反转')
+      // console.log(1111)
     }
   })
 }

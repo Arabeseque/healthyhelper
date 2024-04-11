@@ -82,6 +82,19 @@ const userStore = useUserStore()
 const userId = userStore.userid
 const userData = ref()
 
+// onShow
+onShow(()=>{
+  getTableData({
+  url: '/record/summary/today/' + userId,
+  method: 'GET'
+})
+
+getPlanTableData({
+  url: '/user/plan/' + userId,
+  method: 'GET'
+})
+})
+
 // 获取用户信息
 function getUserData(params: any) {
   uni.request({
@@ -109,6 +122,7 @@ function getTableData(params: any) {
     success: (res) => {
       summaryData.value = res.data.data
       // console.log(summaryData.value, 'summaryData')
+      // console.log(111111)
     }
   })
 }
@@ -126,6 +140,7 @@ function getPlanTableData(params: any) {
     success: (res) => {
       planData.value = res.data.data
       // console.log(planData.value, 'planData')
+      // console.log(22222)
     }
   })
 }
@@ -161,6 +176,7 @@ getPlanTableData({
   url: '/user/plan/' + userId,
   method: 'GET'
 })
+
 </script>
 
 <style scoped>

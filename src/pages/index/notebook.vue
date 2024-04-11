@@ -44,6 +44,7 @@ const progressSnacks = computed(() => {
   return (todayRecord.value.snacks / 300) * 100
 })
 
+
 // 前往体重详情
 function toWeightInfo() {
   uni.navigateTo({
@@ -158,7 +159,7 @@ init()
         <!-- 分割线 -->
         <view class="border opacity-10"></view>
 
-        <view class="uni-margin-wrap">
+        <scroll-view class="uni-margin-wrap">
           <swiper
             class="swiper"
             circular>
@@ -172,7 +173,7 @@ init()
               <Line />
             </swiper-item> -->
           </swiper>
-        </view>
+        </scroll-view>
       </view>
     </view>
   </view>

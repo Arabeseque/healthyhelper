@@ -20,7 +20,7 @@
 
     <view
       class="color-white flex w-full items-center justify-start px-6 py-2 text-xl font-semibold">
-      主食
+      正餐
     </view>
 
     <view
