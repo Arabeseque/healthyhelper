@@ -189,11 +189,11 @@ async function getRecommodDataFruit() {
     success: (res: any) => {
       // console.log(res.data.data)
       recommandDataFruit.value = res.data.data
-      if (!recommandData.value) {
+      if (!recommandDataFruit.value) {
         return
       }
       renderDataFruit.value = recommandDataFruit.value[0]
-      // console.log(renderData.value, 'renderData')
+      console.log(renderDataFruit.value, 'renderDataFruit')
     }
   })
 }
@@ -666,6 +666,7 @@ init()
                   class="py-2 text-xl font-bold"
                   style="color: rgba(0, 0, 0, 0.8)">
                   {{ renderDataFruit.name }}
+                  <view style="font-size: 14px">(每百克)</view>
                 </view>
 
                 <view>
@@ -809,7 +810,7 @@ init()
             label="重量"
             borderTop
             v-model="foodInputValue.foodWeight"
-            placeholder="输入食品的重量"></fui-input>
+            placeholder="输入食品的重量(g)"></fui-input>
           <!-- <fui-button width="60px" @click="handleCancelInput">取消</fui-button>
           <fui-button
             width="60px"
