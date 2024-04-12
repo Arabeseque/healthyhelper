@@ -2,9 +2,9 @@
   <view style="height: 100vh; background: #fff">
     <view class="img-a">
       <view class="t-b">
-        您好，
+        <span class="pb-2 text-3xl font-bold">智膳生活</span>
         <br />
-        欢迎使用，智膳生活
+        <span class="text-xl font-bold">WLECOME</span>
       </view>
     </view>
     <view class="login-view" style="">
@@ -65,7 +65,6 @@ function handleLogin() {
         //   url: '/pages/index/index'
         // })
 
-        
         // uni.$emit('refreshCalendar')
 
         // console.log(22222)
@@ -123,11 +122,21 @@ function handleRegister() {
   color: #333333;
 }
 .img-a {
-  width: 100%;
-  height: 450rpx;
-  background-image: url(http://129.204.224.187:8080/back1.png);
-  background-size: 100%;
+  width: 100%; /* 图片容器的宽度 */
+  height: 800rpx; /* 图片容器的高度 */
+  background-color: #96b38d; /* 底色 */
+
+  /* 设置背景图片 */
+  background-image: url(http://129.204.224.187:8080/login.png);
+  background-size: auto; /* 图片大小设置为auto，保持图片原始比例 */
+
+  /* 居中图片 */
+  background-position: center 13%; /* 设置背景图片居中，垂直位置上移 10% */
+
+  /* 确保图片不会重复 */
+  background-repeat: no-repeat;
 }
+
 .reg {
   font-size: 28rpx;
   color: #fff;
@@ -158,7 +167,7 @@ function handleRegister() {
 
 .t-login button {
   font-size: 28rpx;
-  background: #9dc9b6;
+  background: #96b38d;
   color: #fff;
   height: 90rpx;
   line-height: 90rpx;
@@ -179,12 +188,12 @@ function handleRegister() {
 }
 
 .t-b {
-  text-align: left;
-  font-size: 42rpx;
-  color: #ffffff;
-  padding: 130rpx 0 0 70rpx;
-  font-weight: bold;
-  line-height: 70rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 480rpx;
+  color: #fcfefc;
+  justify-content: center;
 }
 
 .t-login .t-c {
