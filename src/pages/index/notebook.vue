@@ -11,9 +11,14 @@ import { useUserStore } from '@/stores/user'
 
 // 用户数据
 const userStore = useUserStore()
-const userId = userStore.userid
+// const userId = userStore.userid
 
 const todayRecord = ref()
+
+onShow(()=>{
+  getTodayRecord(userStore.userid)
+})
+
 // 今日营养元素各类总和
 function getTodayRecord(userId: string) {
   uni.request({
@@ -22,6 +27,7 @@ function getTodayRecord(userId: string) {
     header: {},
     success: (res: any) => {
       // console.log(res.data.data, 'getTodayRecord')
+      console.log(userStore.userid,"userStore.userid")
       todayRecord.value = res.data.data
     }
   })
@@ -48,30 +54,30 @@ const progressSnacks = computed(() => {
 // 前往体重详情
 function toWeightInfo() {
   uni.navigateTo({
-    url: `../../pages/Notebook/weightInfo`
+    url: `/packageA/pages/Notebook/weightInfo`
   })
 }
 
 // 前往热量详情
 function toHeatInfo() {
   uni.navigateTo({
-    url: `../../pages/Notebook/heatInfo`
+    url: `/packageA/pages/Notebook/heatInfo`
   })
 }
 
 // 前往一日三餐详情
 function toDayInfo() {
   uni.navigateTo({
-    url: `../../pages/Notebook/dayInfo`
+    url: `/packageA/pages/Notebook/dayInfo`
   })
 }
 
-function init() {
-  getTodayRecord(userId)
-}
+// function init() {
+//   getTodayRecord(userStore.userid)
+// }
 
 
-init()
+// init()
 </script>
 
 <template>

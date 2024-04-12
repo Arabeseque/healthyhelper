@@ -61,14 +61,6 @@ function handleLogin() {
         console.log(userStore.userid, 'userStore.userid')
         uni.setStorageSync('token', res.data.data.token)
 
-        // uni.switchTab({
-        //   url: '/pages/index/index'
-        // })
-
-        // uni.$emit('refreshCalendar')
-
-        // console.log(22222)
-
         uni.switchTab({
           url: '/pages/index/index'
         })

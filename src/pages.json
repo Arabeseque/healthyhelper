@@ -7,8 +7,7 @@
       "^uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue"
     }
   },
-  "pages": [
-    {
+  "pages": [{
       "path": "pages/index/index",
       "style": {}
     },
@@ -60,61 +59,72 @@
       "style": {
         "navigationBarTitleText": "添加记录"
       }
-    },
-    {
-      "path": "pages/Notebook/targetInfo",
-      "style": {
-        "navigationBarTitleText": "今日摄入量"
-      }
-    },
-    {
-      "path": "pages/Notebook/weightInfo",
-      "style": {
-        "navigationBarTitleText": "体重"
-      }
-    },
-    {
-      "path": "pages/Notebook/heatInfo",
-      "style": {
-        "navigationBarTitleText": "热量"
-      }
-    },
-    {
-      "path": "pages/Notebook/dayInfo",
-      "style": {
-        "navigationBarTitleText": "一日三餐"
-      }
-    },
-    {
-      "path": "pages/personalPage/personalPage",
-      "style": {
-        "navigationBarTitleText": "个人中心"
-      }
-    },
-    {
-      "path": "pages/personalPage/personalInfo",
-      "style": {
-        "navigationBarTitleText": "详情信息"
-      }
-    },
-    {
-      "path": "pages/personalPage/disease",
-      "style": {
-        "navigationBarTitleText": "身体状态"
-      }
-    },
-    {
-      "path": "pages/personalPage/nutritionPlan",
-      "style": {
-        "navigationBarTitleText": "自定义营养计划"
-      }
-    },
-    {
-      "path": "pages/personalPage/recordWeight",
-      "style": {
-        "navigationBarTitleText": "记录体重"
-      }
     }
+  ],
+  "subPackages": [{
+      "root": "packageA/",
+      "pages": [{
+          "path": "pages/Notebook/targetInfo",
+          "style": {
+            "navigationBarTitleText": "今日摄入量"
+          }
+        },
+        {
+          "path": "pages/Notebook/weightInfo",
+          "style": {
+            "navigationBarTitleText": "体重"
+          }
+        },
+        {
+          "path": "pages/Notebook/heatInfo",
+          "style": {
+            "navigationBarTitleText": "热量"
+          }
+        },
+        {
+          "path": "pages/Notebook/dayInfo",
+          "style": {
+            "navigationBarTitleText": "一日三餐"
+          }
+        }
+      ]
+    },
+    {
+      "root": "packageB/",
+      "pages": [
+      {
+        "path": "pages/personalPage/personalPage",
+        "style": {
+          "navigationBarTitleText": "个人中心"
+        }
+      },
+      {
+        "path": "pages/personalPage/personalInfo",
+        "style": {
+          "navigationBarTitleText": "详情信息"
+        }
+      },
+      {
+        "path": "pages/personalPage/disease",
+        "style": {
+          "navigationBarTitleText": "身体状态"
+        }
+      },
+      {
+        "path": "pages/personalPage/nutritionPlan",
+        "style": {
+          "navigationBarTitleText": "自定义营养计划"
+        }
+      },
+      {
+        "path": "pages/personalPage/recordWeight",
+        "style": {
+          "navigationBarTitleText": "记录体重"
+        }
+      }
+      ]
+    }
+
   ],
   "globalStyle": {
     "navigationBarTextStyle": "black",
@@ -129,14 +139,13 @@
     "fontSize": "16px",
     "iconWidth": "30px",
     "height": "10vh",
-    "list": [
-      {
+    "list": [{
         "pagePath": "pages/index/notebook",
         "iconPath": "./static/LucideNotebookText.png",
         "selectedIconPath": "./static/LucideNotebookTextColor.png",
         "text": "每日记录",
-        "meta":{
-          "keepAlive":"false"
+        "meta": {
+          "keepAlive": "false"
         }
       },
       {

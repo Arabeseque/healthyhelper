@@ -9,7 +9,7 @@
         <text class="i-mdi-account text-2xl">496</text>
         <span>{{ userData.name }}</span>
       </view>
-      <view>上周小结</view>
+      <!-- <view>上周小结</view> -->
     </view>
 
     <view class="py-2"></view>
@@ -79,18 +79,24 @@ import { useUserStore } from '@/stores/user'
 
 // 用户数据
 const userStore = useUserStore()
-const userId = userStore.userid
+// const userId = userStore.userid
 const userData = ref()
 
 // onShow
 onShow(()=>{
+
+  getUserData({
+  url: '/user/' + userStore.userid,
+  method: 'GET'
+})
+
   getTableData({
-  url: '/record/summary/today/' + userId,
+  url: '/record/summary/today/' + userStore.userid,
   method: 'GET'
 })
 
 getPlanTableData({
-  url: '/user/plan/' + userId,
+  url: '/user/plan/' + userStore.userid,
   method: 'GET'
 })
 })
@@ -104,6 +110,10 @@ function getUserData(params: any) {
     header: {},
     success: (res) => {
       userData.value = res.data.data
+      console.log(userStore,"userStore")
+      console.log(userStore.userid,"userStore.userid")
+      console.log(userId,"userId")
+      console.log(userData.value,"userData")
     }
   })
 }
@@ -147,13 +157,13 @@ function getPlanTableData(params: any) {
 
 function toTargetInfo() {
   uni.navigateTo({
-    url: `../../pages/Notebook/targetInfo`
+    url: `/packageA/pages/Notebook/targetInfo`
   })
 }
 
 function toPersonalPage() {
   uni.navigateTo({
-    url: `../../pages/personalPage/personalPage`
+    url: `/packageB/pages/personalPage/personalPage`
   })
 }
 
@@ -163,17 +173,17 @@ function toPersonalPage() {
 // })
 
 getUserData({
-  url: '/user/' + userId,
+  url: '/user/' + userStore.userid,
   method: 'GET'
 })
 
 getTableData({
-  url: '/record/summary/today/' + userId,
+  url: '/record/summary/today/' + userStore.userid,
   method: 'GET'
 })
 
 getPlanTableData({
-  url: '/user/plan/' + userId,
+  url: '/user/plan/' + userStore.userid,
   method: 'GET'
 })
 

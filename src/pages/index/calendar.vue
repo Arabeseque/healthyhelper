@@ -125,6 +125,7 @@ import { useUserStore } from '@/stores/user'
 
 // 用户数据
 const userStore = useUserStore()
+
 const userId = userStore.userid
 
 export default {
@@ -255,27 +256,34 @@ export default {
     // })
   },
   onShow(){
-    this.getServerData()
-  },
-  created() {
-    this.dates = this.monthDay(this.y, this.m)
-    // !this.open && this.toggle()
-  },
-  mounted() {
     this.getUserData()
     this.choose = this.getToday().date
     this.daySearch = this.getToday().date
     this.getDateData()
     this.getTodayData()
     this.getPlanData()
+    this.getServerData()
+    // console.log(22222)
+  },
+  created() {
+    this.dates = this.monthDay(this.y, this.m)
+    // !this.open && this.toggle()
+  },
+  mounted() {
+    // this.getUserData()
+    // this.choose = this.getToday().date
+    // this.daySearch = this.getToday().date
+    // this.getDateData()
+    // this.getTodayData()
+    // this.getPlanData()
+    // console.log(1111111)
 
     // 登录过来刷新
-    uni.$on('refreshCalendar', () => {
-      this.getDateData()
-      this.getTodayData()
-      this.getPlanData()
-      // this.getServerData()
-    })
+    // uni.$on('refreshCalendar', () => {
+    //   this.getDateData()
+    //   this.getTodayData()
+    //   this.getPlanData()
+    // })
   },
   computed: {
     // 顶部星期栏
@@ -303,7 +311,7 @@ export default {
     // -------------------------------日历上-------------------------------------
     toPersonalPage() {
       uni.navigateTo({
-        url: `../../pages/personalPage/personalPage`
+        url: `/packageB/pages/personalPage/personalPage`
       })
     },
     // ---------------------------日历-------------------------------------
@@ -507,6 +515,7 @@ export default {
     // ---------------------------------------日历下------------------------------------
     // 获取当天食物
     getTodayData() {
+      // console.log(33333)
       this.pillarTodayData.length = 0
       uni.request({
         url:
@@ -542,6 +551,7 @@ export default {
     },
     // 获取计划量
     getPlanData() {
+      this.pillarPlan.length = 0
       uni.request({
         url: import.meta.env.VITE_BASE_API + `/user/plan/` + userId,
         method: 'GET',
@@ -573,7 +583,7 @@ export default {
           ]
         }
         this.chartData = JSON.parse(JSON.stringify(res))
-      }, 500)
+      }, 800)
     }
   }
 }

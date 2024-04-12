@@ -9,7 +9,7 @@ import { useUserStore } from '@/stores/user'
 
 // 用户数据
 const userStore = useUserStore()
-// const userId = userStore.userid
+const userId = userStore.userid
 
 // 折线图
 const opts = ref({
@@ -48,17 +48,18 @@ const weightData = ref()
 
 onShow(()=>{
   getTableData({
-    url: '/user/weights/' + userStore.userid,
+    url: '/user/weights/' + userId,
     method: 'GET'
   })
 })
 
-// setTimeout(() => {
-//   getTableData({
-//     url: '/user/weights/' + userStore.userid,
-//     method: 'GET'
-//   })
-// }, 100)
+setTimeout(() => {
+  getTableData({
+    url: '/user/weights/' + userId,
+    method: 'GET'
+  })
+  // console.log('Delayed log after 1000ms')
+}, 100)
 
 function getTableData(params) {
   uni.request({
@@ -100,7 +101,7 @@ function getTableData(params) {
       }
 
       // console.log(weightArr, 'data')
-      console.log(userStore.userid,"userStore.userid2222")
+      // console.log(2222)
     }
   })
 }

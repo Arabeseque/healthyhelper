@@ -54,6 +54,9 @@
     "setting": {
       "urlCheck": false
     },
+    "optimization": {
+      "subPackages": true
+    },
     "usingComponents": true,
     "lazyCodeLoading": "requiredComponents",
     "darkmode": true
@@ -70,5 +73,6 @@
   "uniStatistics": {
     "enable": false
   },
+
   "vueVersion": "3"
 }

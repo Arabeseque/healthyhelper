@@ -225,20 +225,31 @@ function handleRecordMyself() {
         return
       }
 
+      // 计算foodType
+      const now = new Date()
+      const hour = now.getHours()
+      if (hour >= 5 && hour <= 9) var foodType = 'breakfast'
+      else if (hour >= 10 && hour <= 14) var foodType = 'lunch'
+      else if (hour >= 16 && hour <= 20) var foodType = 'dinner'
+      else if ((hour >= 21 && hour <= 23) || (hour >= 0 && hour <= 4))
+        var foodType = 'midnightSnack'
+      else var foodType = 'snacks'
+
       console.log(res.data.data)
       const item = res.data.data
       const tempDate = formatTime(new Date())
       uni.request({
-        url: import.meta.env.VITE_BASE_API + '/record/foods',
+        url: import.meta.env.VITE_BASE_API + '/record/foods/foodName/userId',
         method: 'POST',
         data: [
           {
             userId,
-            foodId: item.id,
-            recordTime: tempDate,
-            id: null,
-            foodWeight: foodInputValue.value.foodWeight,
-            footType: 'breakfast'
+            // foodId: item.id,
+            time: tempDate,
+            foodName: foodInputValue.value.foodName,
+            // id: null,
+            weight: foodInputValue.value.foodWeight,
+            foodType
           }
         ],
         success: (res: any) => {
@@ -314,7 +325,7 @@ function handlePostAnalyseData() {
   const now = new Date()
   const hour = now.getHours()
   if (hour >= 5 && hour <= 9) var foodType = 'breakfast'
-  else if (hour >= 10 && hour <= 15) var foodType = 'lunch'
+  else if (hour >= 10 && hour <= 14) var foodType = 'lunch'
   else if (hour >= 16 && hour <= 20) var foodType = 'dinner'
   else if ((hour >= 21 && hour <= 23) || (hour >= 0 && hour <= 4))
     var foodType = 'midnightSnack'
@@ -403,6 +414,7 @@ function commonPostFoodData(foodId: any, type: string) {
             renderData.value = recommandData.value[curPage.value]
           }
           showAdvice.value = !showAdvice.value
+          showAdviceFruit.value = !showAdviceFruit.value
         }, 300)
       } else {
         aniFruit(['fade'], true)
@@ -431,6 +443,7 @@ function ani(mode: any, mask: any) {
   setTimeout(() => {
     mode.value = mode
     showAdvice.value = !showAdvice.value
+    showAdviceFruit.value = !showAdviceFruit.value
   }, 80)
 
   setTimeout(() => {
@@ -875,7 +888,6 @@ init()
               </view>
             </view>
             <span class="text-xl font-semibold" style="color: white">克</span>
-
           </view>
         </view>
 
