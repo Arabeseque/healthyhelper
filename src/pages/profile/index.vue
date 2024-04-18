@@ -69,17 +69,17 @@ function handleToDetail() {
 function handleToFinish() {
   putUserInfo().then(() => {
     putDisInfo().then(() => {
-      uni.showToast({
+
+    })
+  })
+  uni.showToast({
         title: '注册成功',
         icon: 'success'
       })
       uni.switchTab({
         url: '/pages/index/index'
       })
-    })
-  })
-
-  // currentPage.value += 1
+  
 }
 
 async function putUserInfo() {
@@ -128,12 +128,11 @@ async function putDisInfo() {
       success: (res) => {
         if (res.data.code === 200) {
           console.log(res, 'putDisInfo')
-
           resolve(res)
         }
       },
       fail: (err) => {
-        console.log(err, 'putDisInfo')
+        console.log(err, 'fail')
       }
     })
   })

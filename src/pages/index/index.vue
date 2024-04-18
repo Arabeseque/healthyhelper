@@ -350,9 +350,9 @@ function handlePostAnalyseData() {
       success: (res: any) => {
         userStore.shouldRefesh = true
         uni.$emit('refreshCalendar')
-        // uni.reLaunch({
-        //   url: '../../pages/index/index'
-        // })
+         uni.reLaunch({
+           url: '../../pages/index/index'
+         })
       }
     })
   })

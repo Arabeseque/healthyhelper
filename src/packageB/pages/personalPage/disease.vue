@@ -104,7 +104,7 @@ export default {
           this.diseaseData = res.data.data
           this.diseaseName.length = 0
           this.showInfo.length = 0
-          if (this.diseaseData == '无疾病') {
+          if (this.diseaseData.hypertension + this.diseaseData.hyperlipemia + this.diseaseData.hyperglycemia + this.diseaseData.hypercholesterol + this.diseaseData.pregnant == 0) {
             var arr = [0, 0, 0, 0, 0]
             this.showInfo = arr
             this.healthy = 0
