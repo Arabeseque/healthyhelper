@@ -12,9 +12,9 @@
           <view class="relative mx-2 flex flex-none items-center">
             <image
               class="logo h-16 w-16 overflow-hidden rounded-full"
-              src="https://plus.unsplash.com/premium_photo-1663040525221-c607b4333b76?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
+              src="https://www.zshealthhelper.icu/avator.jpg" />
             <view class="vip absolute right-0 top-12 h-5 w-5">
-              <img class="h-5 w-5" src="http://129.204.224.187:8080/VIP.png" />
+              <img class="h-5 w-5" src="https://www.zshealthhelper.icu/VIP.png" />
             </view>
           </view>
           <span
@@ -79,7 +79,7 @@
             <view class="icon h-8 w-8">
               <img
                 class="h-8 w-8"
-                src="http://129.204.224.187:8080/weight.png" />
+                src="https://www.zshealthhelper.icu/weight.png" />
             </view>
             <view class="mt-5 text-xl">{{ this.statusData.weightDayNum }}</view>
             <view class="py-1 text-xs">
@@ -89,7 +89,7 @@
           </view>
           <view class="m-3 box-border w-1/4 flex-1 rounded-xl bg-white p-3">
             <view class="icon h-8 w-8">
-              <img class="h-8 w-8" src="http://129.204.224.187:8080/heat.png" />
+              <img class="h-8 w-8" src="https://www.zshealthhelper.icu/heat.png" />
             </view>
             <view class="mt-5 text-xl">{{ this.statusData.hotDayNum }}</view>
             <view class="py-1 text-xs">
@@ -99,7 +99,7 @@
           </view>
           <view class="m-3 box-border w-1/4 flex-1 rounded-xl bg-white p-3">
             <view class="icon h-8 w-8">
-              <img class="h-8 w-8" src="http://129.204.224.187:8080/diet.png" />
+              <img class="h-8 w-8" src="https://www.zshealthhelper.icu/diet.png" />
             </view>
             <view class="mt-5 text-xl">{{ this.statusData.foodDayNum }}</view>
             <view class="py-1 text-xs">

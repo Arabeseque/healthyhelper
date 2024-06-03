@@ -38,15 +38,22 @@ import Line from '@/packageB/component/Line.vue'
 
       <view class="pt-8"></view>
 
-      <view class=" box flex justify-center" v-show="isShow">
+      <view
+        class="box flex justify-center"
+        v-show="isShow"
+        @click="toWeightInfo"
+        style="height: 300px;">
         <Line :reshow="isShow" class="flex justify-center" />
       </view>
       <view class="pt-2"></view>
     </view>
-    
+
     <uni-popup ref="popupWeight" type="bottom" :is-mask-click="false">
       <view>
-        <picker-view class="picker-view bg-[#fff]" :value="weight.value" @change="changeWeight">
+        <picker-view
+          class="picker-view bg-[#fff]"
+          :value="weight.value"
+          @change="changeWeight">
           <picker-view-column>
             <view
               class="item"
@@ -71,7 +78,9 @@ import Line from '@/packageB/component/Line.vue'
             @click="closeWeight">
             取消
           </button>
-          <button class="confirm" type="primary"  @click="confirmWeight">确定</button>
+          <button class="confirm" type="primary" @click="confirmWeight">
+            确定
+          </button>
         </view>
       </view>
     </uni-popup>
@@ -105,7 +114,7 @@ export default {
     }
 
     return {
-      isShow:"true",
+      isShow: 'true',
       userData: '',
       weight: {
         value: [],
@@ -149,10 +158,10 @@ export default {
 
           this.postForm.recordWeight = this.userData.weight
           this.postForm.userId = userId
-          
         }
       })
     },
+    //计算时间
     postTime() {
       const date = new Date()
       const year = date.getFullYear()
@@ -162,13 +171,15 @@ export default {
       const minutes = String(date.getMinutes()).padStart(2, '0')
       const seconds = String(date.getSeconds()).padStart(2, '0')
 
-      this.postForm.recordTime =  `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
-      console.log(this.postForm.recordTime,"recordTime")
+      this.postForm.recordTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
+      console.log(this.postForm.recordTime, 'recordTime')
     },
+    //打开体重列表
     openWeight() {
       this.$refs.popupWeight.open('bottom')
       this.isShow = false
     },
+    //取消
     closeWeight() {
       this.$refs.popupWeight.close()
       this.isShow = true
@@ -180,8 +191,9 @@ export default {
       const num = parseFloat(string)
       this.postForm.recordWeight = num
 
-      console.log(this.postForm.recordWeight,"recordWeight")
+      console.log(this.postForm.recordWeight, 'recordWeight')
     },
+    //上传体重
     confirmWeight() {
       this.weight.value.length = 0
       const change = this.postForm.recordWeight.toString()
@@ -197,15 +209,28 @@ export default {
         data: this.postForm,
         success: (res) => {
           if (res.data.code === 200) {
-           uni.redirectTo({
-            url:'/packageB/pages/personalPage/recordWeight'
-           })
+            uni.showToast({
+              title: '记录体重成功',
+              icon: 'none'
+            })
+            setTimeout(() => {
+              uni.redirectTo({
+                url: '/packageB/pages/personalPage/recordWeight'
+              })
+            }, 500)
           }
         }
       })
 
       this.$refs.popupWeight.close()
     },
+
+    //跳转体重详情 
+    toWeightInfo() {
+      uni.navigateTo({
+        url: `/packageA/pages/Notebook/weightInfo`
+      })
+    }
   }
 }
 </script>

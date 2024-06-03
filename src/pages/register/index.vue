@@ -145,7 +145,8 @@ async function postUserLogin() {
 .img-a {
   width: 100%;
   height: 450rpx;
-  background-image: url(http://129.204.224.187:8080/back1.png);
+  /* background-image: url(https://www.zshealthhelper.icu/back1.png); */
+  background-image: url(https://www.zshealthhelper.icu/back5.png);
   background-size: 100%;
 }
 .reg {

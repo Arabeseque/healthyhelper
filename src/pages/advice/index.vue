@@ -48,7 +48,7 @@
               <view
                 class="border-1 rounded-l-xl bg-white p-2"
                 @click="handleCountDown(item)">
-                <u-icons type="left" size="20" @click="handleUpdateChart"></u-icons>
+                <u-icons type="left" size="20" ></u-icons>
               </view>
               <view class="border-1 bg-white p-2 text-xl">
                 {{ item.count }}
@@ -56,7 +56,7 @@
               <view
                 class="border-1 rounded-r-xl bg-white p-2"
                 @click="handleCountAdd(item)">
-                <u-icons type="right" size="20" @click="handleUpdateChart"></u-icons>
+                <u-icons type="right" size="20" ></u-icons>
               </view>
             </view>
           </view>
@@ -96,7 +96,7 @@
               <view
                 class="border-1 rounded-l-xl bg-white p-2"
                 @click="handleCountDownFruit(item)">
-                <u-icons type="left" size="20" @click="handleUpdateChart"></u-icons>
+                <u-icons type="left" size="20" ></u-icons>
               </view>
               <view class="border-1 bg-white p-2 text-xl">
                 {{ item.count }}
@@ -104,7 +104,7 @@
               <view
                 class="border-1 rounded-r-xl bg-white p-2"
                 @click="handleCountAddFruit(item)">
-                <u-icons type="right" size="20" @click="handleUpdateChart"></u-icons>
+                <u-icons type="right" size="20"></u-icons>
               </view>
             </view>
           </view>
@@ -112,18 +112,6 @@
       </checkbox-group>
     </view>
 
-    <!-- <view class="flex items-center justify-center gap-8 py-10">
-      <button
-        class="mt-4 w-[120px] rounded-lg bg-orange-400 py-2 text-white"
-        @click="handleUpdateChart">
-        选择
-      </button>
-      <button
-        class="mt-4 w-[120px] rounded-lg bg-[#e2dbd0] py-2 text-white"
-        @click="handleToDetail">
-        重置
-      </button>
-    </view> -->
 
     <view>
       <button
@@ -219,6 +207,10 @@ function getBestData() {
                   res.data.data.tanshui ,
                   res.data.data.reliang
                 ]
+              },
+              {
+                name:'当前添加量',
+                data:[0,0,0]
               }
             ]
           }
@@ -303,6 +295,7 @@ function handleCountAdd(item: any) {
       element.count += 50
     }
   })
+  handleUpdateChart()
 }
 function handleCountDown(item: any) {
   recommandData.value.forEach((element: any) => {
@@ -313,6 +306,7 @@ function handleCountDown(item: any) {
       element.count -= 50
     }
   })
+  handleUpdateChart()
 }
 
 function handleCountAddFruit(item: any) {
@@ -322,6 +316,7 @@ function handleCountAddFruit(item: any) {
       element.count += 50
     }
   })
+  handleUpdateChart()
 }
 function handleCountDownFruit(item: any) {
   recommandDataFruit.value.forEach((element: any) => {
@@ -332,10 +327,17 @@ function handleCountDownFruit(item: any) {
       element.count -= 50
     }
   })
+  handleUpdateChart()
 }
 
 function handleToDetail() {
-  recommandData.value.forEach((element: any) => {
+
+  uni.showToast({
+          title: '重置成功',
+          icon: 'none'
+        })
+  setTimeout(()=>{
+    recommandData.value.forEach((element: any) => {
     element.count = 0
   })
   recommandDataFruit.value.forEach((element: any) => {
@@ -343,6 +345,8 @@ function handleToDetail() {
   })
   
   handleUpdateChart()
+  },500)
+  
 }
 
 function handleUpdateChart() {

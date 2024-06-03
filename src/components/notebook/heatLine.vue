@@ -1,6 +1,14 @@
 <template>
   <view class="charts-box">
-    <qiun-data-charts type="line" :opts="opts" :chartData="chartData" />
+    <qiun-data-charts
+      type="line"
+      :opts="opts"
+      :chartData="chartData"
+      :inScrollView="true"
+      :pageScrollTop="pageScrollTop"
+      :canvas2d="true"
+	    canvasId="swiperHeatLine"
+       />
   </view>
 </template>
 
@@ -38,7 +46,7 @@ const opts = ref({
     line: {
       type: 'curve',
       width: 2,
-      activeType: 'hollow'
+      activeType: 'none'
     },
     // 标记线
     markLine: {
@@ -49,12 +57,13 @@ const opts = ref({
   }
 })
 
-
-onShow(()=>{
-  getTableData({
-    url: '/record/energys/' + userStore.userid,
-    method: 'GET'
-  })
+onShow(() => {
+  setTimeout(() => {
+    getTableData({
+      url: '/record/energys/' + userStore.userid,
+      method: 'GET'
+    })
+  }, 500)
 })
 
 const chartData = ref()
@@ -101,12 +110,11 @@ function getTableData(params) {
           }
         ]
       }
-      console.log(data.value,"dataValue")
-      console.log(userStore.userid,"userStore.userid")
+      // console.log(data.value,"dataValue")
+      // console.log(userStore.userid,"userStore.userid")
     }
   })
 }
-
 </script>
 
 <style scoped>

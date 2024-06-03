@@ -1,6 +1,16 @@
 <template>
   <view class="charts-box">
-    <qiun-data-charts  type="line" :opts="opts" :chartData="chartData" />
+    <qiun-data-charts
+      :inScrollView="true"
+      :pageScrollTop="pageScrollTop"
+      type="line"
+      :opts="opts"
+      :chartData="chartData"
+      :canvas2d="true" 
+      canvasId="line"
+      :ontap="false"
+      :onmouse="false"
+      />
   </view>
 </template>
 
@@ -38,7 +48,7 @@ const opts = ref({
     line: {
       type: 'curve',
       width: 2,
-      activeType: 'hollow'
+      // activeType: 'none',
     }
   }
 })
@@ -46,7 +56,7 @@ const opts = ref({
 const chartData = ref()
 const weightData = ref()
 
-onShow(()=>{
+onShow(() => {
   getTableData({
     url: '/user/weights/' + userId,
     method: 'GET'
@@ -73,7 +83,7 @@ function getTableData(params) {
     success: (res) => {
       weightData.value = res.data.data.slice(0, 6).reverse()
 
-      console.log(weightData.value,"data")
+      console.log(weightData.value, 'data')
 
       var weightArr = []
       for (var item in weightData.value) {
@@ -84,7 +94,7 @@ function getTableData(params) {
         )
       }
 
-      console.log(weightArr,"weightArr")
+      console.log(weightArr, 'weightArr')
 
       if (!weightData.value) return
 

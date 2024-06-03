@@ -61,9 +61,16 @@ function handleLogin() {
         console.log(userStore.userid, 'userStore.userid')
         uni.setStorageSync('token', res.data.data.token)
 
-        uni.switchTab({
-          url: '/pages/index/index'
+        uni.showToast({
+          title: '登陆成功',
+          icon: 'none'
         })
+
+        setTimeout(() => {
+          uni.switchTab({
+            url: '/pages/index/index'
+          })
+        }, 500)
       } else {
         uni.showToast({
           title: '账户或密码错误',
@@ -87,7 +94,7 @@ function handleRegister() {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  /* background-image: url('http://129.204.224.187:8080/back1.png'); */
+  /* background-image: url('https://www.zshealthhelper.icu/back1.png'); */
 }
 
 .registration-container {
@@ -119,7 +126,7 @@ function handleRegister() {
   background-color: #96b38d; /* 底色 */
 
   /* 设置背景图片 */
-  background-image: url(http://129.204.224.187:8080/login.png);
+  background-image: url(https://www.zshealthhelper.icu/login.png);
   background-size: auto; /* 图片大小设置为auto，保持图片原始比例 */
 
   /* 居中图片 */

@@ -405,9 +405,16 @@ export default {
       } else {
         this.addPlan()
       }
-      uni.redirectTo({
-        url: '../../pages/personalPage/nutritionPlan'
-      })
+      uni.showToast({
+          title: '上传营养计划成功',
+          icon: 'none'
+        })
+      setTimeout(() => {
+        uni.redirectTo({
+          url: '../../pages/personalPage/nutritionPlan'
+        })
+      }, 500)
+
       // setTimeout(()=>{
       //   this.getPlanTableData()
       // },1000)

@@ -5,7 +5,7 @@
       <view class="avator flex flex-col items-center pt-4">
         <image
           class="logo h-16 w-16 overflow-hidden rounded-full"
-          src="https://plus.unsplash.com/premium_photo-1663040525221-c607b4333b76?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" />
+          src="https://www.zshealthhelper.icu/avator.jpg" />
         <view class="name pt-2 text-lg font-semibold">{{ userData.name }}</view>
         <view class="pt-2 text-xs font-light" style="color: #333">
           修改信息,以便为您提供更加精准的计算
@@ -39,7 +39,7 @@
         <view>身高</view>
         <view>{{ userData.height * 100 }}cm ></view>
       </view>
-      <view class="flex justify-between pt-4" >
+      <view class="flex justify-between pt-4">
         <view>当前体重</view>
         <view>{{ userData.weight }}kg</view>
       </view>
@@ -300,7 +300,7 @@ export default {
   mounted() {
     this.getUserData()
   },
-  onShow(){
+  onShow() {
     this.getUserData()
   },
   methods: {
@@ -456,18 +456,24 @@ export default {
         data: this.postForm,
         success: (res) => {
           if (res.data.code === 200) {
-           this.back()
+            uni.showToast({
+              title: '修改成功',
+              icon: 'none'
+            })
+            setTimeout(()=>{
+              this.back()
+            },500)
           }
         }
       })
     },
     // 返回上一个页面
     back() {
-		uni.$emit('refreshData');
-		uni.navigateBack({
-			delta: 1
-		})
-	},
+      uni.$emit('refreshData')
+      uni.navigateBack({
+        delta: 1
+      })
+    }
   }
 }
 </script>

@@ -114,7 +114,7 @@
     <view
       class="box-border flex w-full flex-col gap-4 rounded-xl bg-white p-4 shadow-md">
       <view class="charts-box">
-        <qiun-data-charts type="column" :opts="opts" :chartData="chartData" />
+        <qiun-data-charts type="column" :opts="opts" :chartData="chartData" :canvas2d="true" />
       </view>
     </view>
   </view>
@@ -270,20 +270,6 @@ export default {
     // !this.open && this.toggle()
   },
   mounted() {
-    // this.getUserData()
-    // this.choose = this.getToday().date
-    // this.daySearch = this.getToday().date
-    // this.getDateData()
-    // this.getTodayData()
-    // this.getPlanData()
-    // console.log(1111111)
-
-    // 登录过来刷新
-    // uni.$on('refreshCalendar', () => {
-    //   this.getDateData()
-    //   this.getTodayData()
-    //   this.getPlanData()
-    // })
   },
   computed: {
     // 顶部星期栏

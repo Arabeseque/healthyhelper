@@ -1,6 +1,14 @@
 <template>
   <view class="charts-box">
-    <qiun-data-charts  type="line" :opts="opts" :chartData="chartData" />
+    <qiun-data-charts
+      type="line"
+      :opts="opts"
+      :chartData="chartData"
+      :inScrollView="true"
+      :pageScrollTop="pageScrollTop"
+      :canvas2d="true"
+	    canvasId="swiperLine"
+       />
   </view>
 </template>
 
@@ -38,7 +46,7 @@ const opts = ref({
     line: {
       type: 'curve',
       width: 2,
-      activeType: 'hollow'
+      activeType: 'none'
     }
   }
 })
@@ -46,11 +54,13 @@ const opts = ref({
 const chartData = ref()
 const weightData = ref()
 
-onShow(()=>{
-  getTableData({
-    url: '/user/weights/' + userStore.userid,
-    method: 'GET'
-  })
+onShow(() => {
+  setTimeout(() => {
+    getTableData({
+      url: '/user/weights/' + userStore.userid,
+      method: 'GET'
+    })
+  }, 500)
 })
 
 // setTimeout(() => {
@@ -72,7 +82,7 @@ function getTableData(params) {
     success: (res) => {
       weightData.value = res.data.data.slice(0, 6).reverse()
 
-      console.log(weightData.value,"data")
+      console.log(weightData.value, 'data')
 
       var weightArr = []
       for (var item in weightData.value) {
@@ -83,7 +93,7 @@ function getTableData(params) {
         )
       }
 
-      console.log(weightArr,"weightArr")
+      console.log(weightArr, 'weightArr')
 
       if (!weightData.value) return
 
@@ -100,7 +110,7 @@ function getTableData(params) {
       }
 
       // console.log(weightArr, 'data')
-      console.log(userStore.userid,"userStore.userid2222")
+      // console.log(userStore.userid,"userStore.userid2222")
     }
   })
 }

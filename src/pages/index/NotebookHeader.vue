@@ -18,15 +18,15 @@
     <view
       class="box-border flex w-full justify-between gap-4 rounded-xl bg-white px-4 shadow-md"
       @click="toTargetInfo">
-      <view class="w-[48%]">
+      <view class="w-[56%]">
         <SemiBar />
       </view>
       <view
-        class="flex flex-col items-center justify-center gap-2 pr-8 text-black">
+        class="flex flex-col items-center justify-center gap-2 pr-4 text-black">
         <view class="flex gap-2">
           <view class="flex items-center justify-between">
             <image
-              src="http://129.204.224.187:8080/danbai.png"
+            src="https://www.zshealthhelper.icu/danbai.png"
               class="h-6 w-6 pr-1"></image>
             <span class="text-sm font-bold opacity-60">
               {{ summaryData.danbai }}
@@ -39,8 +39,8 @@
         <view class="flex gap-2">
           <view class="flex items-center justify-between">
             <image
-              src="http://129.204.224.187:8080/zhifang.png"
-              class="h-6 w-6 pr-1"></image>
+            src="https://www.zshealthhelper.icu/zhifang.png"
+              class="h-5 w-6 pr-1"></image>
             <span class="text-sm font-bold opacity-60">
               {{ summaryData.zhifang }}
             </span>
@@ -52,7 +52,7 @@
         <view class="flex gap-2">
           <view class="flex items-center justify-between">
             <image
-              src="http://129.204.224.187:8080/tanshui.png"
+            src="https://www.zshealthhelper.icu/tanshui.png"
               class="h-6 w-6 pr-1"></image>
             <span class="text-sm font-bold opacity-60">
               {{ summaryData.tanshui }}

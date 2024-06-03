@@ -78,11 +78,6 @@ const adviceModalStylesFruit = ref({
   // height
   height: '350px'
 })
-const fuiStyle = ref({
-  position: 'initial',
-  height: '250px',
-  width: '100%'
-})
 
 const recommandDataFruit = ref()
 
@@ -139,8 +134,6 @@ function formatTime(date: Date) {
 }
 
 // get Function
-const showRecommand = ref(true)
-
 async function getRecommodData() {
   // analyse/recommand/1/2023-05-10
   // const date = new Date().toLocaleDateString()
@@ -169,11 +162,6 @@ async function getRecommodData() {
         return
       }
       renderData.value = recommandData.value[0]
-      if (renderData.value) {
-        showRecommand.value = true
-      } else {
-        showRecommand.value = false
-      }
       // console.log(renderData.value, 'renderData')
     }
   })
@@ -199,13 +187,15 @@ async function getRecommodDataFruit() {
       `/analyse/recommand/fruit/${userId}/${formattedDate}`,
     method: 'GET',
     success: (res: any) => {
-      // console.log(res.data.data)
+      console.log(res.data.data,'res')
       recommandDataFruit.value = res.data.data
       if (!recommandDataFruit.value) {
         return
       }
       renderDataFruit.value = recommandDataFruit.value[0]
       console.log(renderDataFruit.value, 'renderDataFruit')
+      console.log(recommandDataFruit.value,'recommandFruit')
+      console.log(111111)
     }
   })
 }
@@ -216,7 +206,8 @@ async function getStandard() {
     method: 'GET',
     success: (res: any) => {
       recommandInfo.value = res.data.data
-      // console.log(recommandInfo.value, 'recommandInfo')
+      console.log(recommandInfo.value, 'recommandInfo')
+      console.log(1111)
     }
   })
 }
@@ -266,6 +257,19 @@ function handleRecordMyself() {
         ],
         success: (res: any) => {
           showToast()
+
+          // aniInput(['fade'], true)
+          // console.log(userStore.shouldRefesh, 'refresh')
+
+          // userStore.shouldRefesh = true
+          // console.log(userStore.shouldRefesh, 'refresh')
+
+          // setTimeout(() => {
+          //   if (!showAdvice.value) {
+          //     ani(['fade'], true)
+          //   }
+          // }, 800)
+
           setTimeout(() => {
             uni.reLaunch({
               url: '../../pages/index/index'
@@ -296,6 +300,9 @@ function uploadAiImage(tempFilePaths) {
       })
 
       analyseImageRes.value = data
+      // data.length === arr.length
+
+      // foodCountArr.value = Array(data.length).fill(100)
 
       console.log(data, 'data')
 
@@ -368,11 +375,8 @@ function handlePostAnalyseData() {
       }
     })
   })
-}
 
-onShow(()=>{
-  init()
-})
+}
 
 function init() {
   // 获取推荐数据
@@ -381,6 +385,7 @@ function init() {
   getStandard()
   // console.log(renderData.value, 'renderData')
 }
+
 
 // Animation
 function ani(mode: any, mask: any) {
@@ -400,6 +405,23 @@ function ani(mode: any, mask: any) {
     // }
   }, 300)
 }
+
+// function aniFruit(mode: any, mask: any) {
+//   if (mask) {
+//     adviceModalStylesFruit.value.backgroundColor = 'rgba(0,0,0,0.3)'
+//   } else {
+//     adviceModalStylesFruit.value.backgroundColor = 'rgba(0,0,0,0)'
+//   }
+//   setTimeout(() => {
+//     mode.value = mode
+//     showAdviceFruit.value = !showAdviceFruit.value
+//   }, 80)
+
+//   setTimeout(() => {
+//     // if (cur < total) {
+//     // }
+//   }, 300)
+// }
 
 function aniInput(mode: any, mask: any) {
   if (mask) {
@@ -430,7 +452,7 @@ function handleCountAdd(item: any) {
 }
 function handleCountDown(item: any) {
   analyseImageRes.value.forEach((element) => {
-    if (element.id === item.id && element.count - 5 >= 0) {
+    if (element.id === item.id) {
       element.count -= 5
     }
   })
@@ -480,7 +502,7 @@ function showToast() {
   })
 }
 
-// init()
+init()
 </script>
 
 <template>
@@ -500,26 +522,8 @@ function showToast() {
       </view>
     </view>
 
-    <view class="pt-4">
-      <view v-if="!showRecommand" height="350px">
-        <fui-animation
-          :duration="500"
-          :animationType="mode"
-          :show="showAdvice"
-          :styles="fuiStyle">
-          <view
-            style="font-weight: 500; color: rgba(0, 0, 0, 0.7)"
-            class="foodContainer color: rgba(0, 0, 0, 0.7) m-4 box-border flex w-full flex-col gap-4 rounded-xl p-4 py-4 opacity-90 shadow-md">
-            <view style="font-size: 18px" class="flex justify-center">
-              今日暂无推荐数据
-            </view>
-            <view style="text-indent: 2em">
-              为了推荐对您具有针对性，请先记录食物，系统会在后一天为您生成
-            </view>
-          </view>
-        </fui-animation>
-      </view>
-      <swiper circular class="h-96" v-if="showRecommand">
+    <view class="pt-6">
+      <swiper circular class="h-96">
         <!-- normal -->
         <swiper-item>
           <fui-animation
@@ -690,7 +694,7 @@ function showToast() {
                       :percent="progressDanbaiFruit"
                       stroke-width="15"
                       border-radius="6"
-                      activeColor="#f9a647" />
+                      activeColor="#94b7c6" />
                   </view>
                 </view>
                 <view
@@ -709,7 +713,7 @@ function showToast() {
                       :percent="progressTanshuiFruit"
                       stroke-width="15"
                       border-radius="6"
-                      activeColor="#e2dbd0" />
+                      activeColor="#037f8f" />
                   </view>
                 </view>
               </view>

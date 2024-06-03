@@ -1,6 +1,6 @@
 <template>
   <view class="charts-box">
-    <qiun-data-charts type="arcbar" :opts="opts" :chartData="chartData" />
+    <qiun-data-charts type="arcbar" :opts="opts" :chartData="chartData" :canvas2d="true"/>
   </view>
 </template>
 
@@ -33,7 +33,8 @@ const opts = {
       backgroundColor: '#E9E9E9',
       startAngle: 1.5,
       endAngle: 0.25,
-      gap: 2
+      gap: 2,
+      radius:240
     }
   }
 }

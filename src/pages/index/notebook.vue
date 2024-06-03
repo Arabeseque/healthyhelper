@@ -19,6 +19,10 @@ onShow(()=>{
   getTodayRecord(userStore.userid)
 })
 
+onLoad(()=>{
+  setH()
+})
+
 // 今日营养元素各类总和
 function getTodayRecord(userId: string) {
   uni.request({
@@ -170,10 +174,10 @@ function toDayInfo() {
             class="swiper"
             circular>
             <swiper-item @click="toHeatInfo">
-              <heatLine class="flex justify-center" />
+              <heatLine class="oneDom"/>
             </swiper-item>
             <swiper-item @click="toWeightInfo">
-              <Line class="flex justify-center" />
+              <Line class="oneDom"/>
             </swiper-item>
             <!-- <swiper-item>
               <Line />
@@ -190,6 +194,6 @@ function toDayInfo() {
   height: 300px;
 }
 .swiper-item{
-  height:300px;
+  height: 300px;
 }
 </style>
