@@ -1,8 +1,8 @@
 <template>
-  <view class="bg-[#9dc9b6] p-4 px-3 shadow-xl">
+  <view class="bg-[#96b38d] p-4 px-3 shadow-xl">
     <!-- 用户入口 -->
-    <view
-      class="header flex w-full flex-col items-center bg-[#9dc9b6] p-1.5 pt-2 text-sm text-white backdrop-blur-3xl">
+    <!-- <view
+      class="header flex w-full flex-col items-center  p-1.5 pt-2 text-sm text-white backdrop-blur-3xl">
       <view
         class="flex w-full items-center justify-between"
         @click="toPersonalPage()">
@@ -11,20 +11,44 @@
           <span>{{ this.userData.name }}</span>
         </view>
       </view>
+    </view> -->
+
+    <view class="flex w-full items-center justify-between">
+      <view
+        class="flex items-end justify-center gap-2 bg-white"
+        style="border-radius: 20px"
+        @click="toPersonalPage()">
+        <!-- <text class="i-mdi-account text-2xl">496</text>
+        <span>{{ userData.name }}</span> -->
+        <view class="flex p-2">
+          <image
+            class="logo h-11 w-11 overflow-hidden rounded-full"
+            src="https://www.zshealthhelper.icu/avator.jpg" />
+            <view class="flex flex-col pr-8">
+              <span class="flex items-center pl-4 " style="font-size: 16px;color:rgba(0,0,0,0.9)">{{ userData.name }}</span>
+              <span class="pl-4" style="font-size: 16px">WELCOM!</span>
+            </view>
+        </view>
+      </view>
+      <!-- <view>上周小结</view> -->
+      <image
+        src="https://www.zshealthhelper.icu/logo.png"
+        style="height: 73px; width: 76px"></image>
     </view>
 
-    <view class="py-1"></view>
+    <view class="py-2"></view>
 
     <!-- 日历 -->
     <view class="calendar-wrapper" style="border-radius: 20px">
+      <view class="py-2"></view>
       <view class="header" v-if="headerBar">
-        <view class="preWidth" @click="changeMonth('pre')">
+        <view class="preWidth flex items-center" @click="changeMonth('pre')">
           <view class="pre"></view>
         </view>
-        <view style="padding-top: 10px">
+        <view class="flex items-center">
           {{ y + '年' + formatNum(m) + '月' }}
         </view>
-        <view class="nextWidth" @click="changeMonth('next')">
+        <view class="nextWidth flex items-center" @click="changeMonth('next')">
           <view class="next"></view>
         </view>
       </view>
@@ -80,28 +104,26 @@
 
     <!-- 我的记录 -->
     <view
-      class="box-border flex w-full flex-col gap-4 rounded-xl bg-white p-4 shadow-md">
+      class="box-border flex w-full flex-col gap-4 rounded-[20px] bg-white p-4 shadow-md">
       <!-- Header -->
 
       <!-- 分割线 -->
-      <view class="border opacity-10"></view>
       <view class="uni-margin-wrap" v-if="this.flag == 1">
         <ul
           v-for="(items, index) in this.todayData"
           :key="index"
-          class="divide-y divide-slate-200">
-          <li class="flex justify-between">
+          class="bg-[#FCEE95]"
+          style="border-radius: 20px">
+          <li class="m-1.5 flex justify-between p-2 px-2">
             <view>
-              <view>{{ items.foodName }}</view>
-              <view style="font-size: 12px; color: #666">
-                {{ items.zhongliang }}g
-              </view>
+              <view style="font-size: 14px">{{ items.foodName }}</view>
+              <view style="font-size: 14px">{{ items.zhongliang }}g</view>
             </view>
-            <view class="pt-1.5" style="font-size: 14px; color: #666">
+            <view class="pt-1" style="font-size: 14px">
               {{ items.reliang }}千卡
             </view>
           </li>
-          <view class="py-1"></view>
+          <!-- <view class="p-1"></view> -->
         </ul>
       </view>
 
@@ -112,9 +134,14 @@
     <view class="py-2"></view>
 
     <view
-      class="box-border flex w-full flex-col gap-4 rounded-xl bg-white p-4 shadow-md">
+      class="box-border flex w-full flex-col gap-4 rounded-[20px] bg-white p-4 pt-7 pb-7 shadow-md"
+      >
       <view class="charts-box">
-        <qiun-data-charts type="column" :opts="opts" :chartData="chartData" :canvas2d="true" />
+        <qiun-data-charts
+          type="column"
+          :opts="opts"
+          :chartData="chartData"
+          :canvas2d="true" />
       </view>
     </view>
   </view>
@@ -198,8 +225,8 @@ export default {
       // 您可以通过修改 config-ucharts.js 文件中下标为 ['column'] 的节点来配置全局默认参数，如都是默认参数，此处可以不传 opts 。实际应用过程中 opts 只需传入与全局默认参数中不一致的【某一个属性】即可实现同类型的图表显示不同的样式，达到页面简洁的需求。
       opts: {
         color: [
-          '#1890FF',
-          '#91CB74',
+          '#FBA957',
+          '#FCEE95',
           '#FAC858',
           '#EE6666',
           '#73C0DE',
@@ -226,7 +253,9 @@ export default {
             type: 'group',
             width: 30,
             activeBgColor: '#000000',
-            activeBgOpacity: 0.08
+            activeBgOpacity: 0.08,
+            width: 20,
+            seriesGap: 0
           }
         }
       }
@@ -255,7 +284,7 @@ export default {
     //   this.getTodayData()
     // })
   },
-  onShow(){
+  onShow() {
     this.getUserData()
     this.choose = this.getToday().date
     this.daySearch = this.getToday().date
@@ -270,6 +299,19 @@ export default {
     // !this.open && this.toggle()
   },
   mounted() {
+    // this.getUserData()
+    // this.choose = this.getToday().date
+    // this.daySearch = this.getToday().date
+    // this.getDateData()
+    // this.getTodayData()
+    // this.getPlanData()
+    // console.log(1111111)
+    // 登录过来刷新
+    // uni.$on('refreshCalendar', () => {
+    //   this.getDateData()
+    //   this.getTodayData()
+    //   this.getPlanData()
+    // })
   },
   computed: {
     // 顶部星期栏
@@ -600,9 +642,27 @@ export default {
     color: #fff;
     font-size: 32rpx;
     font-weight: bold;
-    background-color: rgb(69, 190, 137);
-    border-radius: 20px 20px 0 0;
+    // background-color: rgb(69, 190, 137);
+    background: #fba957;
+    border-radius: 20px;
+    // margin-top:13.16%;
+    margin-left: 5%;
+    margin-right: 5%;
 
+    /* Rectangle 33 */
+
+    // position: absolute;
+    // left: 8.46%;
+    // right: 8.72%;
+    // top: 13.16%;
+    // bottom: 83.08%;
+
+    // background: #FBA957;
+    // border-radius: 20px;
+
+    // border-radius: 20px 20px 0 0;
+
+    /* Rectangle 33 */
     .preWidth,
     .nextWidth {
       // background: rgba(157,201,182, 0.3);
@@ -674,8 +734,9 @@ export default {
           border-radius: 60rpx;
 
           &.choose {
-            background-color: #fe7379;
-            color: #fff;
+            background-color: #ffee56;
+            color: #333;
+            // color: #fff;
           }
 
           &.nolm {
@@ -722,7 +783,7 @@ export default {
           font-style: normal;
           width: 10rpx;
           height: 10rpx;
-          background: #fc7a64;
+          background: #fba957;
           border-radius: 10rpx;
           position: absolute;
           left: 45%;
@@ -742,6 +803,7 @@ export default {
     height: 50rpx;
     background-color: #fc7a64;
   }
+
 
   // .weektoggle {
   //   width: 100rpx;

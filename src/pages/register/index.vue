@@ -62,18 +62,20 @@ function handleRegister() {
         uni.setStorageSync('token', 'tokenMock')
 
         postUserLogin().then(() => {
-          uni.navigateTo({
-            url: '/pages/profile/index'
+          uni.showToast({
+            title: '注册成功',
+            icon: 'success'
           })
+          setTimeout(() => {
+            uni.navigateTo({
+              url: '/pages/profile/index'
+            })
+          }, 500)
         })
 
         // uni.switchTab({
         //   url: '/pages/index/index'
         // })
-        uni.showToast({
-          title: '注册成功',
-          icon: 'success'
-        })
       } else {
         uni.showToast({
           title: '用户已经存在',
@@ -146,7 +148,7 @@ async function postUserLogin() {
   width: 100%;
   height: 450rpx;
   /* background-image: url(https://www.zshealthhelper.icu/back1.png); */
-  background-image: url(https://www.zshealthhelper.icu/back5.png);
+  background-image: url(https://www.zshealthhelper.icu/back1.png);
   background-size: 100%;
 }
 .reg {
@@ -179,7 +181,7 @@ async function postUserLogin() {
 
 .t-login button {
   font-size: 28rpx;
-  background: #9dc9b6;
+  background: #96b38d;
   color: #fff;
   height: 90rpx;
   line-height: 90rpx;

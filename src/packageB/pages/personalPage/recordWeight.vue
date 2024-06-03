@@ -30,9 +30,9 @@ import Line from '@/packageB/component/Line.vue'
           <view class="pt-2"></view>
           <progress
             :percent="targetArr"
-            stroke-width="15"
-            border-radius="6"
-            color="#d07c6c" />
+            stroke-width="16"
+            border-radius="10"
+            color="#FBA956" />
         </view>
       </view>
 

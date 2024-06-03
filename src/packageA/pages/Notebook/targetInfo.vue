@@ -1,6 +1,6 @@
 <template>
   <view>
-    <view class="bg-[#9dc9b6] px-3 py-2 shadow-xl">
+    <view class="bg-[#96b38d] px-3 py-2 shadow-xl">
       <view
         class="box-border flex w-full flex-col gap-4 rounded-xl bg-white p-4 shadow-md">
         <!-- Header -->
@@ -26,7 +26,7 @@
                 :percent="todayArr[index]"
                 stroke-width="15"
                 border-radius="6"
-                color="#d07c6c" />
+                color="#FBA956" />
             </view>
           </view>
         </view>

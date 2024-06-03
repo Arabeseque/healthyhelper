@@ -1,65 +1,81 @@
 <template>
   <!-- TODO: Header -->
   <view
-    class="header flex w-full flex-col items-center bg-[#9dc9b6] p-4 text-sm text-white backdrop-blur-3xl">
+    class="header flex w-full flex-col items-center bg-[#96b38d] p-4 text-sm backdrop-blur-3xl">
     <view class="flex w-full items-center justify-between">
       <view
-        class="flex items-end justify-center gap-2"
+        class="flex items-end justify-center gap-2 bg-white"
+        style="border-radius: 20px;"
         @click="toPersonalPage()">
-        <text class="i-mdi-account text-2xl">496</text>
-        <span>{{ userData.name }}</span>
+        <!-- <text class="i-mdi-account text-2xl">496</text>
+        <span>{{ userData.name }}</span> -->
+        <view class="flex p-2">
+          <image
+            class="logo h-11 w-11 overflow-hidden rounded-full"
+            src="https://www.zshealthhelper.icu/avator.jpg" />
+            <view class="flex flex-col pt-1 pr-8">
+              <span class="flex items-center pl-4 " style="font-size: 16px;color:rgba(0,0,0,0.9)">{{ userData.name }}</span>
+              <span class="pl-4" style="font-size: 16px">WELCOM!</span>
+            </view>
+        </view>
       </view>
       <!-- <view>上周小结</view> -->
+      <image
+        src="https://www.zshealthhelper.icu/logo.png"
+        style="height: 73px;width:76px;"></image>
     </view>
 
     <view class="py-2"></view>
 
     <!-- 目标圆环 -->
     <view
-      class="box-border flex w-full justify-between gap-4 rounded-xl bg-white px-4 shadow-md"
+      class="box-border flex w-full justify-between gap-4 rounded-[20px] bg-white shadow-md"
       @click="toTargetInfo">
       <view class="w-[56%]">
         <SemiBar />
       </view>
       <view
-        class="flex flex-col items-center justify-center gap-2 pr-4 text-black">
-        <view class="flex gap-2">
+        class="flex flex-col items-center justify-center gap-4 text-black">
+        <view class="flex gap-3" style="width: 140px">
           <view class="flex items-center justify-between">
             <image
-            src="https://www.zshealthhelper.icu/danbai.png"
-              class="h-6 w-6 pr-1"></image>
-            <span class="text-sm font-bold opacity-60">
-              {{ summaryData.danbai }}
-            </span>
-            <span class="p-1 text-sm opacity-60">/ {{ planData.danbai }}</span>
-
-            <span class="text-xs text-stone-700">g</span>
+              src="https://www.zshealthhelper.icu/danbai2.png"
+              style="height: 43px;width:38px;"></image>
+            <view class="right pl-2" style="font-size: 16px">
+              <view class="pb-1">蛋白</view>
+              <span class="text-sm font-bold opacity-60">
+                {{ summaryData.danbai }}/{{ planData.danbai }}
+              </span>
+              <span class="text-sm text-stone-700">g</span>
+            </view>
           </view>
         </view>
-        <view class="flex gap-2">
+        <view class="flex gap-2" style="width: 140px">
           <view class="flex items-center justify-between">
             <image
-            src="https://www.zshealthhelper.icu/zhifang.png"
-              class="h-5 w-6 pr-1"></image>
-            <span class="text-sm font-bold opacity-60">
-              {{ summaryData.zhifang }}
-            </span>
-            <span class="p-1 text-sm opacity-60">/ {{ planData.zhifang }}</span>
-
-            <span class="text-xs text-stone-700">g</span>
+              src="https://www.zshealthhelper.icu/zhifang2.png"
+              style="height:43px;width:43px;"></image>
+            <view class="right pl-2" style="font-size: 16px">
+              <view class="pb-1">脂肪</view>
+              <span class="text-sm font-bold opacity-60">
+                {{ summaryData.zhifang }}/{{ planData.zhifang }}
+              </span>
+              <span class="text-sm text-stone-700">g</span>
+            </view>
           </view>
         </view>
-        <view class="flex gap-2">
+        <view class="flex gap-2" style="width: 140px">
           <view class="flex items-center justify-between">
             <image
-            src="https://www.zshealthhelper.icu/tanshui.png"
-              class="h-6 w-6 pr-1"></image>
-            <span class="text-sm font-bold opacity-60">
-              {{ summaryData.tanshui }}
-            </span>
-            <span class="p-1 text-sm opacity-60">/ {{ planData.tanshui }}</span>
-
-            <span class="text-xs text-stone-700">g</span>
+              src="https://www.zshealthhelper.icu/tanshui2.png"
+              style="width:43px;height:43px"></image>
+            <view class="right pl-2" style="font-size: 16px">
+              <view class="pb-1">碳水</view>
+              <span class="text-sm font-bold opacity-60">
+                {{ summaryData.tanshui }}/{{ planData.tanshui }}
+              </span>
+              <span class="text-sm text-stone-700">g</span>
+            </view>
           </view>
         </view>
       </view>
@@ -83,37 +99,36 @@ const userStore = useUserStore()
 const userData = ref()
 
 // onShow
-onShow(()=>{
-
+onShow(() => {
   getUserData({
-  url: '/user/' + userStore.userid,
-  method: 'GET'
-})
+    url: '/user/' + userStore.userid,
+    method: 'GET'
+  })
 
   getTableData({
-  url: '/record/summary/today/' + userStore.userid,
-  method: 'GET'
-})
+    url: '/record/summary/today/' + userStore.userid,
+    method: 'GET'
+  })
 
-getPlanTableData({
-  url: '/user/plan/' + userStore.userid,
-  method: 'GET'
-})
+  getPlanTableData({
+    url: '/user/plan/' + userStore.userid,
+    method: 'GET'
+  })
 })
 
 // 获取用户信息
 function getUserData(params: any) {
   uni.request({
-    url: import.meta.env.VITE_BASE_API +  params.url,
+    url: import.meta.env.VITE_BASE_API + params.url,
     method: params.method,
     data: params.params ? params.params : {},
     header: {},
     success: (res) => {
       userData.value = res.data.data
-      console.log(userStore,"userStore")
-      console.log(userStore.userid,"userStore.userid")
-      console.log(userId,"userId")
-      console.log(userData.value,"userData")
+      console.log(userStore, 'userStore')
+      console.log(userStore.userid, 'userStore.userid')
+      console.log(userId, 'userId')
+      console.log(userData.value, 'userData')
     }
   })
 }
@@ -186,7 +201,6 @@ getPlanTableData({
   url: '/user/plan/' + userStore.userid,
   method: 'GET'
 })
-
 </script>
 
 <style scoped>

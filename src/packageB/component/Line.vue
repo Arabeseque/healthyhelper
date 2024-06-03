@@ -24,7 +24,7 @@ const userId = userStore.userid
 // 折线图
 const opts = ref({
   color: [
-    '#1890FF',
+    '#F5D066',
     '#91CB74',
     '#FAC858',
     '#EE6666',

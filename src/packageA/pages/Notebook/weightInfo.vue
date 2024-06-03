@@ -1,6 +1,6 @@
 <template>
   <view>
-    <view class="bg-[#9dc9b6] px-3 py-2 shadow-xl">
+    <view class="bg-[#96b38d] px-3 py-2 shadow-xl">
       <view class="flex justify-center p-10 text-2xl" v-if="result== 1">
         您的bmi为{{Bmi}},
         体重过轻,要多吃一点哦!

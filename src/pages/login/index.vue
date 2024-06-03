@@ -62,7 +62,7 @@ function handleLogin() {
         uni.setStorageSync('token', res.data.data.token)
 
         uni.showToast({
-          title: '登陆成功',
+          title: '登录成功',
           icon: 'none'
         })
 

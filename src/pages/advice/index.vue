@@ -1,5 +1,5 @@
 <template>
-  <view class="flex flex-col items-center justify-center bg-[#9dc9b6]">
+  <view class="flex flex-col items-center justify-center bg-[#96b38d]">
     <view class="flex items-center justify-center p-8 text-2xl font-bold">
       饮食配置助手
     </view>
@@ -48,7 +48,7 @@
               <view
                 class="border-1 rounded-l-xl bg-white p-2"
                 @click="handleCountDown(item)">
-                <u-icons type="left" size="20" ></u-icons>
+                <u-icons type="left" size="20"></u-icons>
               </view>
               <view class="border-1 bg-white p-2 text-xl">
                 {{ item.count }}
@@ -56,7 +56,7 @@
               <view
                 class="border-1 rounded-r-xl bg-white p-2"
                 @click="handleCountAdd(item)">
-                <u-icons type="right" size="20" ></u-icons>
+                <u-icons type="right" size="20"></u-icons>
               </view>
             </view>
           </view>
@@ -96,7 +96,7 @@
               <view
                 class="border-1 rounded-l-xl bg-white p-2"
                 @click="handleCountDownFruit(item)">
-                <u-icons type="left" size="20" ></u-icons>
+                <u-icons type="left" size="20"></u-icons>
               </view>
               <view class="border-1 bg-white p-2 text-xl">
                 {{ item.count }}
@@ -112,17 +112,15 @@
       </checkbox-group>
     </view>
 
-
     <view>
       <button
-        class="mt-4 w-[380px] rounded-lg py-2 text-white bg-orange-400"
+        class="mt-4 w-[380px] rounded-lg bg-orange-400 py-2 text-white"
         @click="handleToDetail">
         重置
       </button>
     </view>
 
     <view class="py-2"></view>
-
   </view>
 </template>
 
@@ -155,8 +153,8 @@ const recommandDataFruit = ref([])
 
 const opts = {
   color: [
-    '#1890FF',
-    '#91CB74',
+    '#FBA957',
+    '#FCEE95',
     '#FAC858',
     '#EE6666',
     '#73C0DE',
@@ -203,14 +201,14 @@ function getBestData() {
               {
                 name: '推荐值',
                 data: [
-                  res.data.data.danbai ,
-                  res.data.data.tanshui ,
+                  res.data.data.danbai,
+                  res.data.data.tanshui,
                   res.data.data.reliang
                 ]
               },
               {
-                name:'当前添加量',
-                data:[0,0,0]
+                name: '当前添加量',
+                data: [0, 0, 0]
               }
             ]
           }
@@ -283,7 +281,7 @@ function getRecommodDataFruit() {
 
 // 场景函数
 function handleCheckChange(e: any) {
-  console.log('checkbox change', e.detail.value)
+  console.log(e.detail.value, 'detail.value')
   const checkedValue = e.detail.value
   currentDataFoodId.value = checkedValue
 }
@@ -304,13 +302,13 @@ function handleCountDown(item: any) {
         return
       }
       element.count -= 50
+      console.log(element, element.count, 'element.count')
     }
   })
   handleUpdateChart()
 }
 
 function handleCountAddFruit(item: any) {
-  // console.log(item, 'Add')
   recommandDataFruit.value.forEach((element: any) => {
     if (element.id === item.id) {
       element.count += 50
@@ -330,26 +328,26 @@ function handleCountDownFruit(item: any) {
   handleUpdateChart()
 }
 
+// 重置
 function handleToDetail() {
-
   uni.showToast({
-          title: '重置成功',
-          icon: 'none'
-        })
-  setTimeout(()=>{
+    title: '重置成功',
+    icon: 'none'
+  })
+  setTimeout(() => {
     recommandData.value.forEach((element: any) => {
-    element.count = 0
-  })
-  recommandDataFruit.value.forEach((element: any) => {
-    element.count = 0
-  })
-  
-  handleUpdateChart()
-  },500)
-  
+      element.count = 0
+    })
+    recommandDataFruit.value.forEach((element: any) => {
+      element.count = 0
+    })
+
+    handleUpdateChart()
+  }, 500)
 }
 
 function handleUpdateChart() {
+  // 判断有两个，先删一个
   if (chartData.value.series.length > 1) {
     chartData.value.series.pop()
   }
@@ -358,14 +356,13 @@ function handleUpdateChart() {
     return item.count !== 0
   })
 
-  console.log(tempUsedRecommandData.value, 'tempRecommendData')
+  // console.log(tempUsedRecommandData.value, 'tempRecommendData')
 
   const tempUsedRecommandDataFruit = recommandDataFruit.value.filter(
     (item: any) => {
       return item.count !== 0
     }
   )
-
   chartData.value.series.push({
     name: '当前添加量',
     data: [

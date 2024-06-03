@@ -54,7 +54,7 @@ const adviceModalStyles = ref({
   // width
   width: '100%',
   // height
-  height: '350px'
+  height: '60vh'
 })
 
 const showAdvice = ref(true) // advice animation config
@@ -76,7 +76,7 @@ const adviceModalStylesFruit = ref({
   // width
   width: '100%',
   // height
-  height: '350px'
+  height: '60vh'
 })
 const fuiStyle = ref({
   position: 'initial',
@@ -370,10 +370,6 @@ function handlePostAnalyseData() {
   })
 }
 
-onShow(()=>{
-  init()
-})
-
 function init() {
   // 获取推荐数据
   getRecommodData()
@@ -480,22 +476,34 @@ function showToast() {
   })
 }
 
+// 跳转手动记录页面
+function toHandRecord(){
+  uni.navigateTo({
+    url:'/pages/index/handRecord'
+  })
+}
+
 // init()
+onShow(()=>{
+  init()
+})
 </script>
 
 <template>
-  <view class="container flex h-[100vh] flex-col" blurEffect="light">
+  <view
+    class="container flex h-[100vh] flex-col bg-[#96b38d]"
+    blurEffect="light">
     <fui-toast ref="toast"></fui-toast>
     <view v-show="!showImage">
       <view
         class="flex items-center justify-center pt-20 text-3xl font-bold"
-        style="color: rgba(0, 0, 0, 0.7)">
+        style="color: rgb(114, 139, 105)">
         智膳生活
       </view>
       <!-- subtitle -->
       <view
         class="flex items-center justify-center pt-2 text-xl font-bold"
-        style="color: rgba(0, 0, 0, 0.7)">
+        style="color: rgb(114, 139, 105)">
         为您提供健康饮食建议
       </view>
     </view>
@@ -509,7 +517,7 @@ function showToast() {
           :styles="fuiStyle">
           <view
             style="font-weight: 500; color: rgba(0, 0, 0, 0.7)"
-            class="foodContainer color: rgba(0, 0, 0, 0.7) m-4 box-border flex w-full flex-col gap-4 rounded-xl p-4 py-4 opacity-90 shadow-md">
+            class="foodContainer color: rgba(0, 0, 0, 0.7) m-4 box-border flex w-full flex-col gap-4 rounded-xl p-4 py-4  shadow-md">
             <view style="font-size: 18px" class="flex justify-center">
               今日暂无推荐数据
             </view>
@@ -519,7 +527,7 @@ function showToast() {
           </view>
         </fui-animation>
       </view>
-      <swiper circular class="h-96" v-if="showRecommand">
+      <swiper circular class="h-[60vh]" v-if="showRecommand">
         <!-- normal -->
         <swiper-item>
           <fui-animation
@@ -530,88 +538,110 @@ function showToast() {
             <view
               v-if="renderData"
               @click="navigateToAdvice"
-              class="foodContainer m-4 box-border flex w-full flex-col gap-4 rounded-xl p-4 opacity-90 shadow-md">
+              class="foodContainer m-4 box-border flex w-full flex-col gap-4 rounded-[20px]  shadow-md">
               <!-- Header -->
-              <view class="flex justify-between">
+              <view class="box-border rounded-[20px] bg-[#FCEE95] p-4">
+                <view class="flex justify-between">
+                  <view
+                    class="py-2 text-xl font-bold"
+                    style="color: rgb(114, 139, 105)">
+                    {{ renderData.name }}
+                    <view style="font-size: 14px">(每百克)</view>
+                  </view>
+                  <view>
+                    <a
+                      href="#"
+                      class="mt-2 inline-flex items-center bg-orange-400 px-3 py-2 text-center text-xl font-bold text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                      style="border-radius: 20px">
+                      智能推荐
+                    </a>
+                  </view>
+                </view>
                 <view
-                  class="py-2 text-xl font-bold"
-                  style="color: rgba(0, 0, 0, 0.8)">
-                  {{ renderData.name }}
-                  <view style="font-size: 14px">(每百克)</view>
+                  class="pt-2 text-xs text-stone-800"
+                  style="color: rgb(114, 139, 105)">
+                  健康助手根据个人营养计划生成
                 </view>
-                <view>
-                  <a
-                    href="#"
-                    class="inline-flex items-center rounded-lg bg-orange-400 px-3 py-2 text-center text-sm font-bold text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    智能推荐
-                  </a>
-                </view>
-              </view>
-              <view class="text-xs text-stone-800">
-                健康助手根据个人营养计划生成
               </view>
 
               <!-- 分割线 -->
-              <view class="border opacity-10"></view>
+              <!-- <view class="border opacity-10"></view> -->
 
               <!-- List 早餐 午餐 晚餐 -->
 
-              <view>
-                <view class="flex flex-col gap-2">
-                  <view class="flex items-center justify-between">
-                    <span>脂肪</span>
-                    <span class="text-sm opacity-60">
-                      {{ renderData.zhifang }}/{{ recommandInfo.zhifang }}克
-                    </span>
-                  </view>
-                  <view class="pt-2">
-                    <progress
-                      :percent="progressZhifang"
-                      stroke-width="15"
-                      border-radius="6"
-                      activeColor="#185864" />
-                  </view>
-                </view>
+              <view class="p-4">
+                <!-- 蛋白 -->
                 <view
-                  class="flex flex-col gap-2"
+                  class="flex gap-2"
                   v-if="renderData.danbai && recommandInfo.danbai">
-                  <view class="flex items-center justify-between">
-                    <span>蛋白</span>
-                    <span class="text-sm opacity-60">
-                      <span class="text-sm opacity-60">
+                  <image
+                    src="https://www.zshealthhelper.icu/danbai2.png"
+                    style="height: 43px; width: 43px"></image>
+                  <view class="flex flex-col" style="width: 100%">
+                    <view class="flex items-center justify-between">
+                      <span>蛋白</span>
+                      <span class="text-sm">
                         {{ renderData.danbai }}/{{ recommandInfo.danbai }}克
                       </span>
-                    </span>
-                  </view>
-                  <view class="pt-2">
-                    <progress
-                      :percent="progressDanbai"
-                      stroke-width="15"
-                      border-radius="6"
-                      activeColor="#f9a647" />
+                    </view>
+                    <view class="pt-2">
+                      <progress
+                        :percent="progressDanbai"
+                        stroke-width="16"
+                        border-radius="10"
+                        activeColor="#FBA956" />
+                    </view>
                   </view>
                 </view>
-                <view
-                  class="flex flex-col gap-2"
-                  v-if="renderData.tanshui && recommandInfo.tanshui">
-                  <view class="flex items-center justify-between">
-                    <span>碳水</span>
-                    <span class="text-sm opacity-60">
-                      {{ renderData.tanshui }}/{{ recommandInfo.tanshui }}克
-                    </span>
+                <!-- 脂肪 -->
+                <view class="flex gap-2 pt-8">
+                  <image
+                    src="https://www.zshealthhelper.icu/zhifang2.png"
+                    style="height: 43px; width: 43px"></image>
+                  <view class="flex flex-col" style="width: 100%">
+                    <view class="flex items-center justify-between">
+                      <span>脂肪</span>
+                      <span class="text-sm">
+                        {{ renderData.zhifang }}/{{ recommandInfo.zhifang }}克
+                      </span>
+                    </view>
+                    <view class="pt-2">
+                      <progress
+                        :percent="progressZhifang"
+                        stroke-width="16"
+                        border-radius="10"
+                        activeColor="#F5D066" />
+                    </view>
                   </view>
-                  <view class="pt-2">
-                    <progress
-                      :percent="progressTanshui"
-                      stroke-width="15"
-                      border-radius="6"
-                      activeColor="#e2dbd0" />
+                </view>
+                <!-- 碳水 -->
+                <view
+                  class="flex gap-2 pb-4 pt-8"
+                  v-if="renderData.tanshui && recommandInfo.tanshui">
+                  <image
+                    src="https://www.zshealthhelper.icu/tanshui2.png"
+                    style="width: 43px; height: 43px"></image>
+                  <view class="flex flex-col" style="width: 100%">
+                    <view class="flex items-center justify-between">
+                      <span>碳水</span>
+                      <span class="text-sm">
+                        {{ renderData.tanshui }}/{{ recommandInfo.tanshui }}克
+                      </span>
+                    </view>
+                    <view class="pt-2">
+                      <progress
+                        :percent="progressTanshui"
+                        stroke-width="16"
+                        border-radius="10"
+                        activeColor="#FCEE95" />
+                    </view>
                   </view>
                 </view>
               </view>
             </view>
           </fui-animation>
         </swiper-item>
+
         <!-- TODO: fruit -->
         <swiper-item>
           <fui-animation
@@ -622,94 +652,111 @@ function showToast() {
             :styles="adviceModalStylesFruit">
             <view
               v-if="renderDataFruit"
-              class="fruitContainer m-4 box-border flex w-full flex-col gap-4 rounded-xl p-4 opacity-90 shadow-md">
+              class="fruitContainer m-4 box-border flex w-full flex-col gap-4 rounded-[20px]  shadow-md">
               <!-- Header -->
-              <view class="flex justify-between">
+              <view class="box-border rounded-[20px] bg-[#FCEE95] p-4">
+                <view class="flex justify-between">
+                  <view
+                    class="py-2 text-xl font-bold"
+                    style="color: rgb(114, 139, 105)">
+                    {{ renderDataFruit.name }}
+                    <view style="font-size: 14px">(每百克)</view>
+                  </view>
+                  <view>
+                    <a
+                      href="#"
+                      class="mt-2 inline-flex items-center bg-orange-400 px-3 py-2 text-center text-xl font-bold text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                      style="border-radius: 20px">
+                      智能推荐
+                    </a>
+                  </view>
+                </view>
                 <view
-                  class="py-2 text-xl font-bold"
-                  style="color: rgba(0, 0, 0, 0.8)">
-                  {{ renderDataFruit.name }}
-                  <view style="font-size: 14px">(每百克)</view>
+                  class="pt-2 text-xs text-stone-800"
+                  style="color: rgb(114, 139, 105)">
+                  健康助手根据个人营养计划生成
                 </view>
-
-                <view>
-                  <a
-                    href="#"
-                    class="inline-flex items-center rounded-lg bg-[#ffaf2d] px-3 py-2 text-center text-sm font-bold text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    智能推荐
-                  </a>
-                </view>
-              </view>
-              <view class="text-xs text-stone-800">
-                健康助手根据个人营养计划生成
               </view>
 
               <!-- 分割线 -->
-              <view class="border opacity-10"></view>
+              <!-- <view class="border opacity-10"></view> -->
 
               <!-- List 早餐 午餐 晚餐 -->
 
-              <view>
-                <view class="flex flex-col gap-2">
-                  <view class="flex items-center justify-between">
-                    <span>热量</span>
-                    <span class="text-sm opacity-60">
-                      <span v-if="renderDataFruit.reliang">
-                        {{ renderDataFruit.reliang }}
+              <view class="p-4">
+                <view class="flex gap-2">
+                  <image
+                    src="https://www.zshealthhelper.icu/reliang1.png"
+                    style="height: 43px; width: 43px"></image>
+                  <view class="flex flex-col" style="width: 100%">
+                    <view class="flex items-center justify-between">
+                      <span>热量</span>
+                      <span class="text-sm">
+                        <span v-if="renderDataFruit.reliang">
+                          {{ renderDataFruit.reliang }}
+                        </span>
+                        /
+                        <span v-if="recommandInfo.reliang">
+                          {{ recommandInfo.reliang }}
+                        </span>
+                        千卡
                       </span>
-                      /
-                      <span v-if="recommandInfo.reliang">
-                        {{ recommandInfo.reliang }}
-                      </span>
-                      千卡
-                    </span>
-                  </view>
-                  <view class="pt-2">
-                    <progress
-                      :percent="progressZhifangFruit"
-                      stroke-width="15"
-                      border-radius="6"
-                      activeColor="#037f8f" />
+                    </view>
+                    <view class="pt-2">
+                      <progress
+                        :percent="progressZhifangFruit"
+                        stroke-width="16"
+                        border-radius="10"
+                        activeColor="#F5D066" />
+                    </view>
                   </view>
                 </view>
                 <view
-                  class="flex flex-col gap-2"
+                  class="flex gap-2 pt-8"
                   v-if="renderDataFruit.danbai && recommandInfo.danbai">
-                  <view class="flex items-center justify-between">
-                    <span>蛋白</span>
-                    <span class="text-sm opacity-60">
-                      <span class="text-sm opacity-60">
+                  <image
+                    src="https://www.zshealthhelper.icu/danbai2.png"
+                    style="height: 43px; width: 43px"></image>
+                  <view class="flex flex-col" style="width: 100%">
+                    <view class="flex items-center justify-between">
+                      <span>蛋白</span>
+                      <span class="text-sm">
                         {{ renderDataFruit.danbai }}/{{
                           recommandInfo.danbai
                         }}克
                       </span>
-                    </span>
-                  </view>
-                  <view class="pt-2">
-                    <progress
-                      :percent="progressDanbaiFruit"
-                      stroke-width="15"
-                      border-radius="6"
-                      activeColor="#f9a647" />
+                    </view>
+                    <view class="pt-2">
+                      <progress
+                        :percent="progressDanbaiFruit"
+                        stroke-width="16"
+                        border-radius="10"
+                        activeColor="#FBA956" />
+                    </view>
                   </view>
                 </view>
                 <view
-                  class="flex flex-col gap-2"
+                  class="flex gap-2 pb-4 pt-8"
                   v-if="renderDataFruit.tanshui && recommandInfo.tanshui">
-                  <view class="flex items-center justify-between">
-                    <span>碳水</span>
-                    <span class="text-sm opacity-60">
-                      {{ renderDataFruit.tanshui }}/{{
-                        recommandInfo.tanshui
-                      }}克
-                    </span>
-                  </view>
-                  <view class="pt-2">
-                    <progress
-                      :percent="progressTanshuiFruit"
-                      stroke-width="15"
-                      border-radius="6"
-                      activeColor="#e2dbd0" />
+                  <image
+                    src="https://www.zshealthhelper.icu/tanshui2.png"
+                    style="width: 43px; height: 43px"></image>
+                  <view class="flex flex-col" style="width: 100%">
+                    <view class="flex items-center justify-between">
+                      <span>碳水</span>
+                      <span class="text-sm">
+                        {{ renderDataFruit.tanshui }}/{{
+                          recommandInfo.tanshui
+                        }}克
+                      </span>
+                    </view>
+                    <view class="pt-2">
+                      <progress
+                        :percent="progressTanshuiFruit"
+                        stroke-width="16"
+                        border-radius="10"
+                        activeColor="#FCEE95" />
+                    </view>
                   </view>
                 </view>
               </view>
@@ -722,34 +769,41 @@ function showToast() {
     <view class="flex-auto"></view>
 
     <view class="z-10 flex items-center justify-center pb-6 font-bold">
-      <view class="flex items-center justify-center gap-1">
+      <view class="flex items-center justify-center gap-2">
         <!-- TODO: 拍照 -->
         <button
           @click="takePhoto"
-          class="photo flex w-[150px] items-center justify-center gap-2 rounded-3xl bg-[#185864] text-white">
-          <view
-            class="flex h-[20px] w-[25px] items-center justify-center overflow-hidden">
-            <u-icons color="white" type="camera" size="30"></u-icons>
+          class="photo flex w-[145px] items-center justify-center gap-2 rounded-3xl p-2 ">
+          <view class="flex items-center justify-center overflow-hidden">
+            <image
+              src="https://www.zshealthhelper.icu/camera1.png"
+              style="width: 41px; height: 41px"></image>
           </view>
-          <view>拍照</view>
+          <view style="color: rgb(0, 0, 0); font-size: 15px">拍照</view>
         </button>
 
         <!-- TODO: 图库 -->
         <button
           @click="chooseMedia"
-          class="flex aspect-square h-[50px] w-[50px] items-center justify-center overflow-hidden rounded-full">
-          <u-icons color="#185864" type="image" size="30"></u-icons>
+          class="flex aspect-square  items-center justify-center overflow-hidden rounded-full">
+          <image
+            src="https://www.zshealthhelper.icu/ziyuan18.png"
+            style="width: 33px; height: 33px"></image>
         </button>
+
+        <!-- @click="handleClickRecordMyself" -->
 
         <!-- TODO: 手动记录 -->
         <button
-          @click="handleClickRecordMyself"
-          class="border-[#185864 flex w-[150px] items-center justify-center gap-2 rounded-3xl border font-bold text-[#6fb23a]">
+          @click="toHandRecord"
+          class="border-[#185864] flex w-[145px] items-center justify-center gap-2 rounded-3xl border p-2">
           <view
-            class="flex h-[22px] w-[25px] items-center justify-center overflow-hidden">
-            <u-icons color="#185864" type="medal" size="30"></u-icons>
+            class="flex items-center justify-center overflow-hidden">
+            <image
+            src="https://www.zshealthhelper.icu/ziyuan19.png"
+            style="width: 41px; height: 41px"></image>
           </view>
-          <view class="text-[#185864]">手动记录</view>
+          <view class="text-black" style="font-size:15px">手动记录</view>
         </button>
       </view>
     </view>
@@ -774,14 +828,6 @@ function showToast() {
             borderTop
             v-model="foodInputValue.foodWeight"
             placeholder="输入食品的重量(g)"></fui-input>
-          <!-- <fui-button width="60px" @click="handleCancelInput">取消</fui-button>
-          <fui-button
-            width="60px"
-            background="#f9a647"
-            class="pt-1"
-            @click="handleRecordMyself">
-            添加
-          </fui-button> -->
         </view>
         <view class="flex justify-between">
           <button
@@ -868,7 +914,7 @@ function showToast() {
   background-position: center;
   background-repeat: no-repeat;
   /* background-image: url('https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=400'); */
-  background-image: url('https://www.zshealthhelper.icu/back3.png');
+  background-image: url('https://www.zshealthhelper.icu/back4.png');
 }
 
 video {

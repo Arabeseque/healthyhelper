@@ -152,7 +152,7 @@ function handleCheckChange(e: any) {
 </script>
 <template>
   <view class="bg-[#eee]">
-    <view class="bg-[#9dc9b6]" style="height: 25vh">
+    <view class="bg-[#96b38d]" style="height: 25vh">
       <view class="flex items-center justify-center">
         <swiper class="swiper w-full" :current="currentPage">
           <swiper-item>
@@ -233,7 +233,7 @@ function handleCheckChange(e: any) {
                 <view class="pt-4"></view>
 
               <button
-                class="w-full rounded-lg bg-[#9dc9b6] py-2 text-white"
+                class="w-full rounded-lg bg-[#96b38d] py-2 text-white"
                 @click="handleToDetail">
                 下一步
               </button>
@@ -283,7 +283,7 @@ function handleCheckChange(e: any) {
               </view>
 
               <button
-                class="mt-4 w-full rounded-lg bg-[#9dc9b6] py-2 text-white"
+                class="mt-4 w-full rounded-lg bg-[#96b38d] py-2 text-white"
                 @click="handleToFinish">
                 完成！
               </button>

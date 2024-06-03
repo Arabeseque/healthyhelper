@@ -39,7 +39,7 @@
         <view>身高</view>
         <view>{{ userData.height * 100 }}cm ></view>
       </view>
-      <view class="flex justify-between pt-4">
+      <view class="flex justify-between pt-4" >
         <view>当前体重</view>
         <view>{{ userData.weight }}kg</view>
       </view>
@@ -300,7 +300,7 @@ export default {
   mounted() {
     this.getUserData()
   },
-  onShow() {
+  onShow(){
     this.getUserData()
   },
   methods: {
@@ -469,11 +469,11 @@ export default {
     },
     // 返回上一个页面
     back() {
-      uni.$emit('refreshData')
-      uni.navigateBack({
-        delta: 1
-      })
-    }
+		uni.$emit('refreshData');
+		uni.navigateBack({
+			delta: 1
+		})
+	},
   }
 }
 </script>

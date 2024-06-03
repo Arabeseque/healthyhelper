@@ -1,6 +1,6 @@
 <template>
   <view>
-    <view class="bg-[#9dc9b6] px-3 py-6 shadow-xl">
+    <view class="bg-[#96b38d] px-3 py-6 shadow-xl">
       <view class="p-10" v-if="judge == 2">
         <view class="" style="font-size: 22px; line-height: 28px">
           今天热量摄入量

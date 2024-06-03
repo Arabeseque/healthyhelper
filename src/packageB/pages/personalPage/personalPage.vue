@@ -1,6 +1,6 @@
 <template>
   <view class="bg-[#eee]" style="height: 100vh">
-    <view class="bg-[#9dc9b6]" style="height: 25vh">
+    <view class="bg-[#96b38d]" style="height: 25vh">
       <view class="py-4"></view>
 
       <!-- 健康档案&信息 -->
